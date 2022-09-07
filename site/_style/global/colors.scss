@@ -1,0 +1,34 @@
+@use 'sass:meta';
+@use 'sass:map';
+
+@use 'def/color';
+
+//
+// Generating light and dark CSS-variable color palettes
+//
+
+html
+{
+    @each $name, $variants in color.$palette
+    {
+        $color: $variants;
+
+        @if (meta.type-of($variants) == 'map')
+        {
+            $color: map.get($variants, 'light');
+        }
+
+        --c_#{$name}: #{$color};
+    }
+
+    &[data-theme=dark]
+    {
+        @each $name, $variants in color.$palette
+        {
+            @if (meta.type-of($variants) == 'map')
+            {
+                --c_#{$name}: #{map.get($variants, 'dark')};
+            }
+        }
+    }
+}

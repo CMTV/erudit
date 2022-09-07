@@ -1,0 +1,12 @@
+{
+    "compilerOptions":
+    {
+        "forceConsistentCasingInFileNames": true,
+        "esModuleInterop": true,
+
+        "baseUrl": "./",
+        "rootDir": "./"
+    },
+
+    "include": ["./"]
+}

@@ -1,0 +1,111 @@
+doctype html
+include /include/art.html
+html(lang= lang)
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1")
+        meta(name="generator", content="Erudit " + version)
+
+        // Global Style
+        link(href="/site/styles/global.css", rel="stylesheet")
+
+        // Icons
+        link(rel="stylesheet", href="/site/fonts/icons/style.css")
+
+        // Global Script
+        script(src="/site/scripts/global.js")
+        
+        if (config.dev)
+            // Live Reload
+            script(src="/site/scripts/reload.js")
+
+    body
+        script
+            include /include/theme.js
+
+        aside.major
+            .full
+                .siteInfo
+                    a.logo(href="/")
+                        include /include/logo.svg
+                    .title
+                        a(href="/")= i18n('siteInfo.title')
+                    .slogan= i18n('siteInfo.slogan')
+                
+                .paneSwitcher
+                    button.toc(title= i18n('panes.toc'))
+                        i.i-sitemap
+
+                    button.pages(title= i18n('panes.pages'))
+                        i.i-file-lines
+
+                    button.search(title= i18n('panes.search'))
+                        i.i-magnifying-glass
+                    
+                    button.language(title= i18n('panes.language'))
+                        i.i-globe
+
+                    button.other(title= i18n('panes.other'))
+                        i.i-menu-ellipsis-ver
+
+            .mini Мажор. Мини
+
+        aside.minor
+            .full Минор. Полная ширина
+            .mini Минор. Мини
+
+        main
+            article
+                h1 Привет мир!
+                p Не следует, однако забывать, что укрепление и развитие структуры представляет собой интересный эксперимент проверки направлений прогрессивного развития. Идейные соображения высшего порядка, а также рамки и место обучения кадров способствует подготовки и реализации новых предложений.
+                h2 Подзаголовок алалия
+                p Задача организации, в особенности же постоянное информационно-пропагандистское обеспечение нашей деятельности в значительной степени обуславливает создание дальнейших направлений развития.
+                p Повседневная практика показывает, что укрепление и развитие структуры влечет за собой процесс внедрения и модернизации направлений прогрессивного развития.
+                
+                button(onclick="OMath.toggleTheme()") Переключить тему
+                br
+                h2 Предпросмотр
+                button(onclick="OMath.Preview.loadView('view1.json')") Добавить view1
+                br
+                button(onclick="OMath.Preview.loadView('view2.json')") Добавить view2
+                br
+                button(onclick="OMath.Preview.loadView('view3.json')") Добавить view3
+                br
+                button(onclick="OMath.Preview.exit()") Выход
+
+            .expand
+                //- Making sure sticky bottom is always actually to bottom
+
+            .bottomSticky
+                .asideControls
+                    button.majorOpen
+                        i.i-aside-open(style="transform: scale(-1, 1)")
+
+                    button.minorOpen
+                        i.i-aside-open
+
+                section#preview
+                    .display
+                        .border
+                        .screen.loading(data-state)
+                            .inner
+                                i.i-omath
+                        .screen.error(data-state)
+                            .inner
+                                i.i-warning
+
+                    footer
+                        .title= i18n('preview.title')
+                        .controls
+                            a.button.goto(title= i18n('preview.controls.goto'), target="_blank", href="")
+                                i.i-up-right-from-square
+                            .button.back(title= i18n('preview.controls.back'))
+                                i.i-arrow-left
+                            .button.mini(
+                                data-label-collapse= i18n('preview.controls.mini.collapse'),
+                                data-label-expand= i18n('preview.controls.mini.expand')
+                            )
+                                i.i-compress
+                                i.i-expand
+                            .button.exit(title= i18n('preview.controls.exit'))
+                                i.i-xmark

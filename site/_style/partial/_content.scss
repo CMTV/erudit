@@ -1,0 +1,26 @@
+@use 'def/size';
+@use 'def/bp';
+
+%CONTENT
+{
+    font-size: 18px;
+    text-align: justify;
+
+    > * { margin-bottom: size.$gapBig; }
+
+    padding: size.$gapBig;
+
+    @include bp.max(mini)
+    {
+        font-size: 98%;
+        text-align: left;
+
+        padding: size.$gap;
+    }
+
+    //
+    //
+    //
+
+    //p { height: 1000px; }
+}

@@ -1,0 +1,172 @@
+@use 'def/size';
+@use 'def/bp';
+
+@use 'partial/util';
+@use 'partial/content';
+@use 'partial/hover';
+@use 'partial/scroll';
+
+#preview
+{
+    --maxHeight: 300px;
+    --footerHeight: 50px;
+
+    //
+    //
+    //
+
+    display: flex;
+    flex-direction: column;
+    
+    max-width: size.$content + 2 * size.$gapBig;
+    max-height: var(--maxHeight);
+    height: 0;
+
+    overflow: hidden;
+    
+    pointer-events: auto;
+    touch-action: auto;
+
+    background: var(--c_bg-content-shade);
+    box-shadow: 0px -5px 10px 5px rgba(0, 0, 0, .06);
+
+    @include util.transition(height);
+
+    > .display
+    {
+        flex: 1;
+        position: relative;
+        overflow: hidden;
+        background: var(--c_bg-content-shade);
+
+        > .border
+        {
+            z-index: 1;
+            position: absolute;
+            width: 100%;
+            border-top: 1px solid var(--c_border);
+        }
+
+        > .screen
+        {
+            position: absolute;
+            left: 0; top: 0; right: 0; bottom: 0;
+            opacity: 0;
+            
+            overflow: auto;
+            @extend %scrollbar;
+
+            @include util.transition(opacity);
+
+            &[data-current]
+            {
+                z-index: 3;
+                opacity: 1;
+                bottom: 0;
+            }
+
+            &:not([data-state]) > .inner
+            {
+                @extend %CONTENT;
+            }
+
+            // State Screens
+
+            &[data-state]
+            {
+                overflow: hidden;
+                
+                > .inner
+                {
+                    @include util.flexCC;
+                    font-size: 60px;
+                }
+            }
+
+            &.loading
+            {
+                animation: previewLoading .5s infinite alternate;
+                @keyframes previewLoading
+                {
+                    from    { color: var(--c_text-dimmed); }
+                    to      { color: var(--c_text-disabled); }
+                }
+            }
+
+            &.error
+            {
+                color: var(--c_text-error);
+            }
+        }
+    }
+
+    > footer
+    {
+        z-index: 5;
+        display: flex;
+        align-items: center;
+        height: var(--footerHeight);
+
+        border-top: 1px solid var(--c_border);
+        background: var(--c_bg-content-shade);
+
+        > .title
+        {
+            flex: 1;
+
+            position: relative;
+            top: -1px;
+
+            font-size: 110%;
+            font-weight: 600;
+            color: var(--c_text-muted);
+
+            padding-left: size.$gapBig;
+
+            user-select: none;
+
+            @include bp.max(mini)
+            {
+                padding-left: size.$gap;
+            }
+        }
+
+        > .controls
+        {
+            display: flex;
+
+            > .button
+            {
+                @include util.flexCC;
+                @include util.size(var(--footerHeight));
+
+                color: var(--c_text-dimmed);
+                font-size: 120%;
+                    
+                @include hover.color(var(--c_text), true);
+
+                &.disabled
+                {
+                    cursor: default;
+                    pointer-events: none;
+                    touch-action: none;
+
+                    color: var(--c_text-disabled);
+                }
+
+                &.mini
+                {
+                    &[data-state=collapse]
+                    {
+                        i:last-of-type { display: none; }
+                    }
+
+                    &[data-state=expand]
+                    {
+                        i:first-of-type { display: none; }
+                    }
+                }
+            }
+        }
+    }
+}

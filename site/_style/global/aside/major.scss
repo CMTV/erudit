@@ -1,0 +1,108 @@
+@use 'def/size';
+
+@use 'partial/hover';
+@use 'partial/util';
+
+body > aside.major
+{
+    > .full
+    {
+        //
+        // Site Info
+        //
+
+        > .siteInfo
+        {
+            display: grid;
+            grid-template-columns: 50px auto;
+            grid-template-rows: auto auto;
+            column-gap: size.$gap;
+
+            padding: size.$gap;
+
+            border-bottom: 1px solid var(--c_border);
+
+            > .logo
+            {
+                grid-row: 1 / 3;
+                align-self: center;
+
+                @include util.size(50px);
+
+                svg
+                {
+                    @keyframes logoCircleRotation
+                    {
+                        from { transform: rotateZ(0); }
+                        to { transform: rotateZ(360deg); }    
+                    }
+
+                    > circle
+                    {
+                        transform-origin: 50% 50%;
+                        animation: logoCircleRotation 2.5s infinite linear;
+                    }
+
+                    > path { fill: var(--c_bg-content-shade); }
+                }
+            }
+
+            > .title
+            {
+                font-weight: bold;
+                font-size: 20px;
+
+                > a { @extend %underline; }
+            }
+
+            > .slogan
+            {
+                color: var(--c_text-muted);
+            }
+        }
+
+        //
+        // Pane Switcher
+        //
+
+        > .paneSwitcher
+        {
+            display: flex;
+            gap: size.$gap;
+            justify-content: center;
+
+            border-bottom: 1px solid var(--c_border);
+
+            > button
+            {
+                position: relative;
+
+                font-size: 22px;
+                width: 40px;
+                padding: size.$gap 0;
+
+                color: var(--c_text-muted);
+                background: transparent;
+
+                @include hover.color(var(--c_text), true);
+
+                &::after
+                {
+                    content: "";
+                    position: absolute;
+                    left: 0; bottom: 0; right: 0;
+                    height: 3px;
+                    background: var(--c_border);
+                    opacity: 0;
+
+                    @include util.transition(opacity);
+                }
+
+                &:hover::after
+                {
+                    opacity: 1;
+                }
+            }
+        }
+    }
+}

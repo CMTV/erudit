@@ -1,0 +1,20 @@
+siteInfo:
+    title: Математика
+    slogan: Подробно и понятно
+
+panes:
+    toc: Оглавление
+    pages: Страницы
+    search: Поиск
+    language: Язык
+    other: Другое
+
+preview:
+    title: Превью
+    controls:
+        back: Назад
+        goto: Источник
+        mini:
+            collapse: Свернуть
+            expand: Развернуть
+        exit: Закрыть

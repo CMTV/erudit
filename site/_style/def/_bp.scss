@@ -1,0 +1,28 @@
+@use 'sass:map';
+
+@use 'def/size';
+
+$scrollBarWidth: 30px;
+
+$points: (
+    miniMajor:  size.$content + 2 * size.$gapBig + 2 * size.$aside + $scrollBarWidth,
+    miniMinor:  size.$content + 2 * size.$gapBig + size.$asideMini + size.$aside + $scrollBarWidth,
+    noAside:    size.$content + 2 * size.$gapBig + 2 * size.$asideMini + $scrollBarWidth,
+    stretch:    size.$content + 2 * size.$gapBig,
+    mini:       500px
+);
+
+@mixin max($bp, $shift: 0)
+{
+    @media (max-width: (map.get($points, $bp) + $shift)) { @content; }
+}
+
+@mixin min($bp, $shift: 0)
+{
+    @media (min-width: (map.get($points, $bp) + $shift)) { @content; }
+}
+
+@mixin between($minBp, $maxBp, $minShift: 0, $maxShift: 0)
+{
+    @media (min-width: (map.get($points, $minBp) + $minShift)) and (max-width: (map.get($points, $maxBp) + $maxShift)) { @content; }   
+}

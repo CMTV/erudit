@@ -1,0 +1,17 @@
+siteInfo:
+    title: Mathematics
+    slogan: In detail and clearly
+
+panes:
+    toc: Table of contents
+    pages: Pages
+    search: Search
+    language: Language
+    other: Other
+
+preview:
+    title: Preview
+    controls:
+        back: Back
+        goto: Source
+        exit: Close

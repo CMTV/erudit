@@ -1,0 +1,97 @@
+@use 'def/color';
+@use 'def/size';
+@use 'def/bp';
+
+@use 'partial/util';
+@use 'partial/content';
+
+//
+// Reset
+//
+
+*
+{
+    margin: 0;
+    padding: 0;
+    border: none;
+    box-sizing: border-box;
+}
+
+input, select, textarea, button { font-family: inherit; }
+
+ul, ol { list-style-position: inside; }
+
+//
+// Base layout
+//
+
+body
+{
+    font-family: "Open Sans", sans-serif;
+    //letter-spacing: -0.02em;
+    color: var(--c_text);
+    background: var(--c_bg);    
+}
+
+body > main
+{
+    position: absolute;
+    top: 0;
+    left: calc(50% - (size.$content + 2 * size.$gapBig) / 2);
+
+    z-index: 5;
+    width: min(size.$content + 2 * size.$gapBig, 100%);
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    background: var(--c_bg-content);
+    box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, .05);
+
+    @include util.transition(left);
+
+    &::after
+    {
+        content: "";
+        position: absolute;
+        left: 0; top: 0;
+        height: 100%;
+        width: 100%;
+        background: var(--c_bg-content);
+
+        opacity: 0;
+        @include util.transition(opacity);
+
+        pointer-events: none;
+        touch-action: none;
+    }
+
+    @include bp.max(miniMajor)
+    {
+        left: calc(50% - ((size.$aside - size.$asideMini) + (size.$content + 2 * size.$gapBig)) / 2);
+    }
+
+    @include bp.max(miniMinor)
+    {
+        left: calc(50% - (size.$content + 2 * size.$gapBig) / 2);
+    }
+
+    @include bp.max(stretch)
+    {
+        position: relative;
+        left: 0;
+    }
+
+    > article { @extend %CONTENT; }
+
+    > .expand { flex: 1; }
+
+    > .bottomSticky
+    {
+        position: sticky;
+        bottom: 0;
+        pointer-events: none;
+        touch-action: none;
+    }
+}

@@ -1,0 +1,256 @@
+@use 'def/color';
+@use 'def/size';
+@use 'def/bp';
+
+@use 'partial/util';
+
+//
+// Open Buttons
+//
+
+body > main > .bottomSticky > .asideControls
+{
+    $buttonSize: 60px;
+    $height: $buttonSize + 2 * size.$gapStruct;
+
+    position: sticky;
+    bottom: 0;
+    height: $height;
+    margin-top: -1 * $height;
+    overflow: hidden;
+
+    pointer-events: none;
+    touch-action: none;
+
+    .majorOpen,
+    .minorOpen
+    {
+        position: absolute;
+        bottom: size.$gapStruct;
+        @include util.size($buttonSize);
+
+        pointer-events: auto;
+        touch-action: auto;
+
+        font-size: 25px;
+        color: var(--c_bg-content);
+        background: var(--c_text-dimmed);
+        opacity: .95;
+
+        box-shadow: 0 0 7px 15px var(--c_bg-content);
+
+        @include util.transition(opacity, background, left, right);
+
+        &:hover
+        {
+            cursor: pointer;
+            background: var(--c_text-muted);
+            opacity: 1;
+        }
+    }
+
+    .majorOpen
+    {
+        left: -1 * $buttonSize;
+        @include bp.max(noAside) { &[data-showing] { left: size.$gapStruct; } }
+
+        > i
+        {
+            display: block;
+            transform: scaleX(-1);
+        }
+    }
+    
+    .minorOpen
+    {
+        right: -1 * $buttonSize;
+        @include bp.max(noAside) { &[data-showing] { right: size.$gapStruct; } }
+    }
+}
+
+//
+// Base Aside Layout
+//
+
+body
+{
+    > aside
+    {
+        $shadow: 5px 2px rgba(0, 0, 0, .05);
+
+        @include util.size(size.$aside, 100vh);
+
+        position: fixed;
+        top: 0;
+        z-index: 10;
+        overflow: hidden;
+
+        background: var(--c_bg-content-shade);
+
+        @include util.transition(width, box-shadow, left, right);
+        
+        &.major { box-shadow: -3px 0 #{$shadow}, inset -3px 0 #{$shadow}; }
+        &.minor { box-shadow:  3px 0 #{$shadow}, inset  3px 0 #{$shadow}; }
+
+        &[data-showing]
+        {
+            $shadow: 5px 5px rgba(0, 0, 0, .15);
+
+            width: size.$aside !important;
+
+            @mixin mainOverlay
+            {
+                & ~ main::after
+                {
+                    pointer-events: auto;
+                    touch-action: auto;
+                    opacity: .65;
+                }
+            }
+
+            @include bp.max(miniMajor)
+            {
+                &.major
+                {
+                    box-shadow: 2.5px 0 #{$shadow};
+                    @include mainOverlay;
+                }
+            }
+
+            @include bp.max(miniMinor)
+            {
+                &.minor
+                {
+                    box-shadow: -2.5px 0 #{$shadow};
+                    @include mainOverlay;
+                }
+            }
+
+            @include bp.max(noAside)
+            {
+                &.major { left: 0; }
+                &.minor { right: 0; }
+            }
+        }
+
+        //
+
+        @include bp.min(miniMajor, 1px)
+        {
+            $pos: calc(50% - size.$aside - (size.$content + 2 * size.$gapBig) / 2);
+
+            &.major { left: $pos; }
+            &.minor { right: $pos; }
+        }
+
+        @include bp.max(miniMajor)
+        {
+            $pos: calc((50% + (size.$aside - size.$asideMini) / 2) - size.$aside - (size.$content + 2 * size.$gapBig) / 2);
+
+            &.major
+            {
+                width: size.$asideMini;
+                left: $pos;
+            }
+
+            &.minor { right: $pos; }
+        }
+
+        @include bp.max(miniMinor)
+        {
+            $pos: calc(50% - size.$asideMini - (size.$content + 2 * size.$gapBig)/ 2);
+
+            &.major { left: $pos; }
+
+            &.minor
+            {
+                width: size.$asideMini;
+                right: $pos;
+            }
+        }
+
+        @include bp.max(noAside)
+        {
+            &.major,
+            &.minor
+            {
+                width: size.$aside;
+            }
+            
+            &.major { left: -1 * size.$aside; }
+            &.minor { right: -1 * size.$aside; }
+        }
+    }
+}
+
+//
+// Full and Mini
+//
+
+@mixin asideHidden
+{
+    opacity: 0;
+    pointer-events: none;
+    touch-action: none;
+}
+
+body
+{
+    > aside
+    {
+        &[data-showing] { > .mini { @include asideHidden; } }
+
+        > .full,
+        > .mini
+        {
+            position: absolute;
+            top: 0;
+            height: 100vh;
+            opacity: 1;
+
+            @include util.transition(opacity);
+        }
+
+        > .full { width: size.$aside; }
+        > .mini { width: size.$asideMini; }
+
+        &.major
+        {
+            > .full { left: 0; }
+            > .mini { right: 0; }
+        }
+
+        &.minor
+        {
+            > .full { right: 0; }
+            > .mini { left: 0; }
+        }
+
+        //
+
+        @include bp.min(miniMajor, 1px)
+        {
+            &.major > .mini { @include asideHidden; }
+        }
+
+        @include bp.min(miniMinor, 1px)
+        {
+            &.minor > .mini { @include asideHidden; }
+        }
+
+        @include bp.between(noAside, miniMajor, 1px)
+        {
+            &.major:not([data-showing]) > .full { @include asideHidden; }
+        }
+
+        @include bp.between(noAside, miniMinor, 1px)
+        {
+            &.minor:not([data-showing]) > .full { @include asideHidden; }
+        }
+
+        @include bp.max(noAside)
+        {
+            > .mini { @include asideHidden; }
+        }
+    }
+}

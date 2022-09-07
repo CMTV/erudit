@@ -1,0 +1,60 @@
+@use 'sass:map';
+
+//
+// Defines a custom themed color for specific cases
+//
+
+@mixin define($name, $light, $dark: null)
+{
+    $property: '--c__#{$name}';
+
+    #{$property}: #{$light};
+
+    @if ($dark)
+    {
+        @include themeDark { #{$property}: #{$dark}; }        
+    }
+}
+
+//
+// Target specific theme
+//
+
+@mixin themeLight   { html:not([data-theme=dark]) & { @content; } }
+@mixin themeDark    { html[data-theme=dark] & { @content; } }
+
+//
+// Palette helper functions
+//
+
+@function themeColor($light, $dark)
+{
+    @return (
+        light: $light,
+        dark: $dark
+    );
+}
+
+@function paletteColor($colorName, $theme)
+{
+    @return map.get(map.get($palette, $colorName), $theme);
+}
+
+//
+// Palette
+//
+
+$palette: (
+    bg:                 themeColor(#EBEBEB, #252525),
+    bg-content:         themeColor(#ffffff, #2d2d2d),
+    bg-content-shade:   themeColor(#f7f7f7, #292929),
+
+    text:               themeColor(#333333, #C8C8C8),
+    text-muted:         themeColor(#696969, #8c8c8c),
+    text-dimmed:        themeColor(#969696, #616161),
+    text-disabled:      themeColor(#b9b9b9, #414141),
+
+    text-error:         themeColor(#9d5757, #754242),
+
+    border:             themeColor(#D7D7D7, #3A3A3A),
+);
