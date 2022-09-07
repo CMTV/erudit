@@ -23,6 +23,16 @@ html(lang= lang)
         script
             include /include/theme.js
 
+        //
+        //
+        // TODO!!!!!
+        // Управлять текущей панелью только из одного атрибута - атрибута у тега aside! Не надо плодить data-showing атрибуты!!
+        // Это сильно все упростит!
+        // И еще переименовать сам data-showing атрибут на data-focus или-что то такое. Ведь при полном экране он и так показывается!
+        //
+        //
+        //
+
         aside.major
             .full
                 .siteInfo
@@ -32,23 +42,49 @@ html(lang= lang)
                         a(href="/")= i18n('siteInfo.title')
                     .slogan= i18n('siteInfo.slogan')
                 
+                mixin paneSwitcherButton(name, icon)
+                    button(title= i18n(`panes.${name}`), data-target= name, data-current= (pane === name) ? '' : false)
+                        .inner
+                            i(class= `i-${icon}`)
+
                 .paneSwitcher
-                    button.toc(title= i18n('panes.toc'))
-                        i.i-sitemap
+                    .inner
+                        +paneSwitcherButton('toc', 'sitemap')
+                        +paneSwitcherButton('pages', 'file-lines')
+                        +paneSwitcherButton('search', 'magnifying-glass')
+                        +paneSwitcherButton('language', 'globe')
+                        +paneSwitcherButton('other', 'menu-ellipsis-ver')
+                        .slider
+                
+                mixin pane(name)
+                    .pane(data-pane= name, data-current = (pane === name) ? '' : false)
+                        .inner
+                            block
 
-                    button.pages(title= i18n('panes.pages'))
-                        i.i-file-lines
+                .panes
+                    +pane('toc')
+                        p Привет мир!
 
-                    button.search(title= i18n('panes.search'))
-                        i.i-magnifying-glass
-                    
-                    button.language(title= i18n('panes.language'))
-                        i.i-globe
+                    +pane('pages')
+                    +pane('search')
+                    +pane('language')
+                    +pane('other')
 
-                    button.other(title= i18n('panes.other'))
-                        i.i-menu-ellipsis-ver
+            //-
 
-            .mini Мажор. Мини
+            mixin miniSwitchButton(name, icon)
+                button(title= i18n(`panes.${name}`), data-target= name)
+                    i(class=`i-${icon}`)
+
+            .mini
+                a(href="/")
+                    i(class="i-omath")
+                +miniSwitchButton('toc', 'sitemap')
+                +miniSwitchButton('pages', 'file-lines')
+                +miniSwitchButton('search', 'magnifying-glass')
+                +miniSwitchButton('language', 'globe')
+                +miniSwitchButton('other', 'menu-ellipsis-ver')
+
 
         aside.minor
             .full Минор. Полная ширина
@@ -61,7 +97,7 @@ html(lang= lang)
                 h2 Подзаголовок алалия
                 p Задача организации, в особенности же постоянное информационно-пропагандистское обеспечение нашей деятельности в значительной степени обуславливает создание дальнейших направлений развития.
                 p Повседневная практика показывает, что укрепление и развитие структуры влечет за собой процесс внедрения и модернизации направлений прогрессивного развития.
-                
+
                 button(onclick="OMath.toggleTheme()") Переключить тему
                 br
                 h2 Предпросмотр

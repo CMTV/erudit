@@ -17,6 +17,7 @@ body > aside.major
             grid-template-columns: 50px auto;
             grid-template-rows: auto auto;
             column-gap: size.$gap;
+            user-select: none;
 
             padding: size.$gap;
 
@@ -67,41 +68,117 @@ body > aside.major
 
         > .paneSwitcher
         {
-            display: flex;
-            gap: size.$gap;
-            justify-content: center;
+            $buttonSize: 40px;
+            $buttonGap: size.$gap;
+            $sliderHeight: 3px;
+            
+            //
 
             border-bottom: 1px solid var(--c_border);
 
-            > button
+            > .inner
             {
                 position: relative;
+                width: calc(5 * ($buttonSize + $buttonGap));
+                margin: 0 auto;
 
-                font-size: 22px;
-                width: 40px;
-                padding: size.$gap 0;
-
-                color: var(--c_text-muted);
-                background: transparent;
-
-                @include hover.color(var(--c_text), true);
-
-                &::after
+                > button
                 {
-                    content: "";
+                    position: relative;
+                    padding: calc($buttonGap / 2);
+                    background: transparent;
+
+                    color: var(--c_text-muted);
+                    @include hover.color(var(--c_text), true);
+
+                    &[data-current] { color: var(--c_text); }
+
+                    &::after
+                    {
+                        content: "";
+                        position: absolute;
+                        left: calc($buttonGap / 2); bottom: -1px; right: calc($buttonGap / 2);
+                        height: 3px;
+                        background: var(--c_border);
+                        opacity: 0;
+    
+                        @include util.transition(opacity);
+                    }
+
+                    &:hover::after { opacity: 1; }
+
+                    > .inner
+                    {
+                        @include util.flexCC;
+                        @include util.size($buttonSize);
+                        font-size: 22px;
+                    }
+                }
+
+                > .slider
+                {
                     position: absolute;
-                    left: 0; bottom: 0; right: 0;
-                    height: 3px;
-                    background: var(--c_border);
-                    opacity: 0;
-
-                    @include util.transition(opacity);
+                    bottom: -1px;
+                    z-index: 5;
+                    background: var(--c_text-muted);
+                    @include util.size($buttonSize, $sliderHeight);
+                    @include util.transition(left);
                 }
 
-                &:hover::after
+                @for $i from 1 through 5
                 {
-                    opacity: 1;
+                    > button:nth-of-type(#{$i})[data-current] ~ .slider
+                    {
+                        left: calc((($i - 1) * ($buttonSize + $buttonGap)) + ($buttonGap / 2));
+                    }
                 }
+            }
+        }
+
+        //
+        // Panes
+        //
+
+        > .panes
+        {
+            position: relative;
+
+            > .pane
+            {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: size.$aside;
+                opacity: 1;
+                @include util.transition(left, opacity);
+
+                &:not([data-current]) { opacity: 0; left: -1 * size.$aside; }
+                &[data-current] ~ .pane { left: size.$aside; }
+            }
+        }
+    }
+
+    > .mini
+    {
+        display: flex;
+        flex-direction: column;
+
+        > *
+        {
+            @include util.flexCC;
+            @include util.size(size.$asideMini);
+            font-size: 25px;
+            color: var(--c_text-dimmed);
+            background: transparent;
+            border-bottom: 1px solid var(--c_border);
+
+            @include util.transition(background, color);
+
+            &:hover
+            {
+                cursor: pointer;
+                color: var(--c_text);
+                background: var(--c_bg-content-accent);
             }
         }
     }

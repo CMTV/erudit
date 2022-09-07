@@ -1,4 +1,5 @@
 import AsideToggler from "./aside/AsideToggler";
+import AsideMajor from "./aside/major/AsideMajor";
 import Preview from "./preview/Preview";
 
 (<any>window).OMath = {};
@@ -25,4 +26,5 @@ window.addEventListener('load', () =>
     (<any>window).OMath.Preview = new Preview;
 
     new AsideToggler();
+    new AsideMajor();
 });
