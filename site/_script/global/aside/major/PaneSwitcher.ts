@@ -1,32 +1,37 @@
+import AsideToggler from "../AsideToggler";
+
 export default class PaneSwitcher
 {
-    buttons: { [name: string]: HTMLElement} = {};
-    panes: { [name: string]: HTMLElement} = {};
+    asideMajor: HTMLElement;
 
-    constructor()
+    constructor(toggler: AsideToggler)
     {
-        let aside = document.querySelector('body > aside.major');
+        this.asideMajor = document.querySelector('body > aside.major');
 
-        aside.querySelectorAll(':scope > .full > .paneSwitcher > .inner > button').forEach((element: HTMLElement) =>
+        let registerButton = (button: Element, openAside: boolean) =>
         {
-            let name = element.getAttribute('data-target');
+            let name = button.getAttribute('data-target');
+            button.addEventListener('click', () =>
+            {
+                this.switchTo(name);
+                if (openAside)
+                    toggler.toggleAside(this.asideMajor, true);
+            });
+        }
 
-            this.buttons[name] = element;
-            this.panes[name] = aside.querySelector(`:scope > .full > .panes > .pane[data-pane="${name}"]`);
+        this.asideMajor.querySelectorAll(':scope > .full > .paneSwitcher > .inner > button').forEach(button =>
+        {
+            registerButton(button, false);
+        });
 
-            this.buttons[name].addEventListener('click', () => this.switchTo(name));
+        this.asideMajor.querySelectorAll(':scope > .mini > button').forEach(button =>
+        {
+            registerButton(button, true);
         });
     }
 
     switchTo(name: string)
     {
-        if (!this.buttons[name] || !this.panes[name])
-            throw new Error(`Unknown pane/button name '${name}'!`);
-
-        Object.values(this.buttons).forEach(button => button.removeAttribute('data-current'));
-        Object.values(this.panes).forEach(pane => pane.removeAttribute('data-current'));
-
-        this.buttons[name].setAttribute('data-current', '');
-        this.panes[name].setAttribute('data-current', '');
+        this.asideMajor.setAttribute('data-pane', name);
     }
 }

@@ -5,7 +5,10 @@
 @use 'general';
 
 @use 'aside/general' as aside-general;
+
 @use 'aside/major';
+@use 'aside/majorOther';
+
 @use 'aside/minor';
 
 @use 'preview';

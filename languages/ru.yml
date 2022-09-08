@@ -2,6 +2,24 @@ siteInfo:
     title: Математика
     slogan: Подробно и понятно
 
+theme:
+    label: Тема
+    auto: Авто
+    light: Светлая
+    dark: Темная
+
+aside:
+    major:
+        miniButtons:
+            toHome: На главную
+            menu: Меню
+        panes:
+            toc: Оглавление
+            pages: Страницы
+            search: Поиск
+            language: Язык
+            other: Другое
+
 panes:
     toc: Оглавление
     pages: Страницы

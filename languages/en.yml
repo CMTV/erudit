@@ -2,6 +2,24 @@ siteInfo:
     title: Mathematics
     slogan: In detail and clearly
 
+theme:
+    label: Theme
+    auto: Auto
+    light: Light
+    dark: Dark
+
+aside:
+    major:
+        miniButtons:
+            toHome: To the home page
+            menu: Menu
+        panes:
+            toc: Table of contents
+            pages: Pages
+            search: Search
+            language: Language
+            other: Other
+
 panes:
     toc: Table of contents
     pages: Pages

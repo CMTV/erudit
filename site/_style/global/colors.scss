@@ -21,7 +21,7 @@ html
         --c_#{$name}: #{$color};
     }
 
-    &[data-theme=dark]
+    &[data-theme$=dark]
     {
         @each $name, $variants in color.$palette
         {

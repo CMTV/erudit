@@ -25,6 +25,6 @@ window.addEventListener('load', () =>
 
     (<any>window).OMath.Preview = new Preview;
 
-    new AsideToggler();
-    new AsideMajor();
+    let asideToggler = new AsideToggler();
+    new AsideMajor(asideToggler);
 });

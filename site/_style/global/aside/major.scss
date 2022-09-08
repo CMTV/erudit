@@ -1,12 +1,24 @@
 @use 'def/size';
 
 @use 'partial/hover';
+@use 'partial/scroll';
+@use 'partial/logo';
 @use 'partial/util';
 
 body > aside.major
 {
+    // Pane Switcher Sizes
+
+    $buttonSize: 40px;
+    $buttonGap: size.$gap;
+
+    //
+
     > .full
     {
+        display: flex;
+        flex-direction: column;
+
         //
         // Site Info
         //
@@ -29,23 +41,7 @@ body > aside.major
                 align-self: center;
 
                 @include util.size(50px);
-
-                svg
-                {
-                    @keyframes logoCircleRotation
-                    {
-                        from { transform: rotateZ(0); }
-                        to { transform: rotateZ(360deg); }    
-                    }
-
-                    > circle
-                    {
-                        transform-origin: 50% 50%;
-                        animation: logoCircleRotation 2.5s infinite linear;
-                    }
-
-                    > path { fill: var(--c_bg-content-shade); }
-                }
+                @include logo.style;
             }
 
             > .title
@@ -68,8 +64,6 @@ body > aside.major
 
         > .paneSwitcher
         {
-            $buttonSize: 40px;
-            $buttonGap: size.$gap;
             $sliderHeight: 3px;
             
             //
@@ -91,7 +85,7 @@ body > aside.major
                     color: var(--c_text-muted);
                     @include hover.color(var(--c_text), true);
 
-                    &[data-current] { color: var(--c_text); }
+                    &[data-target=toc] { > .inner > i { transform: rotateZ(-90deg); } }
 
                     &::after
                     {
@@ -124,14 +118,6 @@ body > aside.major
                     @include util.size($buttonSize, $sliderHeight);
                     @include util.transition(left);
                 }
-
-                @for $i from 1 through 5
-                {
-                    > button:nth-of-type(#{$i})[data-current] ~ .slider
-                    {
-                        left: calc((($i - 1) * ($buttonSize + $buttonGap)) + ($buttonGap / 2));
-                    }
-                }
             }
         }
 
@@ -141,6 +127,7 @@ body > aside.major
 
         > .panes
         {
+            flex: 1;
             position: relative;
 
             > .pane
@@ -148,12 +135,15 @@ body > aside.major
                 position: absolute;
                 left: 0;
                 top: 0;
-                width: size.$aside;
+                @include util.size(size.$aside, 100%);
+                
                 opacity: 1;
                 @include util.transition(left, opacity);
 
-                &:not([data-current]) { opacity: 0; left: -1 * size.$aside; }
-                &[data-current] ~ .pane { left: size.$aside; }
+                direction: rtl;
+                overflow: auto;
+                @extend %scrollbar;
+                > .inner { direction: ltr; }
             }
         }
     }
@@ -170,15 +160,76 @@ body > aside.major
             font-size: 25px;
             color: var(--c_text-dimmed);
             background: transparent;
-            border-bottom: 1px solid var(--c_border);
+            //border-bottom: 1px solid var(--c_border);
 
             @include util.transition(background, color);
+
+            &:not(.menu)[data-target=toc] { > i { transform: rotateZ(-90deg); } }
 
             &:hover
             {
                 cursor: pointer;
                 color: var(--c_text);
                 background: var(--c_bg-content-accent);
+            }
+
+            &:nth-child(1)
+            {
+                @include logo.style;
+
+                &:hover svg > path { fill: var(--c_bg-content-accent); }
+
+                svg
+                {
+                    @include util.size(35px);
+                    > path
+                    {
+                        @include util.transition(fill);
+                    }
+                }
+            }
+        }
+
+        @media (max-height: 480px)
+        {
+            > button:not(.menu) { display: none; }
+        }
+
+        @media (min-height: 481px)
+        {
+            > button.menu { display: none; }
+        }
+    }
+
+    //
+    // Current Pane Logic
+    //
+
+    $panes: toc, pages, search, language, other;
+
+    @for $i from 1 through length($panes)
+    {
+        $pane: nth($panes, $i);
+
+        &[data-pane=#{$pane}]
+        {
+            > .full > .paneSwitcher > .inner
+            {
+                > button[data-target=#{$pane}]
+                {
+                    color: var(--c_text);
+                }
+
+                > .slider
+                {
+                    left: calc((($i - 1) * ($buttonSize + $buttonGap)) + ($buttonGap / 2));
+                }
+            }
+
+            > .full > .panes
+            {
+                > .pane:not([data-pane=#{$pane}]) { opacity: 0; left: -1 * size.$aside; }
+                > .pane[data-pane=#{$pane}] ~ .pane { left: size.$aside; }
             }
         }
     }

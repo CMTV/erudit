@@ -23,17 +23,7 @@ html(lang= lang)
         script
             include /include/theme.js
 
-        //
-        //
-        // TODO!!!!!
-        // Управлять текущей панелью только из одного атрибута - атрибута у тега aside! Не надо плодить data-showing атрибуты!!
-        // Это сильно все упростит!
-        // И еще переименовать сам data-showing атрибут на data-focus или-что то такое. Ведь при полном экране он и так показывается!
-        //
-        //
-        //
-
-        aside.major
+        aside.major(data-pane= pane)
             .full
                 .siteInfo
                     a.logo(href="/")
@@ -43,7 +33,7 @@ html(lang= lang)
                     .slogan= i18n('siteInfo.slogan')
                 
                 mixin paneSwitcherButton(name, icon)
-                    button(title= i18n(`panes.${name}`), data-target= name, data-current= (pane === name) ? '' : false)
+                    button(title= i18n(`aside.major.panes.${name}`), data-target= name)
                         .inner
                             i(class= `i-${icon}`)
 
@@ -57,9 +47,13 @@ html(lang= lang)
                         .slider
                 
                 mixin pane(name)
-                    .pane(data-pane= name, data-current = (pane === name) ? '' : false)
+                    .pane(data-pane= name)
                         .inner
                             block
+
+                mixin listItem(name, link = false)
+                    a.listItem(class= name, href= link)
+                        block
 
                 .panes
                     +pane('toc')
@@ -68,17 +62,36 @@ html(lang= lang)
                     +pane('pages')
                     +pane('search')
                     +pane('language')
+
                     +pane('other')
+                        .listItem.themeSwitcher(onclick="OMath.cycleTheme()")
+                            .themeIcon
+                                i.i-sun
+                                i.i-moon
+                                i.i-sun-and-moon
+                            .label= i18n('theme.label') + ':'
+                            .themeName
+                                .auto= i18n('theme.auto')
+                                .light= i18n('theme.light')
+                                .dark= i18n('theme.dark')
+                        
+                        .listItem()
+                            i.i-file-lines
+                            .label Исходный код
 
             //-
 
             mixin miniSwitchButton(name, icon)
-                button(title= i18n(`panes.${name}`), data-target= name)
+                button(title= i18n(`aside.major.panes.${name}`), data-target= name)
                     i(class=`i-${icon}`)
 
             .mini
-                a(href="/")
-                    i(class="i-omath")
+                a(href="/", title= i18n('aside.major.miniButtons.toHome'))
+                    include /include/logo.svg
+                
+                button.menu(title= i18n('aside.major.miniButtons.menu'), data-target='toc')
+                    i.i-menu
+
                 +miniSwitchButton('toc', 'sitemap')
                 +miniSwitchButton('pages', 'file-lines')
                 +miniSwitchButton('search', 'magnifying-glass')
@@ -87,7 +100,7 @@ html(lang= lang)
 
 
         aside.minor
-            .full Минор. Полная ширина
+            .full Минор. Полная ширина. Блок из трех кнопок-переключателей режима статьи. Потом небольшой пропуск. Под ними две кнопки: содержание и вкладчики.
             .mini Минор. Мини
 
         main
@@ -98,8 +111,6 @@ html(lang= lang)
                 p Задача организации, в особенности же постоянное информационно-пропагандистское обеспечение нашей деятельности в значительной степени обуславливает создание дальнейших направлений развития.
                 p Повседневная практика показывает, что укрепление и развитие структуры влечет за собой процесс внедрения и модернизации направлений прогрессивного развития.
 
-                button(onclick="OMath.toggleTheme()") Переключить тему
-                br
                 h2 Предпросмотр
                 button(onclick="OMath.Preview.loadView('view1.json')") Добавить view1
                 br

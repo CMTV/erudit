@@ -1,0 +1,19 @@
+@mixin style
+{
+    svg
+    {
+        > circle
+        {
+            transform-origin: 50% 50%;
+            animation: logoCircleRotation 2.5s infinite linear;
+        }
+
+        > path { fill: var(--c_bg-content-shade); }
+    }
+}
+
+@keyframes logoCircleRotation
+{
+    from { transform: rotateZ(0); }
+    to { transform: rotateZ(360deg); }    
+}

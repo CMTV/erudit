@@ -12,5 +12,5 @@ export default abstract class Page
     config = CONFIG;
     version = require(erudit.path.package('package.json')).version;
 
-    pane = 'pages'; // TODO: определяется самой страницей
+    pane = 'other'; // TODO: определяется самой страницей
 }
