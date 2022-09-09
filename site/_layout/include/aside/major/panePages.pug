@@ -1,0 +1,9 @@
+mixin page(name, icon, href)
+    a.listSimpleItem(data-page= name, href= href, data-current= (singlePage === name) ? '' : false)
+        .figure
+            i(class= `i-${icon}`)
+        .label= i18n(`aside.major.pages.${name}`)
+
+.listItems
+    +page('home', 'house', '/')
+    +page('contributors', 'users', '/')

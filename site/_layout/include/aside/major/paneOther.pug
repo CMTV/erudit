@@ -1,0 +1,17 @@
+.listItems
+    each otherLink in asideMajor.otherLinks
+        a.listSimpleItem(class= otherLink.name, href= otherLink.link, target="_blank")
+            .figure
+                i(class= `i-${otherLink.icon}`)
+            .label= otherLink.label
+
+    button.listSimpleItem#themeSwitcher(onclick="OMath.cycleTheme()")
+        .figure.themeIcon
+            i.i-sun
+            i.i-moon
+            i.i-sun-and-moon
+        .label= i18n('theme.label') + ':'
+        .themeName
+            .auto= i18n('theme.auto')
+            .light= i18n('theme.light')
+            .dark= i18n('theme.dark')

@@ -3,13 +3,16 @@ import { DataSource } from "typeorm";
 
 import Path from "src/erudit/Path";
 import Targets from "src/erudit/Targets";
-import { loadRawConfig, TBooks, validateConfig } from "src/erudit/config";
+import { IProjectConfig, loadRawConfig, TBooks, validateConfig } from "src/erudit/config";
 import { Language, loadLangObj } from "src/erudit/i18n";
 
 import getDb from "src/erudit/db";
+import { Config, SET_CONFIG } from "./config";
 
 export class Erudit
 {
+    pConfig:    IProjectConfig;
+
     path:       Path;
     targets:    Targets;
     lang:       Language;
@@ -25,6 +28,8 @@ export class Erudit
 
         let config = loadRawConfig(this.path.project());
 
+        this.pConfig = config;
+
         withErrorMeta(() =>
         {
             validateConfig(config);
@@ -36,8 +41,8 @@ export class Erudit
             this.lang = withErrorMeta(() => { return new Language(config.language, langObj) }, { 'Language file': langPath });
 
             // Books
-
-            this.books = config.books;
+            
+            this.books = config.books;            
         },
         {
             'Config file': this.path.project('erudit.yml')
@@ -48,7 +53,6 @@ export class Erudit
     {
         this.db = await getDb(this.path.erudit('data.db'));
     }
-    
 }
 
 //

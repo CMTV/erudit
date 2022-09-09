@@ -19,6 +19,9 @@ aside:
             search: Поиск
             language: Язык
             other: Другое
+        pages:
+            home: Главная
+            contributors: Участники
 
 panes:
     toc: Оглавление

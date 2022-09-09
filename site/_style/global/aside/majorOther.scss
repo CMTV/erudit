@@ -3,72 +3,43 @@
 @use 'partial/scroll';
 @use 'partial/util';
 
-body > aside.major > .full > .panes > .pane[data-pane=other]
+#themeSwitcher
 {
-    > .inner
-    {
-        .listItem
-        {
-            display: flex;
-            align-items: center;
-            gap: size.$gap;
-            padding: 0 size.$gap;
-            height: 60px;
-
-            color: var(--c_text-muted);
-            border-bottom: 1px solid var(--c_border);
-
-            &:hover
-            {
-                cursor: pointer;
-                background: var(--c_bg-content-accent);
-                color: var(--c_text);
-            }
-
-            @include util.transition(color, background);
-        }
-
-        .listItem.themeSwitcher
-        {
-
-            > .themeIcon
-            {
-                font-size: 22px;
-                width: 22px;
-            }
-
-            > .themeName
-            {
-                font-weight: 600;
-                color: var(--c_text-dimmed);
-            }
-        }
-    }
-}
-
-.listItem.themeSwitcher
-{
-    position: relative;
-
     .themeIcon,
     .themeName
     {
+        position: relative;
+
         > *
         {
             position: absolute;
             top: 50%;
+            left: 0;
             transform: translateY(-50%);
             opacity: 0;
             @include util.transition(opacity);
         }
     }
 
-    .themeIcon > .i-moon { left: 18px; }
+    > .themeIcon
+    {
+        i
+        {
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    > .themeName
+    {
+        font-weight: 600;
+        color: var(--c_text-dimmed);
+    }
 }
 
 html[data-theme^=auto]
 {
-    .listItem.themeSwitcher
+    #themeSwitcher
     {
         .themeIcon .i-sun-and-moon { opacity: 1; }
         .themeName .auto { opacity: 1; }
@@ -77,7 +48,7 @@ html[data-theme^=auto]
 
 html[data-theme=light]
 {
-    .listItem.themeSwitcher
+    #themeSwitcher
     {
         .themeIcon .i-sun { opacity: 1; }
         .themeName .light { opacity: 1; }
@@ -86,7 +57,7 @@ html[data-theme=light]
 
 html[data-theme=dark]
 {
-    .listItem.themeSwitcher
+    #themeSwitcher
     {
         .themeIcon .i-moon { opacity: 1; }
         .themeName .dark { opacity: 1; }

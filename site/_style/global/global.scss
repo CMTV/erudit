@@ -4,10 +4,13 @@
 
 @use 'general';
 
+@use 'listItems';
+
 @use 'aside/general' as aside-general;
 
 @use 'aside/major';
 @use 'aside/majorOther';
+@use 'aside/majorPages';
 
 @use 'aside/minor';
 

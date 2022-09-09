@@ -1,9 +1,9 @@
 @font-face {
   font-family: 'Erudit-Icons';
   src:
-    url('fonts/Erudit-Icons.ttf?agx7jg') format('truetype'),
-    url('fonts/Erudit-Icons.woff?agx7jg') format('woff'),
-    url('fonts/Erudit-Icons.svg?agx7jg#Erudit-Icons') format('svg');
+    url('fonts/Erudit-Icons.ttf?78z0aa') format('truetype'),
+    url('fonts/Erudit-Icons.woff?78z0aa') format('woff'),
+    url('fonts/Erudit-Icons.svg?78z0aa#Erudit-Icons') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -44,6 +44,24 @@ i {
 }
 .i-arrow-right:before {
   content: "\e901";
+}
+.i-house:before {
+  content: "\e916";
+}
+.i-users:before {
+  content: "\e917";
+}
+.i-donate:before {
+  content: "\e915";
+}
+.i-code:before {
+  content: "\e913";
+}
+.i-comments:before {
+  content: "\e914";
+}
+.i-link:before {
+  content: "\e912";
 }
 .i-sun-and-moon:before {
   content: "\e90f";

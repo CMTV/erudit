@@ -128,10 +128,7 @@ async function buildSite()
     if (!erudit.db)
         await erudit.setupDb();
 
-    let config = new Config;
-        config.dev = erudit.dev;
-
-    SET_CONFIG(config);
+    SET_CONFIG(Config.makeConfig(erudit.pConfig));
 
     let buildGroup = new BuildGroup(erudit, erudit.db);
 

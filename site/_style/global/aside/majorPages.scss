@@ -1,0 +1,7 @@
+body > aside.major > .full > .panes > .pane[data-pane=pages]
+{
+    a[data-current]
+    {
+        color: var(--c_text);
+    }
+}

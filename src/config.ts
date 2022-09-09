@@ -1,8 +1,11 @@
+import { erudit } from "src/erudit";
+import { IProjectConfig } from "src/erudit/config";
+
 export class Config
 {
-    url = 'https://omath.net'; // TODO: Брать из конфига. Оттуда же из конфига генерить и файл CNAME!!!
-    dev: boolean;
-    buildTime: number;
+    url:        string;
+    dev:        boolean;
+    buildTime:  number;
 
     constructor()
     {
@@ -12,6 +15,16 @@ export class Config
     getUrl()
     {
         return this.dev ? 'http://localhost:3000' : this.url;
+    }
+
+    static makeConfig(pConfig: IProjectConfig): Config
+    {
+        let config = new Config;
+
+        config.dev = erudit.dev;
+        config.url = pConfig.url;
+
+        return config;
     }
 }
 

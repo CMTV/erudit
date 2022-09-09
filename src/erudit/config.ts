@@ -4,18 +4,21 @@ import _ from "lodash";
 import { throwMetaError } from "@cmtv/error-meta";
 
 import { canGetProperty, parseYamlFile } from "src/util";
+import OtherLink from "src/page/component/asideMajor/OtherLink";
 
 export type TBooks = {
     [id: string]: string | { [bookId: string]: string }
 }
 
-export interface IConfig
+export interface IProjectConfig
 {
-    language: string;
-    books: TBooks;
+    url:        string;
+    links:      { [name: string]: OtherLink };
+    language:   string;
+    books:      TBooks;
 }
 
-export function loadRawConfig(fromDir: string): IConfig
+export function loadRawConfig(fromDir: string): IProjectConfig
 {
     let configFile = path.join(fromDir, 'erudit.yml');
     let errMeta = { 'Config file': configFile };
@@ -31,7 +34,11 @@ export function loadRawConfig(fromDir: string): IConfig
     return rawConfig;
 }
 
-export function validateConfig(rawConfig: IConfig)
+//
+//
+//
+
+export function validateConfig(rawConfig: IProjectConfig)
 {
     if (!canGetProperty(rawConfig))
         throwMetaError('Config is not an accessable object!');
@@ -45,7 +52,7 @@ function missingProperty(property: string)
     throwMetaError('Missing config property!', { 'Property': property });
 }
 
-function validate_language(rawConfig: IConfig)
+function validate_language(rawConfig: IProjectConfig)
 {
     let language = _.get(rawConfig, 'language');
 
@@ -59,7 +66,7 @@ function validate_language(rawConfig: IConfig)
         throwMetaError('Language property must be 2 characters long!');
 }
 
-function validate_books(rawConfig: IConfig)
+function validate_books(rawConfig: IProjectConfig)
 {
     let books = _.get(rawConfig, 'books');
 

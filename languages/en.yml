@@ -19,6 +19,9 @@ aside:
             search: Search
             language: Language
             other: Other
+        pages:
+            home: Главная
+            contributors: Участники
 
 panes:
     toc: Table of contents

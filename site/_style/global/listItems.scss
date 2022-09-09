@@ -1,0 +1,45 @@
+@use 'def/size';
+@use 'partial/util';
+
+.listItems
+{
+    display: flex;
+    flex-direction: column;
+
+    .listItem,
+    .listSimpleItem
+    {
+        color: var(--c_text-muted);
+        background: transparent;
+        text-decoration: none;
+        border-bottom: 1px solid var(--c_border);
+
+        @include util.transition(color, background);
+
+        &:hover
+        {
+            cursor: pointer;
+            color: var(--c_text);
+            background: var(--c_bg-content-accent);
+        }
+    }
+
+    .listSimpleItem
+    {
+        display: flex;
+        align-items: center;
+        gap: size.$gap;
+
+        height: 56px;
+
+        padding: 0 size.$gap;
+        font-size: 16px;
+
+        > .figure
+        {
+            @include util.flexCC;
+            @include util.size(25px);
+            i { font-size: 20px; }
+        }
+    }
+}
