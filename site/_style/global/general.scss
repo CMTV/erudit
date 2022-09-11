@@ -95,3 +95,13 @@ body > main
         touch-action: none;
     }
 }
+
+.loading
+{
+    animation: loading .5s infinite alternate;
+    @keyframes loading
+    {
+        from    { color: var(--c_text-dimmed); }
+        to      { color: var(--c_text-disabled); }
+    }
+}

@@ -1,0 +1,77 @@
+@use 'def/size';
+
+@use 'partial/hover';
+@use 'partial/util';
+
+$fontSize: 15px;
+$gapBig: size.$gap;
+$gap: calc($gapBig / 2);
+
+.tocGroup
+{
+    padding: $gap 0;
+    border-bottom: 1px solid var(--c_border);
+    &:last-of-type { border-bottom-color:  transparent; }
+
+    > .title
+    {
+        font-weight: 600;
+        color: var(--c_text-dimmed);
+        padding: $gap $gapBig;
+    }
+}
+
+.tocTree
+{
+    .tocItem
+    {
+        display: flex;
+        align-items: center;
+        padding: $gap $gapBig;
+
+        > a
+        {
+            display: inline-flex;
+            align-items: center;
+            gap: size.$gapSmall;
+
+            color: var(--c_text-muted);
+            text-decoration-color: transparent;
+            @include util.transition(color, text-decoration-color);
+
+            &:hover
+            {
+                color: var(--c_text);
+                text-decoration-color: var(--c_text-muted);
+            }
+
+            > .figure
+            {
+                flex-shrink: 0;
+                position: relative;
+                top: 1px;
+                @include util.size(20px, 22px);
+
+                > *
+                {
+                    position: absolute;
+                    left: 50%; top: 50%;
+                    transform: translate(-50%, -50%);
+                }
+
+                > i { font-size: 17px; }
+            }
+
+            > .label { font-size: $fontSize; }
+        }
+
+        @for $i from 1 through 10
+        {
+            &.tocLevel-#{$i}
+            {
+                padding-left: $gapBig * ($i + 1);
+                .label { font-size: calc($fontSize - .5% * $i); }
+            }
+        }
+    }
+}

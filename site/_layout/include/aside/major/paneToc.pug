@@ -1,11 +1,38 @@
-.viewContainer
-    .view.global.tocTree
-        p Здесь глобальный TOC
+include /include/toc
 
-    .view.book
-        .controls
-            .title Теория множеств
-        .tocTree
-    
-    .view.loading
-        
+.viewContainer
+    .view(data-view="global", data-current)
+        .inner
+            // А как же книги книжной полки. А если такие книги в середине. Сделать фантомные книжные полки. Доработать крч.
+            each books, groupTitle in asideMajor.globalToc
+                +tocGroup(groupTitle)
+                    each book in books
+                        +tocItem(0, 'book', book.title, 'куда-то')
+
+            +tocGroup('Базовая математика')
+                +tocItem(0, 'book', 'Основы логики', 'https://google.com')
+                +tocItem(1, 'book', 'Приветы из прошлого', 'https://google.com')
+                +tocItem(2, 'topic-many', 'Комбинаторика', 'https://google.com')
+
+            +tocGroup
+                +tocItem(0, 'book', 'Дифференциальное исчисление', 'https://google.com')
+                +tocItem(1, 'book', 'Приветы из прошлого', 'https://google.com')
+                +tocItem(2, 'topic-many', 'Комбинаторика', 'https://google.com')
+
+    .view.loading(data-view="loading")
+        i.i-omath
+
+    .view(data-view="book")
+        .inner
+            .controls
+                .title Теория множеств
+
+            +tocGroup('Базовая математика')
+                +tocItem(0, 'book', 'Основы логики', 'https://google.com')
+                +tocItem(1, 'book', 'Приветы из прошлого', 'https://google.com')
+                +tocItem(2, 'topic-many', 'Комбинаторика', 'https://google.com')
+
+            +tocGroup
+                +tocItem(0, 'book', 'Дифференциальное исчисление', 'https://google.com')
+                +tocItem(1, 'book', 'Приветы из прошлого', 'https://google.com')
+                +tocItem(2, 'topic-many', 'Комбинаторика', 'https://google.com')

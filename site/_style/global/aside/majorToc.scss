@@ -1,4 +1,58 @@
+@use 'def/size';
+
+@use 'partial/scroll';
+@use 'partial/util';
+
 body > aside.major .panes .pane[data-pane=toc]
 {
-    
+    .inner,
+    .viewContainer
+    {
+        position: relative;
+        height: 100%;
+    }
+
+    .viewContainer
+    {
+        overflow: hidden;
+
+        > .view
+        {
+            position: absolute;
+            top: 0;
+            opacity: 0;
+            width: size.$aside;
+
+            @include util.transition(left, opacity);
+
+            &:not([data-view=loading])
+            {
+                direction: rtl;
+                height: 100%;
+                overflow: auto;
+
+                @extend %scrollbar;
+
+                > .inner { direction: ltr; }
+            }
+
+            &[data-current]
+            {
+                left: 0;
+                opacity: 1;
+            }
+
+            &:not([data-current]) { left: -1 * size.$aside; }
+            &[data-current] ~ .view { left: size.$aside; }
+
+            //
+
+            &[data-view=loading]
+            {
+                font-size: 60px;
+                @include util.flexCC;
+                height: 100%;
+            }
+        }
+    }
 }

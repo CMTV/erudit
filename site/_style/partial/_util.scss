@@ -22,6 +22,6 @@
         $value: $value + ' ' + $property + ',';
     }
 
-    transition: all calc(var(--transitionSpeed) * 1s) cubic-bezier(0, .25, .25, 1);
+    transition: all calc(var(--transitionSpeed) * 1s) cubic-bezier(0, 0, .5, 1);
     transition-property: #{string.slice($value, 0, -2)};
 }

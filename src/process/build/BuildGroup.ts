@@ -6,6 +6,7 @@ import { Erudit } from "src/erudit";
 // Processes
 import BuildPageGroup from "./page/BuildPageGroup";
 import BuildBaseGroup from "./base/BuildBaseGroup";
+import { FillBuildCache } from "./BuildCache";
 
 export default class BuildGroup extends Group
 {
@@ -29,6 +30,7 @@ export default class BuildGroup extends Group
     todo()
     {
         return this.initProcesses(
+            FillBuildCache,
             BuildBaseGroup,
             BuildPageGroup
             // Build Pages

@@ -83,16 +83,6 @@
                 }
             }
 
-            &.loading
-            {
-                animation: previewLoading .5s infinite alternate;
-                @keyframes previewLoading
-                {
-                    from    { color: var(--c_text-dimmed); }
-                    to      { color: var(--c_text-disabled); }
-                }
-            }
-
             &.error
             {
                 color: var(--c_text-error);

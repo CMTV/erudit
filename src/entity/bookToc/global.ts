@@ -3,8 +3,7 @@ import { TocItem } from "src/entity/toc/global";
 export enum BookTocItemType
 {
     Chapter = 'chapter',
-    Section = 'section',
-    
+    Section = 'section',   
 }
 
 export class BookTocItem extends TocItem

@@ -5,12 +5,14 @@
 @use 'general';
 
 @use 'listItems';
+@use 'toc';
 
 @use 'aside/general' as aside-general;
 
 @use 'aside/major';
 @use 'aside/majorOther';
 @use 'aside/majorPages';
+@use 'aside/majorToc';
 
 @use 'aside/minor';
 

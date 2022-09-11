@@ -1,0 +1,13 @@
+mixin tocGroup(title)
+    .tocGroup
+        if (title)
+            .title= title
+        .tocTree
+            block
+
+mixin tocItem(level, icon, label, href)
+    .tocItem(class= level ? `tocLevel-${level}` : '')
+        a(href= href)
+            span.figure
+                i(class= `i-${icon}`)
+            span.label= label
