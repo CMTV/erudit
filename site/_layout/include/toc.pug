@@ -5,9 +5,9 @@ mixin tocGroup(title)
         .tocTree
             block
 
-mixin tocItem(level, icon, label, href)
-    .tocItem(class= level ? `tocLevel-${level}` : '')
-        a(href= href)
+mixin tocItem(level, icon, label, options = {})
+    .tocItem(class= level ? `tocLevel-${level}` : '', data-accent= options.accent, data-id= options.dataId)
+        a(href= options.href)
             span.figure
                 i(class= `i-${icon}`)
             span.label= label

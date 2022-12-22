@@ -1,6 +1,7 @@
 @use 'def/size';
 
 @use 'partial/scroll';
+@use 'partial/hover';
 @use 'partial/util';
 
 body > aside.major .panes .pane[data-pane=toc]
@@ -35,23 +36,136 @@ body > aside.major .panes .pane[data-pane=toc]
 
                 > .inner { direction: ltr; }
             }
+        }
 
-            &[data-current]
+        //
+        // Current View Logic
+        //
+
+        $views: global, loading, book;
+
+        @for $i from 1 through length($views)
+        {
+            $view: nth($views, $i);
+
+            &[data-view=#{$view}]
             {
-                left: 0;
-                opacity: 1;
+                > .view:not([data-view=#{$view}]) { left: -1 * size.$aside; }
+
+                > .view[data-view=#{$view}]
+                {
+                    left: 0;
+                    opacity: 1;
+                }
+
+                > .view[data-view=#{$view}] ~ .view { left: size.$aside; }
             }
+        }
 
-            &:not([data-current]) { left: -1 * size.$aside; }
-            &[data-current] ~ .view { left: size.$aside; }
+        //
+        // View specific rules
+        //
 
-            //
+        > .view[data-view=loading]
+        {
+            font-size: 60px;
+            @include util.flexCC;
+            height: 100%;
+        }
 
-            &[data-view=loading]
+        > .view[data-view=book]
+        {
+            > .inner
             {
-                font-size: 60px;
-                @include util.flexCC;
-                height: 100%;
+                > .bookTitle
+                {
+                    @include util.flexCC;
+                    font-weight: 600;
+                    text-align: center;
+                    padding: size.$gap;
+                    border-bottom: 1px solid var(--c_border);
+                }
+
+                > .controls
+                {
+                    display: flex;
+                    justify-content: space-between;
+                    border-bottom: 1px solid var(--c_border);
+
+                    padding: size.$gap;
+
+                    @mixin controlButton
+                    {
+                        @include util.size(30px);
+                        @include util.flexCC;
+                        background: var(--c_bg-content);
+
+                        border: 1px solid var(--c_border);
+                        border-radius: size.$borderRadius;
+                        
+                        font-size: 14px;
+                        color: var(--c_text-muted);
+                        @include hover.color(var(--c_text), true);
+                    }
+
+                    > .navButtons
+                    {
+                        display: flex;
+                        gap: size.$gap;
+
+                        > *
+                        {
+                            @include controlButton;
+                        }
+                    }
+
+                    > .filter
+                    {
+                        display: flex;
+                        align-items: center;
+                        gap: size.$gapSmall;
+
+                        > .label
+                        {
+                            font-size: 90%;
+                            color: var(--c_text-muted);
+                        }
+                        
+                        > .buttons
+                        {
+                            display: flex;
+
+                            > div
+                            {
+                                @include controlButton;
+
+                                &:not([data-active]):not(:hover)
+                                {
+                                    color: var(--c_text-dimmed);
+                                }
+                            }
+
+                            > .article
+                            {
+                                border-top-right-radius: 0;
+                                border-bottom-right-radius: 0;
+                            }
+
+                            > .summary
+                            {
+                                border-radius: 0;
+                                border-left: none;
+                                border-right: none;
+                            }
+
+                            .practicum
+                            {
+                                border-top-left-radius: 0;
+                                border-bottom-left-radius: 0;
+                            }
+                        }
+                    }
+                }
             }
         }
     }

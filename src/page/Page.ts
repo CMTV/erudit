@@ -15,4 +15,8 @@ export default abstract class Page
 
     config = CONFIG;
     version = require(erudit.path.package('package.json')).version;
+
+    // FAST NEW YEAR DEPLOY PARAMS
+
+    bookId: string;
 }

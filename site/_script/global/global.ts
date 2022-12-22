@@ -1,5 +1,7 @@
 import AsideToggler from "./aside/AsideToggler";
 import AsideMajor from "./aside/major/AsideMajor";
+import MajorToc from "./toc/MajorToc";
+
 import Preview from "./preview/Preview";
 
 (<any>window).OMath = {};
@@ -26,5 +28,9 @@ window.addEventListener('load', () =>
     (<any>window).OMath.Preview = new Preview;
 
     let asideToggler = new AsideToggler();
+
     new AsideMajor(asideToggler);
+    new MajorToc(asideToggler);
 });
+
+import "./toc/TocFolder";

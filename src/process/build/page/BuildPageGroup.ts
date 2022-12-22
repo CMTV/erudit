@@ -1,5 +1,6 @@
 import EruditGroup from "src/process/EruditGroup";
 import BuildPageIndex from "./BuildPageIndex";
+import BuildPageTopic from "./BuildPageTopic";
 
 export default class BuildPageGroup extends EruditGroup
 {
@@ -8,7 +9,8 @@ export default class BuildPageGroup extends EruditGroup
     getProcessTypes()
     {
         return [
-            BuildPageIndex
+            BuildPageIndex,
+            BuildPageTopic
         ];
     }
 }

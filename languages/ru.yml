@@ -2,6 +2,12 @@ siteInfo:
     title: Математика
     slogan: Подробно и понятно
 
+article: Статья
+summary: Конспект
+practicum: Практикум
+
+back: Назад
+
 theme:
     label: Тема
     auto: Авто
@@ -29,6 +35,11 @@ panes:
     search: Поиск
     language: Язык
     other: Другое
+
+paneToc:
+    controls:
+        home: Об учебнике
+        display: "Показать:"
 
 preview:
     title: Превью

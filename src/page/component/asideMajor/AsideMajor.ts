@@ -1,5 +1,5 @@
 import RepoGlobalToc from "src/entity/globalToc/repository";
-import GlobalTocView from "src/entity/globalToc/view";
+import { GlobalTocView } from "src/entity/globalToc/view";
 import { erudit } from "src/erudit";
 import { BUILD_CACHE } from "src/process/build/BuildCache";
 

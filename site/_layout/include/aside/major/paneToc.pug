@@ -1,38 +1,45 @@
 include /include/toc
 
-.viewContainer
-    .view(data-view="global", data-current)
+.viewContainer(data-view= bookId ? 'book' : 'global')
+    .view(data-view="global")
         .inner
-            // А как же книги книжной полки. А если такие книги в середине. Сделать фантомные книжные полки. Доработать крч.
-            each books, groupTitle in asideMajor.globalToc
-                +tocGroup(groupTitle)
-                    each book in books
-                        +tocItem(0, 'book', book.title, 'куда-то')
-
-            +tocGroup('Базовая математика')
-                +tocItem(0, 'book', 'Основы логики', 'https://google.com')
-                +tocItem(1, 'book', 'Приветы из прошлого', 'https://google.com')
-                +tocItem(2, 'topic-many', 'Комбинаторика', 'https://google.com')
-
-            +tocGroup
-                +tocItem(0, 'book', 'Дифференциальное исчисление', 'https://google.com')
-                +tocItem(1, 'book', 'Приветы из прошлого', 'https://google.com')
-                +tocItem(2, 'topic-many', 'Комбинаторика', 'https://google.com')
+            each shelf in asideMajor.globalToc
+                +tocGroup(shelf.title)
+                    each book in shelf.books
+                        +tocItem(0, 'book', book.title, {
+                            accent: bookId === book.id,
+                            dataId: book.id
+                        })
 
     .view.loading(data-view="loading")
         i.i-omath
 
     .view(data-view="book")
         .inner
+            .bookTitle Теория множеств
             .controls
-                .title Теория множеств
+                .navButtons
+                    .back(title= i18n('back')): i(class="i-arrow-left")
+                    a.home(title= i18n('paneToc.controls.home'), href="google.com"): i(class="i-house")
 
-            +tocGroup('Базовая математика')
-                +tocItem(0, 'book', 'Основы логики', 'https://google.com')
-                +tocItem(1, 'book', 'Приветы из прошлого', 'https://google.com')
-                +tocItem(2, 'topic-many', 'Комбинаторика', 'https://google.com')
+                .filter
+                    .label= i18n('paneToc.controls.display')
+                    .buttons
+                        .article(title= i18n('article'), data-active): i(class="i-file-lines")
+                        .summary(title= i18n('summary')): i(class="i-topic-summary")
+                        .practicum(title= i18n('practicum'), data-active): i(class="i-topic-practicum")
 
-            +tocGroup
-                +tocItem(0, 'book', 'Дифференциальное исчисление', 'https://google.com')
-                +tocItem(1, 'book', 'Приветы из прошлого', 'https://google.com')
-                +tocItem(2, 'topic-many', 'Комбинаторика', 'https://google.com')
+            .bookToc(data-book-id="id1")
+                +tocGroup('Базовая математика')
+                    +tocItem(0, 'book', 'Основы логики', 'https://google.com')
+                    +tocItem(1, 'folder', 'Приветы из прошлого', 'https://google.com')
+
+                    .tocFolder
+                        +tocItem(1, 'folder-open', 'Приветы из прошлого')
+                        .tocFolderBody
+                            +tocItem(2, 'topic-many', 'Комбинаторика', 'https://google.com')
+
+                +tocGroup
+                    +tocItem(0, 'book', 'Дифференциальное исчисление', 'https://google.com')
+                    +tocItem(1, 'folder', 'Приветы из прошлого', 'https://google.com')
+                    +tocItem(2, 'topic-many', 'Комбинаторика', 'https://google.com')

@@ -5,7 +5,9 @@
         "esModuleInterop": true,
 
         "baseUrl": "./",
-        "rootDir": "./"
+        "rootDir": "./",
+
+        "target": "ESNext"
     },
 
     "include": ["./"]

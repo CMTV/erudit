@@ -29,6 +29,9 @@ $gap: calc($gapBig / 2);
         align-items: center;
         padding: $gap $gapBig;
 
+        &[data-current] { a { color: var(--c_text) !important; } }
+        &[data-accent] { background: var(--c_bg-content-accent); }
+
         > a
         {
             display: inline-flex;
@@ -36,11 +39,13 @@ $gap: calc($gapBig / 2);
             gap: size.$gapSmall;
 
             color: var(--c_text-muted);
+            text-decoration: underline;
             text-decoration-color: transparent;
             @include util.transition(color, text-decoration-color);
 
             &:hover
             {
+                cursor: pointer;
                 color: var(--c_text);
                 text-decoration-color: var(--c_text-muted);
             }
@@ -49,7 +54,7 @@ $gap: calc($gapBig / 2);
             {
                 flex-shrink: 0;
                 position: relative;
-                top: 1px;
+                //top: 1px;
                 @include util.size(20px, 22px);
 
                 > *
@@ -73,5 +78,30 @@ $gap: calc($gapBig / 2);
                 .label { font-size: calc($fontSize - .5% * $i); }
             }
         }
+    }
+}
+
+.tocFolder
+{
+    > .tocFolderBody
+    {
+        overflow: hidden;
+    }
+
+    &:not([data-open]) 
+    {
+        > .tocItem span.figure > i::before { content: "\e901"; }
+
+        > .tocFolderBody
+        {
+            height: 0;
+            opacity: 0;
+        }
+    }
+
+    &[data-open]
+    {
+        > .tocItem span.figure > i::before { content: "\e900"; }
+        > .tocFolderBody { opacity: 1; }
     }
 }

@@ -4,7 +4,10 @@ export class GlobalTocBookView
     title: string;
 }
 
-export default class GlobalTocView
+export class GlobalTocShelfView
 {
-    [shelfName: string]: GlobalTocBookView[];
-}
+    title: string;
+    books: GlobalTocBookView[];
+} 
+
+export type GlobalTocView = GlobalTocShelfView[]; 

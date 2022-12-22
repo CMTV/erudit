@@ -1,3 +1,5 @@
+import { getAnimSpeed } from "global/computed";
+
 import { BackButton, ExitButton, GotoButton, MiniButton, MiniButtonState } from "./button";
 import Screen from "./Screen";
 import View from "./View";
@@ -126,8 +128,10 @@ export default class PreviewUI
 
         // Animation Speed
         {
-            let computedStyle = getComputedStyle(document.documentElement);
-            this.animSpeed = parseFloat(computedStyle.getPropertyValue('--transitionSpeed')) * 1000;
+            //let computedStyle = getComputedStyle(document.documentElement);
+            //this.animSpeed = parseFloat(computedStyle.getPropertyValue('--transitionSpeed')) * 1000;
+
+            this.animSpeed = getAnimSpeed();
         }
 
         // State Screens

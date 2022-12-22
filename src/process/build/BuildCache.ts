@@ -1,5 +1,5 @@
 import RepoGlobalToc from "src/entity/globalToc/repository";
-import GlobalTocView from "src/entity/globalToc/view";
+import { GlobalTocView } from "src/entity/globalToc/view";
 import OtherLink from "src/page/component/asideMajor/OtherLink";
 import EruditProcess from "src/process/EruditProcess";
 

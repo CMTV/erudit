@@ -4,7 +4,8 @@ import Layout from "src/frontend/Layout";
 
 export default abstract class BuildPageProcess<TPageView extends Page> extends EruditProcess
 {
-    abstract preparePages(): TPageView | TPageView[];
+    async preparePages(): Promise<TPageView | TPageView[]> { return; };
+    abstract pageLabel: string;
 
     name = '[TODO] Process name';
 
@@ -12,16 +13,23 @@ export default abstract class BuildPageProcess<TPageView extends Page> extends E
     {
         let pages: TPageView[] = [];
 
-        let prepareResult = this.preparePages();
+        let prepareResult = await this.preparePages();
         pages = Array.isArray(prepareResult) ? prepareResult : [prepareResult];
 
-        this.name = `Build ${pages[0].layout} page${pages.length > 1 ? 's': ''}`;
+        if (pages.length === 0)
+        {
+            this.name = `Build ${this.pageLabel} pages`;
+            return;
+        }
+
+        this.name = `Build ${this.pageLabel} page${pages.length > 1 ? 's': ''}`;
 
         pages.forEach(page => this.buildPage(page));
     }
 
     private buildPage(page: TPageView)
     {
+        // Один общий метод compilePage (вдруг надо будет больше действий?)
         Layout.compile(`page/${page.layout}.pug`, page, page.getDest());
     }
 }
