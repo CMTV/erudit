@@ -53,6 +53,10 @@ export class IdPrefix
         h: 'heading',
         s: 'spoiler',
         c: 'chunk',
+        i: 'important',
+
+        d: 'definition',
+        t: 'theorem',
     }
 
     private static t2pMap;

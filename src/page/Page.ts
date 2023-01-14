@@ -10,13 +10,14 @@ export default abstract class Page
 
     abstract getDest(): string;
 
+    hasStyle: boolean;
+    hasScript: boolean;
+
     dest: string;
     singlePage: string;
 
     config = CONFIG;
     version = require(erudit.path.package('package.json')).version;
-
-    // FAST NEW YEAR DEPLOY PARAMS
 
     bookId: string;
 }

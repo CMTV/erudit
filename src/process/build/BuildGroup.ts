@@ -4,9 +4,10 @@ import { DataSource } from "typeorm";
 import { Erudit } from "src/erudit";
 
 // Processes
+import { FillBuildCache } from "./BuildCache";
+import BuildBookToc from "./BuildBookToc";
 import BuildPageGroup from "./page/BuildPageGroup";
 import BuildBaseGroup from "./base/BuildBaseGroup";
-import { FillBuildCache } from "./BuildCache";
 
 export default class BuildGroup extends Group
 {
@@ -32,6 +33,7 @@ export default class BuildGroup extends Group
         return this.initProcesses(
             FillBuildCache,
             BuildBaseGroup,
+            BuildBookToc,
             BuildPageGroup
             // Build Pages
             // Nested Group Absract Class For auto-pages like Topic and etc.

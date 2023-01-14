@@ -1,0 +1,27 @@
+.accentBlock(id= _id, class= _classList, data-type= _type)
+    .side
+        .type(title= i18n(`ab.${_type}`))
+            i
+
+        if (expand)
+            .expand(title= i18n(`abExpandDefault.${_type}`))
+                .bgOverlay
+                i.i-chevron-up
+
+    .content
+        .primaryWrapper
+            if (title && showTitle)
+                .title!= title
+
+            if (main)
+                .main!= main
+            
+        if (expand)
+            .expand
+                if (typeof expand === 'string')
+                    - expand = { [i18n(`abExpandDefault.${_type}`)]: expand }
+
+                each content, title in expand
+                    section
+                        .title!= title
+                        .content!= content

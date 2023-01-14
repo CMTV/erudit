@@ -11,6 +11,9 @@ export default class DbTopic
     title: string;
 
     @Column({ nullable: true })
+    desc: string;
+
+    @Column({ nullable: true })
     previousId: string;
 
     @Column({ nullable: true })
@@ -29,5 +32,5 @@ export default class DbTopic
     summary: Block[];
 
     @Column('simple-json', { nullable: true })
-    practice: Block[];
+    practicum: Block[];
 }

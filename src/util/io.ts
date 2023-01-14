@@ -24,6 +24,13 @@ export function writeFile(path: string, data: string)
     fs.writeFileSync(path, data ?? '');
 }
 
+export function readFile(path: string)
+{
+    path = normalize(path);
+    
+    return fs.readFileSync(path, { encoding: 'utf-8' });
+}
+
 export function copyFile(from: string, to: string)
 {
     from = normalize(from);

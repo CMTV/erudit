@@ -1,7 +1,6 @@
 import { Block } from "blp";
 
 import { EruditBlock, EruditBlockFactory, EruditBlockObjFactory } from "src/translator/block/eruditBlock";
-import { skipFirstLine } from "src/util";
 
 //#region Definitions
 
@@ -10,31 +9,12 @@ export type TExpandContent = { [title: string]: Block[] } | Block[];
 export class AccentBlock extends EruditBlock
 {
     _type: string;
+
+    showTitle = true;
     title: string;
     main: Block[];
     expand: TExpandContent;
 }
-
-// export abstract class FAccentBlock extends EruditBlockFactory<AccentBlock>
-// {
-//     abstract getType(): string;
-
-//     canParse(str: string): boolean
-//     {
-//         return str.startsWith('@' + this.getType());
-//     }
-
-//     protected parse(str: string): AccentBlock
-//     {
-//         str = skipFirstLine(str);
-
-//         let block = new AccentBlock;
-//             block._type = this.getType();
-//             block.main = this.parser.parseBlocks(str);
-
-//         return block;
-//     }
-// }
 
 export abstract class FAccentBlock<TObj extends object = any> extends EruditBlockObjFactory<AccentBlock, TObj>
 {
@@ -55,6 +35,9 @@ export abstract class FAccentBlock<TObj extends object = any> extends EruditBloc
 
         if (obj.title)        
             block.title = obj.title;
+
+        if ('showTitle' in obj)
+            block.showTitle = obj.showTitle;
 
         return block;
     }
@@ -91,6 +74,26 @@ export class FImportant extends FAccentBlock
         return null;
     }   
 }
+
+//
+// Definition
+//
+
+export class FDefinition extends FAccentBlock
+{
+    objType = 'definition';
+
+    getMain(obj: any): Block[]
+    {
+        return this.parser.parseBlocks(obj.content);
+    }
+
+    getExpand(): TExpandContent
+    {
+        return null;
+    }
+}
+
 
 //
 // Theorem

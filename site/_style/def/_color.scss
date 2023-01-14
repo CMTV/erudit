@@ -58,4 +58,12 @@ $palette: (
     text-error:         themeColor(#9d5757, #754242),
 
     border:             themeColor(#D7D7D7, #3A3A3A),
+
+    //
+    // Accent Block Palette
+    //
+
+    ab-important:       themeColor(#B04A4A, #c95353),
+    ab-definition:      #609955,
+    ab-theorem:         #4f81bc,
 );

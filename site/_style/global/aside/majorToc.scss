@@ -166,6 +166,12 @@ body > aside.major .panes .pane[data-pane=toc]
                         }
                     }
                 }
+
+                > .bookToc:not([data-current])
+                {
+                    height: 0;
+                    overflow: hidden;
+                }
             }
         }
     }

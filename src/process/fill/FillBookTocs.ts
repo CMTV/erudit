@@ -22,12 +22,14 @@ export default class FillBookTocs extends EruditProcess
             this.startStage(`Book '${bookId}'`);
 
             let nkvTree = this.getNkvTree(bookId);
+            
             let toc = this.toToc(nkvTree, bookId, true);
-            let filteredToc = this.clearEmptySections(toc);
+                toc = this.clearEmptySections(toc);
+                toc = this.createDefaultChapters(toc);
 
             let dbBookToc = new DbBookToc;
                 dbBookToc.bookId = bookId;
-                dbBookToc.toc = filteredToc;
+                dbBookToc.toc = toc;
             
             dbBookTocs.push(dbBookToc);
         });
@@ -104,12 +106,48 @@ export default class FillBookTocs extends EruditProcess
         });
     }
 
+    createDefaultChapters(tocItems: BookTocItem[]): BookTocItem[]
+    {
+        let start, end;
+            start = end = -1;
+
+        for (let i = 0; i < tocItems.length; i++)
+        {
+            let tocItem = tocItems[i];
+
+            if (!(tocItem as SectionBookTocItem).isChapter)
+            {
+                if (start === -1)
+                    start = i;
+
+                end = i;
+            }
+            else
+            {
+                if (start !== -1)
+                    break;
+            }
+        }
+
+        if (start === -1)
+            return tocItems;
+        
+        let defaultChapter = new SectionBookTocItem;
+            defaultChapter.isChapter = true;
+            defaultChapter.title = '';
+            defaultChapter.children = tocItems.slice(start, end + 1);
+
+        tocItems.splice(start, end - start + 1, defaultChapter)
+
+        return this.createDefaultChapters(tocItems);
+    }
+
     detectTopicParts(topicId: string): string[]
     {
         let parts = [];
         let topicPath = this.erudit.path.project('books', topicId);
 
-        ['article', 'summary', 'practice'].forEach(topicPart =>
+        ['article', 'summary', 'practicum'].forEach(topicPart =>
         {
             let topicPartPath = path.join(topicPath, topicPart + '.md');
             if (fs.existsSync(topicPartPath))
@@ -117,7 +155,7 @@ export default class FillBookTocs extends EruditProcess
         });
 
         if (parts.length === 0)
-            throwMetaError(`'Empty topic! Provide at least one topic part ('article', 'summary' or 'practice')!`, { 'Topic ID': topicId });
+            throwMetaError(`'Empty topic! Provide at least one topic part ('article', 'summary' or 'practicum')!`, { 'Topic ID': topicId });
 
         return parts.length > 0 ? parts : null;
     }

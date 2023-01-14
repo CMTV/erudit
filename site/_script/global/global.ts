@@ -3,8 +3,10 @@ import AsideMajor from "./aside/major/AsideMajor";
 import MajorToc from "./toc/MajorToc";
 
 import Preview from "./preview/Preview";
+import OMath from "./OMath";
+import { initAccentBlocksIn } from "./ab";
 
-(<any>window).OMath = {};
+window['OMath'] = new OMath;
 
 window.addEventListener('load', () =>
 {
@@ -25,12 +27,11 @@ window.addEventListener('load', () =>
     // br
     // button(onclick="OMath.Preview.exit()") Выход
 
-    (<any>window).OMath.Preview = new Preview;
+    OMath.get().preview = new Preview;
+    OMath.get().asideToggler = new AsideToggler;
 
-    let asideToggler = new AsideToggler();
+    new AsideMajor(OMath.get().asideToggler);
+    new MajorToc(OMath.get().asideToggler);
 
-    new AsideMajor(asideToggler);
-    new MajorToc(asideToggler);
+    initAccentBlocksIn(document.querySelector('body > main > article'));
 });
-
-import "./toc/TocFolder";

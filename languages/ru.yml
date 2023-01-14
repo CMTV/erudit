@@ -50,3 +50,17 @@ preview:
             collapse: Свернуть
             expand: Развернуть
         exit: Закрыть
+
+layout:
+    topic:
+        next: Следующая тема
+        previous: Предыдущая тема
+
+ab:
+    important: Важное
+    definition: Понятие
+    theorem: Теорема
+
+abExpandDefault:
+    theorem: Доказательство
+    example: Решение

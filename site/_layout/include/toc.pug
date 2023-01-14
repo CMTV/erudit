@@ -1,12 +1,19 @@
+//- For "Book shelf" and "Chapter"
 mixin tocGroup(title)
     .tocGroup
         if (title)
             .title= title
-        .tocTree
+        .tocGroupBody
+            block
+
+mixin tocBookSection(level, label, options = {})
+    .tocSection
+        +tocItem(level, 'folder-open', label, options)
+        .tocSectionBody
             block
 
 mixin tocItem(level, icon, label, options = {})
-    .tocItem(class= level ? `tocLevel-${level}` : '', data-accent= options.accent, data-id= options.dataId)
+    .tocItem(class= level ? `tocLevel-${level}` : '', data-accent= options.accent, data-current= options.current, data-id= options.dataId)
         a(href= options.href)
             span.figure
                 i(class= `i-${icon}`)

@@ -3,20 +3,21 @@ include /include/toc
 .viewContainer(data-view= bookId ? 'book' : 'global')
     .view(data-view="global")
         .inner
-            each shelf in asideMajor.globalToc
-                +tocGroup(shelf.title)
-                    each book in shelf.books
-                        +tocItem(0, 'book', book.title, {
-                            accent: bookId === book.id,
-                            dataId: book.id
-                        })
+            .tocTree
+                each shelf in asideMajor.globalToc
+                    +tocGroup(shelf.title)
+                        each book in shelf.books
+                            +tocItem(0, 'book', book.title, {
+                                current: bookId === book.id,
+                                dataId: book.id
+                            })
 
     .view.loading(data-view="loading")
         i.i-omath
 
     .view(data-view="book")
         .inner
-            .bookTitle Теория множеств
+            .bookTitle= bookToc ? bookTitle : ''
             .controls
                 .navButtons
                     .back(title= i18n('back')): i(class="i-arrow-left")
@@ -29,17 +30,5 @@ include /include/toc
                         .summary(title= i18n('summary')): i(class="i-topic-summary")
                         .practicum(title= i18n('practicum'), data-active): i(class="i-topic-practicum")
 
-            .bookToc(data-book-id="id1")
-                +tocGroup('Базовая математика')
-                    +tocItem(0, 'book', 'Основы логики', 'https://google.com')
-                    +tocItem(1, 'folder', 'Приветы из прошлого', 'https://google.com')
-
-                    .tocFolder
-                        +tocItem(1, 'folder-open', 'Приветы из прошлого')
-                        .tocFolderBody
-                            +tocItem(2, 'topic-many', 'Комбинаторика', 'https://google.com')
-
-                +tocGroup
-                    +tocItem(0, 'book', 'Дифференциальное исчисление', 'https://google.com')
-                    +tocItem(1, 'folder', 'Приветы из прошлого', 'https://google.com')
-                    +tocItem(2, 'topic-many', 'Комбинаторика', 'https://google.com')
+            if (bookToc)
+                != bookToc

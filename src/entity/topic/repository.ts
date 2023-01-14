@@ -12,4 +12,10 @@ export default class RepoTopic extends Repository
                     .getMany())
                     .map(obj => obj.id);
     }
+
+    // async getTopicTypes(topicId: string)
+    // {
+    //     let article = (await this.db.createQueryBuilder(DbTopic, 'topic').select('1'))
+
+    // }
 }

@@ -1,5 +1,5 @@
 import { EruditBlockFactory } from "src/translator/block/eruditBlock";
-import Renderer from "src/translator/Renderer";
+import Renderer, { RenderExtra } from "src/translator/Renderer";
 import Heading from "./block";
 
 export default class FHeading extends EruditBlockFactory<Heading>
@@ -34,7 +34,7 @@ export default class FHeading extends EruditBlockFactory<Heading>
         if (this.hasUniqueId)
             return super.getIdContent(block);
 
-        let id = Renderer.plainStr(block.title);
+        let id = RenderExtra.toPlainString(block.title);
             id = transliterate(id);
             id = id.replace(/[^\w\s.-]/g, '');
             id = id.trim();

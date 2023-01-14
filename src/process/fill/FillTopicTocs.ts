@@ -5,6 +5,7 @@ import RepoTopic from "src/entity/topic/repository";
 import DbTopicToc from "src/entity/topicToc/db";
 import DbTopic from "src/entity/topic/db";
 import TopicTocMaker from "src/entity/topicToc/maker";
+import { TopicType } from "src/page/PageTopic";
 
 /**
  * Generates toc trees for every topic part.
@@ -26,14 +27,18 @@ export default class FillTopicTocs extends EruditProcess
 
             this.startStage(`Generate toc for topic '${topic.id}'`);
 
-            ['article', 'summary', 'practice'].forEach(part =>
+            for (let j = 0; j < Object.values(TopicType).length; j++)
             {
+                let part = Object.values(TopicType)[j];
+
                 this.startStage(`Generate toc for part '${part}' in topic '${topic.id}'`);
 
                 let blocks = topic[part] as Block[];
 
                 if (!blocks)
-                    return;
+                    continue;
+
+                blocks = await this.extendBlockList(blocks);
 
                 let dbTopicToc = new DbTopicToc;
                     dbTopicToc.topicId = topic.id;
@@ -41,7 +46,7 @@ export default class FillTopicTocs extends EruditProcess
                     dbTopicToc.toc = (new TopicTocMaker).make(blocks);
 
                 dbTopicTocs.push(dbTopicToc);
-            });
+            }
         }
 
         this.startStage('Insert topic tocs into database');
@@ -52,5 +57,32 @@ export default class FillTopicTocs extends EruditProcess
                     .into(DbTopicToc)
                     .values(dbTopicTocs)
                     .execute();
+    }
+
+    async extendBlockList(blocks: Block[]): Promise<Block[]>
+    {
+        let fullList: Block[] = [];
+
+        for (let i = 0; i < blocks.length; i++)
+        {
+            let skip = false;
+            let block = blocks[i];
+
+            if (block._type === 'include')
+            {
+                skip = true;
+                
+                //
+                // Новые блоки еще раз прогнать через тот же метод `extendBlockList`. Вдруг в одном include прячется другой?
+                //
+            }
+
+            if (skip)
+                continue;
+            
+            fullList.push(block);
+        }
+
+        return fullList;
     }
 }

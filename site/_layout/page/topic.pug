@@ -1,4 +1,65 @@
 extends /template/default
 
+include /include/toc
+
 block content
-    .content= title + ' ' + topicType
+    .topicInfo
+        .type(title= i18n(topicType))
+            case topicType
+                when "article"
+                    i(class="i-file-lines")
+                when "summary"
+                    i(class="i-topic-summary")
+                when "practicum"
+                    i(class="i-topic-practicum")
+
+        h1.title= title
+
+        if (desc)
+            .desc= desc
+
+    != content
+
+block minorFull
+    mixin switchButton(href, icon, label, options = {})
+        a(href= href, title= label, data-current= options.current, data-disabled= options.disabled)
+            .inner
+                i(class= `i-${icon}`)
+
+    .typeSwitcher
+        +switchButton(previous ? '/' + previous : null, 'arrow-left', i18n('layout.topic.previous'), { disabled: !previous })
+
+        each t in ['article', 'summary', 'practicum']
+            +switchButton(
+                topicTypes.includes(t) && t !== topicType ? `../@${t}` : null,
+                t === 'article' ? 'file-lines' : `topic-${t}`,
+                i18n(t),
+                { current: t === topicType, disabled: !topicTypes.includes(t) }
+            )
+
+        +switchButton(next ? '/' + next : null, 'arrow-right', i18n('layout.topic.next'), { disabled: !next })
+    
+    .topicToc
+        .inner
+            .tocTree
+                if toc
+                    each tocItem in toc
+                        +tocItem(
+                            tocItem.level,
+                            tocItem.icon,
+                            tocItem.label,
+                            { href: `#${tocItem.id}` }
+                        )
+
+block minorMini
+    mixin miniSwitchButton(href, icon, label, options = {})
+        a(href= href, title= label, data-current= options.current, data-disabled= options.disabled)
+            i(class= `i-${icon}`)
+
+    each t in ['article', 'summary', 'practicum']
+        +miniSwitchButton(
+            topicTypes.includes(t) && t !== topicType ? `../@${t}` : null,
+            t === 'article' ? 'file-lines' : `topic-${t}`,
+            i18n(t),
+            { current: t === topicType, disabled: !topicTypes.includes(t) }
+        )

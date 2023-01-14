@@ -1,21 +1,32 @@
 doctype html
 include /include/art.html
-html(lang= lang)
+html(lang= lang, data-layout= layout, data-topic= topicId ? topicId : false)
     head
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1")
         meta(name="generator", content="Erudit " + version)
         meta(name="build-time", content= config.buildTime)
 
+        // Katex
+        link(href= '/site/vendor/katex/katex.min.css', rel="stylesheet")
+
         // Global Style
         link(href="/site/styles/global.css", rel="stylesheet")
+
+        if (hasStyle)
+            // Page Style
+            link(href= `/site/styles/pages/${layout}.css`, rel="stylesheet")
 
         // Icons
         link(rel="stylesheet", href="/site/fonts/icons/style.css")
 
         // Global Script
         script(src="/site/scripts/global.js")
-        
+
+        if (hasScript)
+            // Page Script
+            script(src= `/site/scripts/pages/${layout}.js`)
+
         if (config.dev)
             // Live Reload
             script(src="/site/scripts/reload.js")
@@ -27,18 +38,14 @@ html(lang= lang)
         include /include/aside/major/main
 
         aside.minor
-            .full Минор. Полная ширина. Блок из трех кнопок-переключателей режима статьи. Потом небольшой пропуск. Под ними две кнопки: содержание и вкладчики.
-            .mini Минор. Мини
+            .full
+                block minorFull
+            .mini
+                block minorMini
 
         main
             article
                 block content
-
-                h1 Привет мир!
-                p Не следует, однако забывать, что укрепление и развитие структуры представляет собой интересный эксперимент проверки направлений прогрессивного развития. Идейные соображения высшего порядка, а также рамки и место обучения кадров способствует подготовки и реализации новых предложений.
-                h2 Подзаголовок алалия
-                p Задача организации, в особенности же постоянное информационно-пропагандистское обеспечение нашей деятельности в значительной степени обуславливает создание дальнейших направлений развития.
-                p Повседневная практика показывает, что укрепление и развитие структуры влечет за собой процесс внедрения и модернизации направлений прогрессивного развития.
 
                 h2 Предпросмотр
                 button(onclick="OMath.Preview.loadView('view1.json')") Добавить view1

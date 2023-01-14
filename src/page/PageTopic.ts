@@ -1,5 +1,6 @@
 import Page from "src/page/Page";
 import AsideMajor, { AsideMajorPane } from "src/page/component/asideMajor/AsideMajor";
+import ViewTopicTocItem from "src/entity/topicToc/view";
 
 export enum TopicType
 {
@@ -13,11 +14,25 @@ export default class PageTopic extends Page
     layout = 'topic';
     asideMajor: AsideMajor;
 
+    hasStyle = true;
+    hasScript = true;
+
     topicId: string;
     topicType: TopicType;
+    topicTypes: TopicType[];
+
+    bookTitle: string;
+    bookToc: string;
 
     title: string;
+    desc: string;
     content: string;
+
+    toc: ViewTopicTocItem[];
+
+    next: string;
+    previous: string;
+
     // TODO: topicToc
 
     constructor()
@@ -35,8 +50,3 @@ export default class PageTopic extends Page
         return this.topicId + '/@' + this.topicType + '/index.html';
     }
 }
-
-//
-// НА ЗАВТРА
-// ГЕНЕРАЦИЯ МЕНЮ ДЛЯ КАЖДОГО УЧЕБНИКА
-//

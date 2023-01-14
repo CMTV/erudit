@@ -7,6 +7,7 @@ import DbUnique from "src/entity/unique/db";
 import DbFile from "src/entity/file/db";
 
 // Block Factories
+import { default as FBlockMath } from "src/translator/block/math/factory";
 import FHeading from "src/translator/block/heading/factory";
 import { FList, FBlockList } from "src/translator/block/list/factory";
 import FImage from "src/translator/block/image/factory";
@@ -19,9 +20,10 @@ import FChunk from "src/translator/block/chunk/factory";
 import FParagraph from "src/translator/block/paragraph/factory";
 
 // Accent Blocks
-import { FImportant, FTheorem } from "src/translator/block/accentBlock/factory";
+import { FDefinition, FImportant, FTheorem } from "src/translator/block/accentBlock/factory";
 
 // Inliner Factories
+import { default as FInlineMath } from "src/translator/inliner/math/factory";
 import FLink from "src/translator/inliner/link/factory";
 
 // Parse Workers
@@ -42,6 +44,8 @@ export class EruditBlpParser extends BlpParser
 let blpParser = new EruditBlpParser;
 
     blpParser.blockFactories = [
+        FBlockMath,
+
         FHeading,
         FList,
         FBlockList,
@@ -54,12 +58,15 @@ let blpParser = new EruditBlpParser;
         FChunk,
 
         FImportant,
+
+        FDefinition,
         FTheorem,
 
         FParagraph
     ];
 
     blpParser.inlineFactories = [
+        FInlineMath,
         FLink
     ];
 

@@ -7,7 +7,7 @@ $fontSize: 15px;
 $gapBig: size.$gap;
 $gap: calc($gapBig / 2);
 
-.tocGroup
+.tocTree .tocGroup
 {
     padding: $gap 0;
     border-bottom: 1px solid var(--c_border);
@@ -21,69 +21,66 @@ $gap: calc($gapBig / 2);
     }
 }
 
-.tocTree
+.tocTree .tocItem
 {
-    .tocItem
+    display: flex;
+    align-items: center;
+    padding: $gap $gapBig;
+
+    &[data-accent] { a { color: var(--c_text) !important; } }
+    &[data-current] { background: var(--c_bg-content-accent); }
+
+    > a
     {
-        display: flex;
+        display: inline-flex;
         align-items: center;
-        padding: $gap $gapBig;
+        gap: size.$gapSmall;
 
-        &[data-current] { a { color: var(--c_text) !important; } }
-        &[data-accent] { background: var(--c_bg-content-accent); }
+        color: var(--c_text-muted);
+        text-decoration: underline;
+        text-decoration-color: transparent;
+        @include util.transition(color, text-decoration-color);
 
-        > a
+        &:hover
         {
-            display: inline-flex;
-            align-items: center;
-            gap: size.$gapSmall;
-
-            color: var(--c_text-muted);
-            text-decoration: underline;
-            text-decoration-color: transparent;
-            @include util.transition(color, text-decoration-color);
-
-            &:hover
-            {
-                cursor: pointer;
-                color: var(--c_text);
-                text-decoration-color: var(--c_text-muted);
-            }
-
-            > .figure
-            {
-                flex-shrink: 0;
-                position: relative;
-                //top: 1px;
-                @include util.size(20px, 22px);
-
-                > *
-                {
-                    position: absolute;
-                    left: 50%; top: 50%;
-                    transform: translate(-50%, -50%);
-                }
-
-                > i { font-size: 17px; }
-            }
-
-            > .label { font-size: $fontSize; }
+            cursor: pointer;
+            color: var(--c_text);
+            text-decoration-color: var(--c_text-muted);
         }
 
-        @for $i from 1 through 10
+        > .figure
         {
-            &.tocLevel-#{$i}
+            flex-shrink: 0;
+            position: relative;
+            //top: 1px;
+            @include util.size(20px, 22px);
+
+            > *
             {
-                padding-left: $gapBig * ($i + 1);
-                .label { font-size: calc($fontSize - .5% * $i); }
+                position: absolute;
+                left: 50%; top: 50%;
+                transform: translate(-50%, -50%);
             }
+
+            > i { font-size: 17px; }
+        }
+
+        > .label { font-size: $fontSize; }
+    }
+
+    @for $i from 1 through 10
+    {
+        &.tocLevel-#{$i}
+        {
+            padding-left: $gapBig * ($i + 1);
+            .label { font-size: calc($fontSize - .5% * $i); }
         }
     }
 }
 
-.tocFolder
+.tocTree .tocSection
 {
-    > .tocFolderBody
+    > .tocSectionBody
     {
         overflow: hidden;
     }
@@ -92,7 +89,7 @@ $gap: calc($gapBig / 2);
     {
         > .tocItem span.figure > i::before { content: "\e901"; }
 
-        > .tocFolderBody
+        > .tocSectionBody
         {
             height: 0;
             opacity: 0;
@@ -102,6 +99,6 @@ $gap: calc($gapBig / 2);
     &[data-open]
     {
         > .tocItem span.figure > i::before { content: "\e900"; }
-        > .tocFolderBody { opacity: 1; }
+        > .tocSectionBody { opacity: 1; }
     }
 }

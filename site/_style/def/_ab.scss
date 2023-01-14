@@ -1,0 +1,17 @@
+@use 'sass:map';
+
+@function getTypes()
+{
+    @return map.keys($data);
+}
+
+@function getIconCode($type)
+{
+    @return '"\\#{map.get($data, $type)}"';
+}
+
+$data: (
+    important: e921,
+    definition: e922,
+    theorem: e91f
+);

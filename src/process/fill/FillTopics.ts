@@ -11,18 +11,14 @@ import { BookTocItem, TopicBookTocItem } from "src/entity/bookToc/global";
 import { ensureConfigExists, ensureConfigValid } from "src/entity/topic/validate";
 import { parseYamlFile } from "src/util";
 import parser, { ParseResult } from "src/translator/Parser";
+import { TopicType } from "src/page/PageTopic";
 
 export default class FillTopics extends EruditProcess
 {
     name = 'Fill topics';
 
-    id: number;
-
     async do()
     {
-        this.id = 0;
-
-        let dbTopics: DbTopic[] = [];
         let bookIds = await (new RepoBook(this.db)).getBookIds();
 
         for (let i = 0; i < bookIds.length; i++)
@@ -36,6 +32,7 @@ export default class FillTopics extends EruditProcess
 
             let tocTopics = this.getTopics(toc);
 
+            let dbTopics: DbTopic[] = [];
             let parseResults: ParseResult[] = [];
             
             tocTopics.forEach(tocTopic =>
@@ -45,25 +42,27 @@ export default class FillTopics extends EruditProcess
             });
 
             await ParseResult.insert(parseResults, this.db);
+
+            for (let j = 0; j < dbTopics.length; j++)
+            {
+                let getAllowedType = (dbTopic: DbTopic) => Object.values(TopicType).filter(type => dbTopic[type]).shift();
+
+                if (j !== 0)
+                    dbTopics[j].previousId = dbTopics[j - 1].id + '/@' + getAllowedType(dbTopics[j - 1]);
+                
+                if (j !== dbTopics.length - 1)
+                    dbTopics[j].nextId = dbTopics[j + 1].id + '/@' + getAllowedType(dbTopics[j + 1]);
+            }
+
+            this.startStage('Insert topics into database');
+
+            await this.db
+                        .createQueryBuilder()
+                        .insert()
+                        .into(DbTopic)
+                        .values(dbTopics)
+                        .execute();
         }
-
-        for (let j = 0; j < dbTopics.length; j++)
-        {
-            if (j !== 0)
-                dbTopics[j].previousId = dbTopics[j - 1].id;
-            
-            if (j !== dbTopics.length - 1)
-                dbTopics[j].nextId = dbTopics[j + 1].id;
-        }
-
-        this.startStage('Insert topics into database');
-
-        await this.db
-                    .createQueryBuilder()
-                    .insert()
-                    .into(DbTopic)
-                    .values(dbTopics)
-                    .execute();
     }
 
     getTopics(tocItems: BookTocItem[]): TopicBookTocItem[]
@@ -101,6 +100,7 @@ export default class FillTopics extends EruditProcess
         withErrorMeta(() => ensureConfigValid(config), { Config: configPath });
 
         dbTopic.title = config.title;
+        dbTopic.desc = config.desc;
 
         tocTopic.parts.forEach(topicPart =>
         {

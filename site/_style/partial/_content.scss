@@ -1,10 +1,19 @@
 @use 'def/size';
+@use 'def/ab';
 @use 'def/bp';
+
+@use 'partial/util';
 
 %CONTENT
 {
     font-size: 18px;
+    line-height: 1.4;
     text-align: justify;
+
+    *
+    {
+        scroll-margin-top: 25px;
+    }
 
     > * { margin-bottom: size.$gapBig; }
 
@@ -12,15 +21,302 @@
 
     @include bp.max(mini)
     {
-        font-size: 98%;
+        font-size: 99%;
         text-align: left;
+        letter-spacing: .03em;
 
         padding: size.$gap;
     }
 
     //
-    //
+    // Heading
     //
 
-    //p { height: 1000px; }
+    h1, h2, h3
+    {
+        text-align: left;
+    }
+
+    h2, h3
+    {
+        font-weight: 600;
+
+        &:hover > .hAnchor { opacity: 1; }
+
+        > .hAnchor
+        {
+            margin-left: size.$gapSmall;
+            color: var(--c_text-dimmed);
+            font-size: 70%;
+            text-decoration: none;
+
+            opacity: 0;
+            @include util.transition(opacity, color);
+
+            &:hover { color: var(--c_text-muted); }
+        }
+    }
+
+    h2
+    {
+        font-size: 1.3em;
+        padding-bottom: size.$gapSmall;
+        border-bottom: 1px solid var(--c_border);
+    }
+
+    h3
+    {
+        font-size: 1.1em;
+    }
+
+    //
+    // List
+    //
+
+    ul, ol
+    {
+        list-style-position: outside;
+        position: relative;
+        left: 19px; /* Dirty hardcoded piece of shit */
+
+        li
+        {
+            margin-bottom: size.$gapSmall;
+            &:last-child { margin-bottom: 0; }
+        }
+    }
+
+    //
+    // Inline text style
+    //
+
+    strong
+    {
+        font-weight: 600;
+    }
+
+    //
+    // Accent Block
+    //
+
+    .accentBlock
+    {
+        $sideSize: 30px;
+        display: flex;
+
+        &:not([data-expand-open])
+        {
+            > .content > .expand
+            {
+                height: 0;
+                padding-top: 0;
+                overflow: hidden;
+            }
+        }
+
+        &[data-expand-open]
+        {
+            > .side > .expand > i
+            {
+                transform: rotate(0);
+            }
+        }
+
+        > .side
+        {
+            display: flex;
+            flex-direction: column;
+
+            > .type
+            {
+                @include util.flexCC;
+                @include util.size($sideSize);
+
+                cursor: help;
+
+                font-size: 18px;
+                color: white;
+                background: var(--_ab-color);
+
+                > i::before { content: var(--_ab-icon); }
+            }
+
+            > .expand
+            {
+                position: relative;
+
+                @include util.flexCC;
+                @include util.size($sideSize);
+
+                cursor: pointer;
+
+                font-size: 18px;
+                color: var(--_ab-color);
+
+                border: 2px solid var(--_ab-color);
+
+                &:hover
+                {
+                    > .bgOverlay
+                    {
+                        opacity: .15;
+                    }
+                }
+
+                > .bgOverlay
+                {
+                    position: absolute;
+                    left: 0; top: 0;
+                    @include util.size(100%);
+
+                    background: var(--_ab-color);
+                    opacity: 0;
+
+                    @include util.transition(opacity);
+                }
+
+                > i
+                {
+                    transform: rotate(180deg);
+                    @include util.transition(transform);
+                }
+            }
+        }
+
+        > .content
+        {
+            position: relative;
+            left: -2px;
+            flex: 1;
+
+            > .primaryWrapper,
+            > .expand
+            {
+                padding-left: size.$gap;
+                border-left: 2px solid var(--_ab-color);
+            }
+
+            > .primaryWrapper
+            {
+                > .title
+                {
+                    font-weight: bold;
+                    color: var(--_ab-color);
+                    margin-bottom: calc(size.$gapSmall - 5px);
+                }
+
+                > .main
+                {
+                    strong
+                    {
+                        font-weight: bold;
+                        color: var(--_ab-color);
+                    }
+
+                    > * { margin-bottom: size.$gap; }
+                    > *:last-child { margin-bottom: 0; }
+                }
+            }
+
+            > .expand
+            {
+                border-left-style: dashed;
+                padding-top: size.$gap;
+
+                display: flex;
+                flex-direction: column;
+                gap: size.$gap;
+
+                > section
+                {
+                    > .title
+                    {
+                        font-weight: 600;
+                        color: var(--_ab-color);
+                        margin-bottom: calc(size.$gapSmall - 5px);
+                    }
+
+                    > .content
+                    {
+                        > * { margin-bottom: size.$gap; }
+                        > *:last-child { margin-bottom: 0; }
+                    }
+                }
+            }
+        }
+
+        @include bp.max(mini)
+        {
+            flex-direction: column;
+
+            > .side
+            {
+                flex-direction: row;
+            }
+
+            > .content
+            {
+                left: 0;
+
+                > .primaryWrapper
+                {
+                    padding-top: size.$gapSmall;
+                }
+            }
+        }
+
+        @each $type in ab.getTypes()
+        {
+            &[data-type=#{$type}]
+            {
+                --_ab-color: var(--c_ab-#{$type});
+                --_ab-icon: #{ab.getIconCode($type)};
+            }
+        }
+
+        &[data-type=important] > .side > .type  { font-size: 23px; }
+    }
+
+    //
+    // Math
+    //
+
+    .katex-display
+    {
+        margin: 0;
+        .base { margin: calc(size.$gap/2.2) 0; }
+
+        overflow: hidden;
+        overflow-x: auto;
+
+        &::-webkit-scrollbar
+        {
+            height: 5px;
+        }
+
+        &::-webkit-scrollbar-track
+        {
+            background: var(--color-bg);
+        }
+
+        &::-webkit-scrollbar-thumb
+        {
+            background: var(--color-border-light);
+
+            &:hover
+            {
+                background: var(--color-brand);
+            }
+        }
+    }
+
+    .katex > .katex-html
+    {
+        white-space: normal;
+    }
+
+    .mathInline .katex
+    {
+        font-size: 1.15em !important;
+    }
 }

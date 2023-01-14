@@ -47,7 +47,7 @@ aside.major(data-pane= asideMajor.pane)
 
     mixin miniSwitchButton(name, icon)
         button(title= i18n(`aside.major.panes.${name}`), data-target= name)
-            i(class=`i-${icon}`)
+            i(class= `i-${icon}`)
 
     .mini
         a(href="/", title= i18n('aside.major.miniButtons.toHome'))
