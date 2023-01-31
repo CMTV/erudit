@@ -7,6 +7,7 @@ import BuildGlobalStyles from "./BuildGlobalStyles";
 import BuildGlobalScripts from "./BuildGlobalScripts";
 import BuildPageStyles from "./BuildPageStyles";
 import BuildPageScripts from "./BuildPageScripts";
+import MoveFiles from "./MoveFiles";
 
 export default class BuildBaseGroup extends EruditGroup
 {
@@ -20,7 +21,9 @@ export default class BuildBaseGroup extends EruditGroup
             BuildGlobalStyles,
             BuildPageStyles,
             BuildGlobalScripts,
-            BuildPageScripts
+            BuildPageScripts,
+
+            MoveFiles,
         ];
     }
 }

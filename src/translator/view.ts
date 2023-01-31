@@ -10,6 +10,11 @@ abstract class ViewFactory<TProductView, TRaw>
     abstract setupView(raw: TRaw): Promise<TProductView>;
     abstract getRender(view: TProductView): Promise<string>;
 
+    init(renderer: Renderer)
+    {
+        this.renderer = renderer;
+    }
+
     async render(raw: TRaw): Promise<string>
     {
         let view = await this.setupView(raw);

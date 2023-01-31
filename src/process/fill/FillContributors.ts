@@ -7,6 +7,7 @@ import DbContributor from "src/entity/contributor/db";
 import { getAvatarExt, IDataContributorInfo } from "src/entity/contributor/data";
 import { parseYamlFile } from "src/util";
 import parser, { ParseResult } from "src/translator/Parser";
+import Location from "src/entity/location/global";
 
 export default class FillContributors extends EruditProcess
 {
@@ -46,9 +47,13 @@ export default class FillContributors extends EruditProcess
 
             if (files.includes('about.md'))
             {
+                let location = new Location;
+                    location.type = 'contributor';
+                    location.id = dbContributor.id;
+
                 let parseResult = parser.parse(
                     fs.readFileSync(filePath('about.md'), 'utf-8'),
-                    '@contributor/' + dbContributor.id
+                    location
                 );
 
                 parseResults.push(parseResult);

@@ -50,6 +50,6 @@ export default class Screen
 
     getHeight()
     {
-        return this.inner.offsetHeight;
+        return this.inner.offsetHeight + 1 /* Fix float height values */;
     }
 }

@@ -1,0 +1,3 @@
+# Vendor
+site/vendor/* linguist-vendored
+site/fonts/* linguist-vendored

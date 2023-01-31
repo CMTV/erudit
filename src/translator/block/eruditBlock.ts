@@ -1,6 +1,7 @@
-import { Block, BlockFactory, BlockObjFactory } from "blp";
+import { Block, BlockFactory, BlockObjFactory, Parser } from "blp";
 
 import { IdPrefix } from "src/entity/unique/global";
+import { EruditBlpParser } from "src/translator/Parser";
 
 export abstract class EruditBlock extends Block
 {
@@ -14,6 +15,8 @@ export abstract class EruditBlock extends Block
 
 export abstract class EruditBlockFactory<TBlock extends EruditBlock> extends BlockFactory<TBlock>
 {
+    protected parser: EruditBlpParser;
+
     protected getIdPrefix(block: TBlock)
     {
         return IdPrefix.getPrefixFor(block._type);
@@ -48,6 +51,8 @@ export abstract class EruditBlockFactory<TBlock extends EruditBlock> extends Blo
 
 export abstract class EruditBlockObjFactory<TBlock extends EruditBlock, TObj extends object = any> extends BlockObjFactory<TBlock, TObj>
 {
+    protected parser: EruditBlpParser;
+
     protected getIdPrefix(block: TBlock)
     {
         return IdPrefix.getPrefixFor(block._type);

@@ -113,3 +113,22 @@ export class FTheorem extends FAccentBlock
         return this.parseExpand(obj.proof);
     }
 }
+
+//
+// Example
+//
+
+export class FExample extends FAccentBlock
+{
+    objType = 'example';
+
+    getMain(obj: any): Block[]
+    {
+        return this.parser.parseBlocks(obj.task);
+    }
+
+    getExpand(obj: any): TExpandContent
+    {
+        return this.parseExpand(obj.solution);
+    }
+}

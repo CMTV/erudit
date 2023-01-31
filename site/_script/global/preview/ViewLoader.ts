@@ -9,7 +9,7 @@ export default class ViewLoader
     private cache: { [url: string]: View } = {};
     private pendingUrls: { [url: string]: true } = {};
 
-    load(url: string)
+    load(url: string, source: string)
     {
         // Stop if we are already working with this url
         if (url === this.currentUrl)
@@ -39,19 +39,24 @@ export default class ViewLoader
         let action: () => any;
 
         fetch(url)
-            .then(response => response.json())
-            .then((viewData: View) =>
+            .then(response => response.text())
+            .then((content: string) =>
             {
-                if (!View.isValid(viewData))
-                {
-                    this.cache[url] = null;
-                    throw new Error();
-                }
+                // let view = new View;
+                //     view.url = url;
+                //     view.content = content;
+
+
+                // if (!View.isValid(viewData))
+                // {
+                //     this.cache[url] = null;
+                //     throw new Error();
+                // }
 
                 let view = new View;
                     view.url = url;
-                    view.source = viewData.source;
-                    view.content = viewData.content;
+                    view.source = source;
+                    view.content = content;
 
                 this.cache[url] = view;
 

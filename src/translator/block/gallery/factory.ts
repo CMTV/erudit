@@ -22,7 +22,7 @@ export default class FGallery extends EruditBlockObjFactory<Gallery>
         obj.images.forEach(image => withErrorMeta(() =>
         {
             let factory = new FImage(this.parser);
-            gallery.images.push(factory.fabricate(image));
+            gallery.images.push(factory.parseObj(image));
         }, { 'Gallery data': obj }));
 
         gallery.showInRow = obj.showInRow ?? 0;

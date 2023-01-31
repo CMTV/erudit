@@ -1,9 +1,11 @@
 import chalk from "chalk";
 
+import Location from "src/entity/location/global";
 import DbRef from "src/entity/ref/db";
 import RepoRef from "src/entity/ref/repository";
 import DbUnique from "src/entity/unique/db";
 import EruditProcess from "src/process/EruditProcess";
+import { LinkRouter } from "src/translator/inliner/link/global";
 
 /**
  * Warns if there are refs that lead to unknown uniques.
@@ -22,13 +24,22 @@ export default class UniqueRefCheckout extends EruditProcess
         for (let i = 0; i < refs.length; i++)
         {
             let ref = refs[i];
-            let unique = await this.db.manager.findOne(DbUnique, { where: { id: ref.target }});
+        
+            let contextLocation = new Location;
+                contextLocation.type = ref.from.split('/')[0].slice(1);
+                contextLocation.id = ref.from.split('/').slice(1).join('/');
 
-            if (!unique)
+            let broken = false;
+            let uniqueId = LinkRouter.getUniqueId(ref.target, contextLocation);
+
+            if (uniqueId)
+                broken = !(await this.db.manager.findOne(DbUnique, { where: { id: uniqueId }}));
+
+            if (broken)
                 brokenArr.push(ref);
   
-            ref.hasPreview =    !!unique?.content;
-            ref.broken =        !unique;
+            // ref.hasPreview =    !!unique?.content;
+            // ref.broken =        !unique;
 
             this.db.manager.save(ref);
         }

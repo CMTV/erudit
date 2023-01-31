@@ -21,7 +21,7 @@
 //
 
 @mixin themeLight   { html:not([data-theme=dark]) & { @content; } }
-@mixin themeDark    { html[data-theme=dark] & { @content; } }
+@mixin themeDark    { html[data-theme=dark] &, html[data-theme=auto-dark] & { @content; } }
 
 //
 // Palette helper functions
@@ -64,6 +64,7 @@ $palette: (
     //
 
     ab-important:       themeColor(#B04A4A, #c95353),
+    ab-example:         #828282,
     ab-definition:      #609955,
     ab-theorem:         #4f81bc,
 );

@@ -1,6 +1,6 @@
 siteInfo:
     title: Математика
-    slogan: Подробно и понятно
+    slogan: Понятно и подробно
 
 article: Статья
 summary: Конспект
@@ -58,9 +58,26 @@ layout:
 
 ab:
     important: Важное
+    example: Пример
     definition: Понятие
-    theorem: Теорема
+    theorem: Утверждение
 
 abExpandDefault:
     theorem: Доказательство
     example: Решение
+
+task:
+    name: Упражнение
+    hint: Указание
+    solution: Решение
+    answer: Ответ
+
+vendor:
+    photoswipe:
+        close: Закрыть
+        zoom: Масштаб
+        arrowPrev: Назад
+        arrowNext: Дальше
+        errorMsg: Не получилось загрузить изображение!
+
+on: на

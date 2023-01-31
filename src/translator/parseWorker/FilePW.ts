@@ -27,7 +27,6 @@ export default class FilePW extends ParseWorker
         {
             let file = new DbFile;
                 file.src = key;
-                file.location = this.location;
 
             this.files.push(file);
         });

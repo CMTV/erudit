@@ -9,9 +9,9 @@ export default class DbRef
     @PrimaryColumn()
     from: string;
 
-    @Column({ default: false })
-    hasPreview: boolean;
+    // @Column({ default: false })
+    // hasPreview: boolean;
 
-    @Column({ default: false })
-    broken: boolean;
+    // @Column({ default: false })
+    // broken: boolean;
 }

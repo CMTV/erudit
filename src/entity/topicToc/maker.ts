@@ -8,6 +8,7 @@ import { RenderExtra } from "src/translator/Renderer";
 import Heading from "src/translator/block/heading/block";
 import { AccentBlock } from "src/translator/block/accentBlock/factory";
 import Include from "src/translator/block/include/block";
+import Task from "src/translator/block/task/block";
 
 export default class TopicTocMaker extends TreeMaker<Block, TocItem>
 {
@@ -19,6 +20,7 @@ export default class TopicTocMaker extends TreeMaker<Block, TocItem>
             case 'important':   return accentBlock(block as AccentBlock);
             case 'definition':  return accentBlock(block as AccentBlock);
             case 'theorem':     return accentBlock(block as AccentBlock);
+            case 'task':        return task(block as Task);
 
             case 'include':     return include(block as Include);
         }
@@ -76,4 +78,14 @@ function include(include: Include): TocItem
     //return (new TopicTocMaker).make(include.)
     console.log()
     return null;
+}
+
+function task(task: Task): TocItem
+{
+    let tocItem = new TocItem;
+        tocItem.type =  task._type;
+        tocItem.id =    task._id;
+        tocItem.title = task.title;
+
+    return tocItem;
 }

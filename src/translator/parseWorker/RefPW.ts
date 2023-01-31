@@ -25,7 +25,7 @@ export default class RefPW extends ParseWorker
         if (product instanceof Link)
         {
             let ref = new DbRef;
-                ref.from = this.location;
+                ref.from = this.location.getFullId();
                 ref.target = product.target;
 
             this.refs.push(ref);
@@ -34,7 +34,7 @@ export default class RefPW extends ParseWorker
         if (product instanceof Include)
         {
             let ref = new DbRef;
-                ref.from = this.location;
+                ref.from = this.location.getFullId();
                 ref.target = product.id;
 
             this.refs.push(ref);
@@ -63,7 +63,7 @@ export default class RefPW extends ParseWorker
                 return;
 
             if (firstLetter !== '@')
-                ref.target = this.location + '/' + ref.target;
+                ref.target = this.location.getFullId() + '/' + ref.target;
         });
     }
 

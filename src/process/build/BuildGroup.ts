@@ -8,6 +8,7 @@ import { FillBuildCache } from "./BuildCache";
 import BuildBookToc from "./BuildBookToc";
 import BuildPageGroup from "./page/BuildPageGroup";
 import BuildBaseGroup from "./base/BuildBaseGroup";
+import PreRenderUniques from "./PreRenderUniques";
 
 export default class BuildGroup extends Group
 {
@@ -34,6 +35,7 @@ export default class BuildGroup extends Group
             FillBuildCache,
             BuildBaseGroup,
             BuildBookToc,
+            PreRenderUniques,
             BuildPageGroup
             // Build Pages
             // Nested Group Absract Class For auto-pages like Topic and etc.

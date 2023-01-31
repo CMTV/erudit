@@ -14,6 +14,9 @@ export default class DbTopic
     desc: string;
 
     @Column({ nullable: true })
+    keywords: string;
+
+    @Column({ nullable: true })
     previousId: string;
 
     @Column({ nullable: true })

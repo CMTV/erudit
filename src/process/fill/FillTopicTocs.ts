@@ -6,6 +6,8 @@ import DbTopicToc from "src/entity/topicToc/db";
 import DbTopic from "src/entity/topic/db";
 import TopicTocMaker from "src/entity/topicToc/maker";
 import { TopicType } from "src/page/PageTopic";
+import DbUnique from "src/entity/unique/db";
+import Include from "src/translator/block/include/block";
 
 /**
  * Generates toc trees for every topic part.
@@ -71,10 +73,12 @@ export default class FillTopicTocs extends EruditProcess
             if (block._type === 'include')
             {
                 skip = true;
-                
-                //
-                // Новые блоки еще раз прогнать через тот же метод `extendBlockList`. Вдруг в одном include прячется другой?
-                //
+
+                let dbUnique = await this.db.manager.findOne(DbUnique, { where: { id: (block as Include).id } });
+                if (dbUnique)
+                {
+                    fullList = fullList.concat(await this.extendBlockList(dbUnique.content));
+                }
             }
 
             if (skip)

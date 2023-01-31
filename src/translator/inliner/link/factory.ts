@@ -11,7 +11,7 @@ export default class FLink extends InlinerRegexpFactory<Link>
         let link = new Link;
             link.label = this.parser.parseInliners(match[1]);
             link.target = match[2];
-    
+
         return link;
     }
 }

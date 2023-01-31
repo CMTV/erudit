@@ -4,6 +4,7 @@ import RepoTopic from "src/entity/topic/repository";
 import DbTopicToc from "src/entity/topicToc/db";
 import ViewTopicTocItem from "src/entity/topicToc/view";
 import Layout from "src/frontend/Layout";
+import SEO from "src/page/component/SEO";
 import PageTopic, { TopicType } from "src/page/PageTopic";
 import EruditProcess from "src/process/EruditProcess";
 import Renderer from "src/translator/Renderer";
@@ -52,6 +53,11 @@ export default class BuildPageTopic extends EruditProcess
 
                     let dbTopicToc = (await this.db.manager.findOne(DbTopicToc, { where: { topicId: topicId, topicPart: type } })).toc;
                     page.toc = ViewTopicTocItem.makeListFrom(dbTopicToc);
+
+                    page.seo = new SEO;
+                    page.seo.title = `${dbTopic.title} | ${this.erudit.lang.phrase(type)} | ${bookTitle} ${this.erudit.lang.phrase('on')} OMath`;
+                    page.seo.desc = dbTopic.desc;
+                    page.seo.keywords = dbTopic.keywords;
 
                 // Один общий метод compilePage (вдруг надо будет больше действий?)
                 Layout.compileFile(`page/${page.layout}.pug`, page.getDest(), page);

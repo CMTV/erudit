@@ -4,16 +4,21 @@ import { EruditBlock } from "src/translator/block/eruditBlock";
 import { BlockView, BlockViewFactory, InlinerView, InlinerViewFactory } from "src/translator/view";
 
 // Block Factories
-import { VFParagraph } from "src/translator/block/paragraph/view";
+import { VFParagraph } from "./block/paragraph/view";
 import { VFHeading } from "./block/heading/view";
 import { VFMath as VFMathBlock } from "./block/math/view";
 import { VFList } from "./block/list/view";
 import { VFAccentBlock } from "./block/accentBlock/view";
 import { VFInclude } from "./block/include/view";
+import { VFHr } from "./block/hr/view";
+import { VFImage } from "./block/image/view";
+import { VFGallery } from "./block/gallery/view";
+import { VFTask } from "./block/task/view";
 
 // Inliner Factories
 import { VFText } from "./inliner/text/view";
 import { VFMath as VFMathInliner } from "./inliner/math/view";
+import { VFLink } from "./inliner/link/view";
 
 declare type TVFactory<TVFactoryType> = (new () => TVFactoryType);
 
@@ -26,10 +31,17 @@ export default class Renderer
         heading:    VFHeading,
         math:       VFMathBlock,
         list:       VFList,
+        hr:         VFHr,
+
+        image:      VFImage,
+        gallery:    VFGallery,
 
         include:    VFInclude,
 
+        task:       VFTask,
+
         important:  VFAccentBlock,
+        example:    VFAccentBlock,
         definition: VFAccentBlock,
         theorem:    VFAccentBlock,
     };
@@ -37,6 +49,7 @@ export default class Renderer
     inlinerFactories: { [type: string]: TVFactory<InlinerViewFactory<InlinerView, Inliner>> } = {
         text: VFText,
         math: VFMathInliner,
+        link: VFLink,
     };
 
     async renderBlocks(blocks: EruditBlock[]): Promise<string>
@@ -54,7 +67,7 @@ export default class Renderer
         if (block._type in this.blockFactories)
         {
             let factory = new this.blockFactories[block._type];
-                factory.renderer = this;
+                factory.init(this);
 
             return await factory.render(block);
         }

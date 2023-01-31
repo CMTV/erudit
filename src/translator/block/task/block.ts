@@ -7,10 +7,11 @@ export default class Task extends EruditBlock
     _type = 'task';
 
     title:      string;
+    desc:       string;
 
-    difficulty: number;
-    workload:   number;
-    important:  boolean;
+    //difficulty: number;
+    //workload:   number;
+    //important:  boolean;
 
     statement:  Block[];
     hint:       Block[];

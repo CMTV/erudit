@@ -12,6 +12,8 @@ import { ensureConfigExists, ensureConfigValid } from "src/entity/topic/validate
 import { parseYamlFile } from "src/util";
 import parser, { ParseResult } from "src/translator/Parser";
 import { TopicType } from "src/page/PageTopic";
+import Location from "src/entity/location/global";
+import { EruditBlock } from "src/translator/block/eruditBlock";
 
 export default class FillTopics extends EruditProcess
 {
@@ -101,16 +103,40 @@ export default class FillTopics extends EruditProcess
 
         dbTopic.title = config.title;
         dbTopic.desc = config.desc;
+        dbTopic.keywords = config.keywords ? config.keywords.join(', ') : null;
 
         tocTopic.parts.forEach(topicPart =>
         {
             let topicPartPath = path.join(topicPath, topicPart + '.md');
             if (fs.existsSync(topicPartPath))
             {
+                let location = new Location;
+                    location.type = topicPart;
+                    location.id = tocTopic.id;
+
                 let parseResult = parser.parse(
                     fs.readFileSync(topicPartPath, 'utf-8'),
-                    '@' + topicPart + '/' + tocTopic.id
+                    location
                 );
+
+                // Checking for duplicating IDs (COPIED FROM UniquePW.ts!!!)
+                {
+                    let hUniques = parseResult.blocks.filter(unique => unique._id?.startsWith('ah:'));
+
+                    hUniques.forEach((hUnique, i) =>
+                    {
+                        if (hUniques.slice(0, i).map(hUnique => hUnique._id).includes(hUnique._id))
+                            hUnique._id += '-';
+                    });
+
+                    let tUniques = parseResult.blocks.filter(unique => unique._id?.startsWith('atask:'));
+
+                    tUniques.forEach((tUnique, i) =>
+                    {
+                        if (tUniques.slice(0, i).map(tUnique => tUnique._id).includes(tUnique._id))
+                            tUnique._id += '-';
+                    });
+                }
 
                 parseResults.push(parseResult);
                 dbTopic[topicPart] = parseResult.blocks;

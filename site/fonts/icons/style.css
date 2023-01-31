@@ -1,9 +1,9 @@
 @font-face {
   font-family: 'Erudit-Icons';
   src:
-    url('fonts/Erudit-Icons.ttf?m7ruet') format('truetype'),
-    url('fonts/Erudit-Icons.woff?m7ruet') format('woff'),
-    url('fonts/Erudit-Icons.svg?m7ruet#Erudit-Icons') format('svg');
+    url('fonts/Erudit-Icons.ttf?1vw8gn') format('truetype'),
+    url('fonts/Erudit-Icons.woff?1vw8gn') format('woff'),
+    url('fonts/Erudit-Icons.svg?1vw8gn#Erudit-Icons') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -24,6 +24,15 @@ i {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.i-check:before {
+  content: "\e925";
+}
+.i-lightbulb:before {
+  content: "\e926";
+}
+.i-eye:before {
+  content: "\e924";
+}
 .i-chevron-up:before {
   content: "\e923";
 }

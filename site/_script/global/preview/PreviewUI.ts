@@ -1,4 +1,5 @@
 import { getAnimSpeed } from "global/computed";
+import { initContentLogicIn } from "global/content/logic";
 
 import { BackButton, ExitButton, GotoButton, MiniButton, MiniButtonState } from "./button";
 import Screen from "./Screen";
@@ -215,7 +216,8 @@ export default class PreviewUI
         {
             this.screens[screen.id] = screen;
             this.elements.display.appendChild(screen.element);
-            screen.onHeightChange = (height) => this.setHeight(height);
+            initContentLogicIn(screen.element);
+            screen.onHeightChange = (height) => !this.collapsed && this.setHeight(height);
         }
 
         this.screen = this.screens[screen.id];

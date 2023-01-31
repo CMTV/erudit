@@ -15,6 +15,7 @@ export default class ViewTopicTocItem
             case 'important':   return 'exclamation';
             case 'definition':  return 'cube';
             case 'theorem':     return 'gavel';
+            case 'task':        return 'check';
             default: return 'NOICON';
         }
     }

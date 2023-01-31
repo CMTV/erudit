@@ -5,7 +5,4 @@ export default class DbFile
 {
     @PrimaryColumn()
     src: string;
-
-    @PrimaryColumn()
-    location: string;
 }

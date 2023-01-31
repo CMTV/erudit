@@ -1,6 +1,7 @@
 import Page from "src/page/Page";
 import AsideMajor, { AsideMajorPane } from "src/page/component/asideMajor/AsideMajor";
 import ViewTopicTocItem from "src/entity/topicToc/view";
+import SEO from "src/page/component/SEO";
 
 export enum TopicType
 {
@@ -13,6 +14,7 @@ export default class PageTopic extends Page
 {
     layout = 'topic';
     asideMajor: AsideMajor;
+    seo: SEO;
 
     hasStyle = true;
     hasScript = true;

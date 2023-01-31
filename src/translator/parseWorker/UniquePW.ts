@@ -17,7 +17,7 @@ export default class UniquePW extends ParseWorker
         if (!unique)
             return;
             
-        unique.id = this.location + '/' + unique.id;
+        unique.id = this.location.getFullId() + '/' + unique.id;
         this.uniques.push(unique);
     }
 
@@ -29,6 +29,14 @@ export default class UniquePW extends ParseWorker
         {
             if (hUniques.slice(0, i).map(hUnique => hUnique.id).includes(hUnique.id))
                 hUnique.id += '-';
+        });
+
+        let tUniques = this.uniques.filter(unique => unique.id.match('/atask:'));
+
+        tUniques.forEach((tUnique, i) =>
+        {
+            if (tUniques.slice(0, i).map(tUnique => tUnique.id).includes(tUnique.id))
+                tUnique.id += '-';
         });
     }
 

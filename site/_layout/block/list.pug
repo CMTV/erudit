@@ -1,3 +1,4 @@
 #{type}(id= _id, class= _classList, start= (type === 'ol') ? olStart : null)
     each item in items
-        li!= item
+        li
+            .liContent!= item

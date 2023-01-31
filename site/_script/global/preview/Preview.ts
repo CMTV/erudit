@@ -63,10 +63,16 @@ export default class Preview
         this.ui.exit();
     }
 
-    loadView(url: string)
+    loadView(url: string, source: string)
     {
+        if (this.viewStack[this.viewStack.length - 1]?.url === url)
+        {
+            this.exit();
+            return;
+        }
+
         this.showLoading();
-        this.loader.load(url);
+        this.loader.load(url, source);
     }
 
     showView(view: View)
@@ -106,10 +112,8 @@ export default class Preview
 
 function sameSource(source: string)
 {
-    let url = new URL(source);
-
     let current = location.host + location.pathname;
-    let target = url.host + url.pathname;
+    let target = location.host + source.split('/').slice(0, -1).join('/') + '/';
 
     return current === target;
 }

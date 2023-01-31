@@ -1,12 +1,15 @@
 import { throwMetaError } from "@cmtv/error-meta";
-import { BlockFactory, Product } from "blp";
+import { Product } from "blp";
 
+import { EruditBlockFactory } from "src/translator/block/eruditBlock";
+import Location from "src/entity/location/global";
 import DbUnique from "src/entity/unique/db";
 import { IdPrefix } from "src/entity/unique/global";
 import { ChunkBase, ChunkEnd, ChunkStart } from "src/translator/block/chunk/block";
 import Include from "./block";
+import { EruditBlpParser } from "src/translator/Parser";
 
-export default class FInclude extends BlockFactory<Include>
+export default class FInclude extends EruditBlockFactory<Include>
 {
     canParse(str: string): boolean
     {
@@ -21,11 +24,15 @@ export default class FInclude extends BlockFactory<Include>
         if (!include.id)
             return null;
 
+        let location = (this.parser as EruditBlpParser).location;
+        
+        include.id = location.makeFullIdFrom(include.id);
+
         return include;
     }
 }
 
-export function getChunkUniques(products: Product[], location: string): DbUnique[]
+export function getChunkUniques(products: Product[], location: Location): DbUnique[]
 {
     class ChunkPos { start: number; end: number; constructor(start: number) { this.start = start; } }
 
@@ -55,7 +62,7 @@ export function getChunkUniques(products: Product[], location: string): DbUnique
             throwMetaError('Chunk has to be closed on the same level it was opened!', { 'Chunk ID': chunkId });
 
         let unique = new DbUnique;
-            unique.id = location + '/' + IdPrefix.getPrefixFor('chunk') + ':' + chunkId;
+            unique.id = location.getFullId() + '/' + IdPrefix.getPrefixFor('chunk') + ':' + chunkId;
             unique.content = products.slice(pos.start + 1, pos.end).filter(block => !!block && !(block instanceof ChunkBase));
 
         uniques.push(unique);

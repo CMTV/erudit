@@ -6,6 +6,8 @@ import DbRef from "src/entity/ref/db";
 import DbUnique from "src/entity/unique/db";
 import DbFile from "src/entity/file/db";
 
+import Location from "src/entity/location/global";
+
 // Block Factories
 import { default as FBlockMath } from "src/translator/block/math/factory";
 import FHeading from "src/translator/block/heading/factory";
@@ -18,9 +20,10 @@ import FTask from "src/translator/block/task/factory";
 import FInclude, { getChunkUniques } from "src/translator/block/include/factory";
 import FChunk from "src/translator/block/chunk/factory";
 import FParagraph from "src/translator/block/paragraph/factory";
+import FHr from "src/translator/block/hr/factory";
 
 // Accent Blocks
-import { FDefinition, FImportant, FTheorem } from "src/translator/block/accentBlock/factory";
+import { FDefinition, FExample, FImportant, FTheorem } from "src/translator/block/accentBlock/factory";
 
 // Inliner Factories
 import { default as FInlineMath } from "src/translator/inliner/math/factory";
@@ -31,6 +34,7 @@ import ParseWorker from "src/translator/parseWorker/ParseWorker";
 import UniquePW from "src/translator/parseWorker/UniquePW";
 import RefPW from "src/translator/parseWorker/RefPW";
 import FilePW from "src/translator/parseWorker/FilePW";
+import { EruditBlock } from "./block/eruditBlock";
 
 //#region BLP Parser
 //
@@ -38,7 +42,7 @@ import FilePW from "src/translator/parseWorker/FilePW";
 
 export class EruditBlpParser extends BlpParser
 {
-    location: string;
+    location: Location;
 }
 
 let blpParser = new EruditBlpParser;
@@ -47,18 +51,21 @@ let blpParser = new EruditBlpParser;
         FBlockMath,
 
         FHeading,
+        FHr,
         FList,
         FBlockList,
+        
         FImage,
         FGallery,
         FRefAlias,
         FSpoiler,
         FTask,
+
         FInclude,
         FChunk,
 
         FImportant,
-
+        FExample,
         FDefinition,
         FTheorem,
 
@@ -76,7 +83,7 @@ let blpParser = new EruditBlpParser;
 
 export class ParseResult
 {
-    blocks:     Block[] =       [];
+    blocks:     EruditBlock[] =       [];
     uniques:    DbUnique[] =    [];
     refs:       DbRef[] =       [];
     files:      DbFile[] =      [];
@@ -140,7 +147,7 @@ export class ParseResult
 
 class Parser
 {
-    parse(text: string, location: string): ParseResult
+    parse(text: string, location: Location): ParseResult
     {
         let parseResult = new ParseResult;
 

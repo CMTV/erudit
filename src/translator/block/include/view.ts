@@ -1,5 +1,8 @@
+import Location from "src/entity/location/global";
 import DbUnique from "src/entity/unique/db";
 import { erudit } from "src/erudit";
+import { LinkRouter } from "src/translator/inliner/link/global";
+import Renderer from "src/translator/Renderer";
 import { BlockView, BlockViewFactory } from "src/translator/view";
 import Include from "./block";
 
@@ -12,16 +15,11 @@ export class VFInclude extends BlockViewFactory<VInclude, Include>
 {
     async setupBlockView(block: Include): Promise<VInclude>
     {
-        let id = block.id;
-        let idArr = id.split('/');
+        let contextLocation = new Location;
+            contextLocation.type = this.renderer.location.type;
+            contextLocation.id = this.renderer.location.id;
 
-        switch (idArr.length)
-        {
-            case 1:
-                id = `@${this.renderer.location.type}/${this.renderer.location.id}/${id}`; break;
-            case 2:
-                id = `${idArr[0]}/${this.renderer.location.id}/${idArr[1]}`; break;
-        }
+        let id = LinkRouter.getUniqueId(block.id, contextLocation);
 
         let dbUnique = await erudit.db.manager.findOne(DbUnique, { where: { id: id } });
 
@@ -29,7 +27,12 @@ export class VFInclude extends BlockViewFactory<VInclude, Include>
             view.content = '';
 
         if (dbUnique)
-            view.content += await this.renderer.renderBlocks(dbUnique.content);
+        {
+            let renderer = new Renderer;
+                renderer.location = { type: id.split('/')[0].slice(1), id: id.split('/').slice(1, -1).join('/') }
+            
+            view.content += await renderer.renderBlocks(dbUnique.content);
+        }
 
         return view;
     }
