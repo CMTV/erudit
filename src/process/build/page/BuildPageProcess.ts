@@ -29,7 +29,6 @@ export default abstract class BuildPageProcess<TPageView extends Page> extends E
 
     private buildPage(page: TPageView)
     {
-        // Один общий метод compilePage (вдруг надо будет больше действий?)
-        Layout.compileFile(`page/${page.layout}.pug`, page.getDest(), page);
+        page.compile();
     }
 }

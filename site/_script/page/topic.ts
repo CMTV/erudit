@@ -8,4 +8,9 @@ window.addEventListener('load', () =>
     {
         asideToggler.toggleAside(asideToggler.asides.minor, true);
     });
+
+    asideToggler.asides.minor.querySelector(':scope > .full > .contributors').addEventListener('click', () =>
+    {
+        asideToggler.asides.minor.querySelector(':scope > .full').toggleAttribute('data-contributors-view');
+    });
 });

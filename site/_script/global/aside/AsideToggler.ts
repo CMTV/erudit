@@ -52,7 +52,8 @@ export default class AsideToggler
                     return;
             }
 
-            this.hideAsides();
+            if (this.asides.major.hasAttribute('data-showing') || this.asides.minor.hasAttribute('data-showing'))
+                this.hideAsides();
         });
 
         // Handling Preview

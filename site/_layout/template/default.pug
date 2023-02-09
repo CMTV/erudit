@@ -1,3 +1,5 @@
+include /include/ads
+
 doctype html
 include /include/art.html
 html(lang= lang, data-layout= layout, data-topic= topicId ? topicId : false)
@@ -16,8 +18,8 @@ html(lang= lang, data-layout= layout, data-topic= topicId ? topicId : false)
             meta(name="keywords", content= seo.keywords)
 
         //- Favicon
-        //link(rel="icon", type="image/svg+xml", href="/site/graphics/favicons/favicon.svg")
-        link(rel="icon", type="image/png", href="/site/graphics/favicons/favicon2.png")
+        link(rel="icon", href="/site/graphics/favicons/favicon.svg")
+        link(rel="icon", type="image/png", href="/site/graphics/favicons/favicon.png")
 
         // PhotoSwipe
         script(src="/site/vendor/photoswipe/photoswipe.umd.min.js")
@@ -56,6 +58,8 @@ html(lang= lang, data-layout= layout, data-topic= topicId ? topicId : false)
         if (config.dev)
             // Live Reload
             script(src="/site/scripts/reload.js")
+
+        +adInit
 
     body
         script
@@ -109,3 +113,7 @@ html(lang= lang, data-layout= layout, data-topic= topicId ? topicId : false)
                                 i.i-expand
                             .button.exit(title= i18n('preview.controls.exit'))
                                 i.i-xmark
+    
+        if (!config.dev)
+            include /vendor/yandex.html
+            include /vendor/google.html

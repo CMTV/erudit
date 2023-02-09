@@ -53,6 +53,7 @@ body > aside.minor
             display: flex;
             justify-content: center;
             border-bottom: 1px solid var(--c_border);
+            overflow: hidden;
 
             > a
             {
@@ -105,10 +106,108 @@ body > aside.minor
             flex: 1;
             overflow: auto;
             @extend %scrollbar;
+            opacity: 1;
+
+            @include util.transition(flex, opacity);
 
             > .inner > .tocTree
             {
-                padding-top: size.$gapSmall;
+                padding: size.$gapSmall 0;
+            }
+        }
+
+        > .contributorsList
+        {
+            flex: 0;
+
+            display: flex;
+            flex-direction: column;
+
+            overflow: auto;
+            @extend %scrollbar;
+
+            @include util.transition(flex);
+
+            > .expand
+            {
+                flex: 1;
+            }
+
+            > .contributor
+            {                
+                display: flex;
+                align-items: center;
+                gap: size.$gap;
+
+                padding: size.$gap;
+                border-top: 1px solid var(--c_border);
+
+                color: var(--c_text);
+                text-decoration: none;
+
+                @include util.transition(background);
+
+                &:hover
+                {
+                    background: var(--c_bg-content-accent);
+                }
+
+                > img
+                {
+                    @include util.size(40px);
+                    border-radius: 50%;
+                }
+            }
+        }
+
+        > .contributors
+        {
+            display: flex;
+            align-items: center;
+            gap: size.$gapSmall;
+            padding: size.$gap;
+            border-top: 1px solid var(--c_border);
+
+            cursor: pointer;
+
+            &:hover > .label { color: var(--c_text); }
+
+            > .label
+            {
+                font-weight: 600;
+                color: var(--c_text-muted);
+                @include util.transition(color);
+            }
+
+            > .avatars
+            {
+                display: flex;
+                gap: size.$gapSmall;
+                
+                > img
+                {
+                    @include util.size(30px);
+                    border-radius: 50%;
+                }
+            }
+        }
+
+        &[data-contributors-view]
+        {
+            > .typeSwitcher
+            {
+                height: 0;
+            }
+
+            > .topicToc
+            {
+                flex: 0;
+                opacity: 0;
+            }
+
+            > .contributorsList
+            {
+                flex: 1;
             }
         }
     }

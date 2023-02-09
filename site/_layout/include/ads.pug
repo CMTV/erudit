@@ -1,0 +1,16 @@
+mixin adInit
+    // Ads
+    script.
+        window.yaContextCb=window.yaContextCb||[]
+    script(src="https://yandex.ru/ads/system/context.js", async='')
+
+mixin adBlock(id, name)
+    .ads(class= name)
+        div(id=`yandex_rtb_${id}`)
+        script.
+            window.yaContextCb.push(()=>{
+                Ya.Context.AdvManager.render({
+                    renderTo: 'yandex_rtb_#{id}',
+                    blockId: '#{id}'
+                })
+            })

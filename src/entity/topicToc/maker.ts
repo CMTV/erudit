@@ -65,6 +65,9 @@ function accentBlock(accentBlock: AccentBlock): TocItem
     if (!accentBlock.title)
         return null;
 
+    if (!accentBlock.showInToc)
+        return null;
+
     let tocItem = new TocItem;
         tocItem.type =  accentBlock._type;
         tocItem.id =    accentBlock._id;

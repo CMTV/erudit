@@ -9,6 +9,7 @@ export class VImage extends BlockView
     width: number;
     height: number;
     caption: string;
+    invertible: boolean;
 }
 
 export class VFImage extends BlockViewFactory<VImage, Image>
@@ -20,6 +21,7 @@ export class VFImage extends BlockViewFactory<VImage, Image>
             view.width = block.width;
             view.height = block.height;
             view.caption = block.caption;
+            view.invertible = block.invertible;
 
         return view;
     }

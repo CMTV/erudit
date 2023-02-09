@@ -21,6 +21,7 @@ function initPhotoSwipeIn(element: Element)
 
     let options = {
         wheelToZoom: true,
+        bgOpacity: 0.9,
         showAnimationDuration: animDuration,
         hideAnimationDuration: animDuration,
         ...PhotoSwipeLang
@@ -33,11 +34,11 @@ function initPhotoSwipeIn(element: Element)
         ...options
     });
 
-    lightbox.on('afterSetContent', function (e) {
-        let isInvertible = lightbox.pswp.currSlide.data.element.querySelector('img').classList.contains('invertible');
+    lightbox.on('contentAppend', function (e) {
+        let isInvertible = lightbox.pswp.currSlide.data.element.querySelector('img').hasAttribute('data-invertible');
 
         if (isInvertible)
-            e.slide.image.classList.add('_invert');
+            e.content.element.setAttribute('data-invertible', '');
     });
 
     lightbox.on('uiRegister', function () {

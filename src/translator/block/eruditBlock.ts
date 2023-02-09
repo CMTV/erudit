@@ -84,7 +84,3 @@ export abstract class EruditBlockObjFactory<TBlock extends EruditBlock, TObj ext
             block._id = id;
     }
 }
-
-//
-//
-//

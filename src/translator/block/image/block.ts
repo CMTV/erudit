@@ -8,4 +8,5 @@ export default class Image extends EruditBlock
     width: number;
     height: number;
     caption: string;
+    invertible: boolean;
 }

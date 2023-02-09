@@ -12,6 +12,7 @@ import FillGroup from "src/process/fill/FillGroup";
 import BuildGroup from "src/process/build/BuildGroup";
 import { upperFirst } from "src/util";
 import { Config, SET_CONFIG } from "src/config";
+import { SITEMAP } from "./process/build/WriteSitemap";
 
 enableMetaErrors();
 
@@ -129,6 +130,8 @@ async function buildSite()
         await erudit.setupDb();
 
     SET_CONFIG(Config.makeConfig(erudit.pConfig));
+
+    SITEMAP.reset();
 
     let buildGroup = new BuildGroup(erudit, erudit.db);
 

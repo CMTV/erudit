@@ -6,7 +6,7 @@
                     .hoverOverlay
                         i.i-eye
                     .imgWrapper
-                        img(src= image.src, loading="lazy")
+                        img(src= image.src, loading="lazy", data-invertible= image.invertible ? '' : null)
 
     .display
         each image, i in displayImages

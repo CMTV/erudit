@@ -9,6 +9,8 @@ import BuildBookToc from "./BuildBookToc";
 import BuildPageGroup from "./page/BuildPageGroup";
 import BuildBaseGroup from "./base/BuildBaseGroup";
 import PreRenderUniques from "./PreRenderUniques";
+import { WriteSitemap } from "./WriteSitemap";
+import { WriteRobots } from "./WriteRobots";
 
 export default class BuildGroup extends Group
 {
@@ -36,7 +38,9 @@ export default class BuildGroup extends Group
             BuildBaseGroup,
             BuildBookToc,
             PreRenderUniques,
-            BuildPageGroup
+            BuildPageGroup,
+            WriteSitemap,
+            WriteRobots,
             // Build Pages
             // Nested Group Absract Class For auto-pages like Topic and etc.
         );

@@ -39,3 +39,8 @@ export function copyFile(from: string, to: string)
     fs.mkdirSync(p.dirname(to), { recursive: true });
     fs.copyFileSync(from, to);
 }
+
+export function b2fSlash(path: string)
+{
+    return path.split('\\').join('/');
+}

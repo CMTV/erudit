@@ -1,7 +1,7 @@
 import glob from "glob";
 
 import EruditProcess from "src/process/EruditProcess";
-import { copyFile } from "src/util/io";
+import { b2fSlash, copyFile } from "src/util/io";
 
 export default class MoveSiteFiles extends EruditProcess
 {
@@ -11,23 +11,33 @@ export default class MoveSiteFiles extends EruditProcess
     {
         let ignorePatterns = ['_*/**', '**/_*'];
 
+        let sitePath = b2fSlash(this.erudit.path.package()) + '/';
+        let siteRootPath = b2fSlash(this.erudit.path.package()) + '/';
+
         let siteFiles = glob.sync(
-            'site/**/*',
+            sitePath + 'site/**/*',
             {
-                ignore: ignorePatterns.map(pattern => 'site/' + pattern),
-                nodir: true
+                ignore: ignorePatterns.map(pattern => sitePath + 'site/' + pattern),
+                nodir: true,
             }
         );
 
         let rootFiles = glob.sync(
-            'site/_root/**/*',
+            siteRootPath + 'site/_root/**/*',
             {
-                ignore: ignorePatterns.map(pattern => 'site/_root/' + pattern),
-                nodir: true
+                ignore: ignorePatterns.map(pattern => siteRootPath + 'site/_root/' + pattern),
+                nodir: true,
             }
         );
 
-        siteFiles.forEach(siteFile => copyFile(siteFile, this.erudit.path.site(siteFile)));
-        rootFiles.forEach(rootFile => copyFile(rootFile, this.erudit.path.site(rootFile.replace('site/_root/', ''))));
+        siteFiles.forEach(siteFile => copyFile(
+            siteFile,
+            this.erudit.path.site(siteFile.replace(sitePath, ''))
+        ));
+
+        rootFiles.forEach(rootFile => copyFile(
+            rootFile,
+            this.erudit.path.site(rootFile.replace(siteRootPath, '').replace('site/_root/', ''))
+        ));
     }
 }

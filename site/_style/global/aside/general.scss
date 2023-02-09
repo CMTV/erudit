@@ -79,6 +79,7 @@ body
         $shadow: 5px 2px rgba(0, 0, 0, .05);
 
         @include util.size(size.$aside, 100vh);
+        height: 100dvh;
 
         position: fixed;
         top: 0;
@@ -206,6 +207,7 @@ body
             position: absolute;
             top: 0;
             height: 100vh;
+            height: 100dvh;
             opacity: 1;
 
             @include util.transition(opacity);

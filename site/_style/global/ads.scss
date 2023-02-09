@@ -1,0 +1,25 @@
+@use 'def/size';
+
+@use 'partial/util';
+
+.ads
+{
+    overflow: hidden;
+
+    &.beforeContent
+    {
+        max-height: 150px;
+    }
+
+    &.afterContent
+    {
+        //margin-bottom: size.$gapBig;
+    }
+
+    // &.left
+    // {
+    //     @include util.size(calc(300px - (2 * size.$gap)));
+    //     margin: size.$gap;
+    //     background: red;
+    // }
+}

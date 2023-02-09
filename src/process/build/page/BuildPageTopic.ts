@@ -1,6 +1,8 @@
 import DbBook from "src/entity/book/db";
 import DbTopic from "src/entity/topic/db";
 import RepoTopic from "src/entity/topic/repository";
+import DbTopicContributor from "src/entity/topicContributor/db";
+import { ViewTopicContributor } from "src/entity/topicContributor/view";
 import DbTopicToc from "src/entity/topicToc/db";
 import ViewTopicTocItem from "src/entity/topicToc/view";
 import Layout from "src/frontend/Layout";
@@ -59,9 +61,22 @@ export default class BuildPageTopic extends EruditProcess
                     page.seo.desc = dbTopic.desc;
                     page.seo.keywords = dbTopic.keywords;
 
-                // Один общий метод compilePage (вдруг надо будет больше действий?)
-                Layout.compileFile(`page/${page.layout}.pug`, page.getDest(), page);
+                    page.contributors = await this.getViewContributors(dbTopic.id);
+
+                page.compile();
             }
         }        
+    }
+
+    async getViewContributors(topicId: string): Promise<ViewTopicContributor[]>
+    {
+        let contributors = [];
+
+        let contributorIds = (await this.db.manager.find(DbTopicContributor, { where: { topicId: topicId }, order: { displayOrder: 'ASC' } })).map(dbItem => dbItem.contributorId);
+
+        for (let i = 0; i < contributorIds.length; i++)
+            contributors.push(await ViewTopicContributor.fromId(contributorIds[i]));
+        
+        return contributors;
     }
 }

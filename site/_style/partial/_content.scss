@@ -119,7 +119,7 @@
     // Link
     //
 
-    a
+    p a
     {
         color: #3766a9;
         text-decoration: none;
@@ -277,11 +277,27 @@
     // Image
     //
 
+    img[data-invertible]
+    {
+        @include color.themeDark
+        {
+            filter: hue-rotate(180deg) invert(100%);
+        }
+    }
+
+    @at-root
+    {
+        body > .pswp img[data-invertible]
+        {
+            filter: hue-rotate(180deg) invert(100%);
+        }
+    }
+
     .image
     {
         display: flex;
         flex-direction: column;
-        gap: size.$gapSmall;
+        gap: size.$gap;
 
         margin-left: auto;
         margin-right: auto;
@@ -310,6 +326,8 @@
                 max-width: 100%;
                 height: auto;
                 margin: auto;
+                
+                padding: size.$gap 0;
         
                 //border: 1px solid var(--c_border);
                 border-radius: size.$borderRadius;
@@ -410,6 +428,11 @@
             padding-top: size.$gap;
         }
 
+        > section
+        {
+            overflow: hidden;
+        }
+
         > section > .inner
         {
             > header
@@ -435,7 +458,7 @@
         > .statement,
         > section > .inner > .content
         {
-            > * { margin-bottom: size.$gapBig; }
+            > *:not(:last-child) { margin-bottom: size.$gapBig; }
         }
 
         $sections: (hint: '\e926', solution: '\e910', answer: '\e925');
@@ -461,6 +484,7 @@
                 > section[data-name=#{$sectionName}]
                 {
                     height: 0;
+                    position: relative;
                     overflow: hidden;
                 }
             } 
@@ -561,6 +585,11 @@
             left: -2px;
             flex: 1;
 
+            display: flex;
+            flex-direction: column;
+
+            overflow: hidden;
+
             > .primaryWrapper,
             > .expand
             {
@@ -570,6 +599,11 @@
 
             > .primaryWrapper
             {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+
                 > .title
                 {
                     font-weight: bold;

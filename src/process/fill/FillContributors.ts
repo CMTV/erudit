@@ -35,9 +35,9 @@ export default class FillContributors extends EruditProcess
                 dbContributor.id = contributorId;
                 dbContributor.avatarExt = getAvatarExt(files);
 
-            if (files.includes('info.yml'))
+            if (files.includes('contributor.yml'))
             {
-                let info = parseYamlFile(filePath('info.yml')) as IDataContributorInfo;
+                let info = parseYamlFile(filePath('contributor.yml')) as IDataContributorInfo;
 
                 dbContributor.name =          info.name;
                 dbContributor.displayName =   info.displayName;

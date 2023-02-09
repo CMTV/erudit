@@ -1,0 +1,28 @@
+extends /template/default
+
+include /include/toc
+
+block content
+    header
+        img.avatar(src= avatar)
+        .info
+            h1.name= name
+            if (slogan)
+                .slogan= slogan
+    
+    != content
+
+block minorFull
+    header
+        .label= i18n('contribution') + ':'
+        .count= contributionCount
+
+    .contributionList.tocTree
+        each book in contribution
+            +tocGroup(book.title)
+                each topic in book.topics
+                    +tocItem(0, 'file-lines', topic.title, { href: topic.link })
+
+block minorMini
+    button.contribution(title= i18n('contribution'))
+        i(class='i-pen-nib')

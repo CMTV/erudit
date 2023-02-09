@@ -1,6 +1,6 @@
 {
     "name": "erudit",
-    "version": "1.0.0",
+    "version": "1.0.19",
     "description": "Static Site Generator (SSG) for creating perfect education websites.",
     "author": {
         "name": "CMTV",

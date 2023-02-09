@@ -9,7 +9,7 @@ export default class Layout
     {
         return {
             basedir:    normalize(erudit.path.package('site/_layout')),
-            cache:      !erudit.dev,
+            //cache:      !erudit.dev,
             lang:       erudit.lang.langCode,
             i18n:       (key, ...values) => erudit.lang.phrase(key, values)       
         }

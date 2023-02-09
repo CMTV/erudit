@@ -8,6 +8,7 @@ import BuildGlobalScripts from "./BuildGlobalScripts";
 import BuildPageStyles from "./BuildPageStyles";
 import BuildPageScripts from "./BuildPageScripts";
 import MoveFiles from "./MoveFiles";
+import BuildCName from "./BuildCName";
 
 export default class BuildBaseGroup extends EruditGroup
 {
@@ -18,6 +19,7 @@ export default class BuildBaseGroup extends EruditGroup
         return [
             PrepareSiteDir,
             MoveSiteFiles,
+            BuildCName,
             BuildGlobalStyles,
             BuildPageStyles,
             BuildGlobalScripts,

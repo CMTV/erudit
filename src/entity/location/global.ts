@@ -21,7 +21,7 @@ export default class Location
             case 'topic':
             case 'article':
             case 'summary':
-            case 'practice':
+            case 'practicum':
                 return `books/${this.id}/${this.target}`;
         }
 
@@ -41,7 +41,7 @@ export default class Location
             case 'book':
             case 'article':
             case 'summary':
-            case 'practice':
+            case 'practicum':
                 return `${this.id}/@${this.type}/${this.target ?? ''}`;
         }
 

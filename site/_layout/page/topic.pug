@@ -1,5 +1,6 @@
 extends /template/default
 
+include /include/ads
 include /include/toc
 
 block content
@@ -18,7 +19,13 @@ block content
         if (desc)
             .desc= desc
 
+    if (!config.dev)
+        +adBlock('R-A-2185026-2', 'beforeContent')
+
     != content
+
+    if (!config.dev)
+        +adBlock('R-A-2185026-1', 'afterContent')
 
 block minorFull
     mixin switchButton(href, icon, label, options = {})
@@ -50,6 +57,26 @@ block minorFull
                             tocItem.label,
                             { href: `#${tocItem.id}` }
                         )
+    
+    .contributorsList
+        .expand
+        each contributor in [...contributors].reverse()
+            a.contributor(href= contributor.link)
+                img(src= contributor.avatar)
+                .name= contributor.name
+
+    .contributors
+        -
+            let toPreview = 4
+            let hasMore = contributors.length > toPreview
+
+        .label= i18n('contribution') + ':'
+        .avatars
+            each contributor in contributors.slice(0, toPreview)
+                img(src= contributor.avatar)
+
+        if (hasMore)
+            .more= '+' + (contributors.length - toPreview)
 
 block minorMini
     mixin miniSwitchButton(href, icon, label, options = {})

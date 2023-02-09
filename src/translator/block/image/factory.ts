@@ -22,7 +22,7 @@ export default class FImage extends EruditBlockObjFactory<Image>
 
         let location = Location.fromShortString(obj.src, this.parser.location);
         
-        if (['article', 'summary', 'practice'].includes(location.type))
+        if (['article', 'summary', 'practicum'].includes(location.type))
             location.type = 'topic';
 
         image.src = location.toString();
@@ -38,6 +38,7 @@ export default class FImage extends EruditBlockObjFactory<Image>
         catch (e) { throwMetaError(`Image can't be loaded!`, { 'Image': srcPath }); }
 
         image.caption = obj.caption;
+        image.invertible = obj.invertible;
 
         if (obj._classList)
             image._classList = obj._classList;

@@ -10,6 +10,7 @@ export class AccentBlock extends EruditBlock
 {
     _type: string;
 
+    showInToc = true;
     showTitle = true;
     title: string;
     main: Block[];
@@ -39,11 +40,17 @@ export abstract class FAccentBlock<TObj extends object = any> extends EruditBloc
         if ('showTitle' in obj)
             block.showTitle = obj.showTitle;
 
+        if ('showInToc' in obj)
+            block.showInToc = obj.showInToc;
+
         return block;
     }
 
     protected parseExpand(toParse): TExpandContent
     {
+        if (!toParse)
+            return null;
+
         if (typeof toParse === 'object')
         {
             let toReturn = {...toParse};

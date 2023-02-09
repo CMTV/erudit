@@ -78,6 +78,7 @@ export default class Renderer
     async renderInliners(inliners: Inliner[])
     {
         let result = '';
+        let quoteTracker = new QuoteTracker;
 
         for (let i = 0; i < inliners.length; i++)
         {
@@ -86,6 +87,9 @@ export default class Renderer
             {
                 let factory = new this.inlinerFactories[inliner._type];
                     factory.renderer = this;
+
+                if (inliner._type === 'text')
+                    (factory as VFText).quoteTracker = quoteTracker;
                 
                 result += await factory.render(inliner);
             }
@@ -114,7 +118,7 @@ export class RenderExtra
         return str;
     }
 
-    static afterStyle(text: string)
+    static afterStyle(text: string, quoteTracker: QuoteTracker)
     {
         text = text.replace(/\*\*(.+?)\*\*/gm, `<strong>$1</strong>`);
         text = text.replace(/\*(.+?)\*/gm, `<em>$1</em>`);
@@ -122,10 +126,15 @@ export class RenderExtra
         text = text.replace(/ -- /gm, ' — ');
 
         {
-            let quoteOpen = true;
-            text = text.replace(/"/gm, () => (quoteOpen = !quoteOpen) ? '»' : '«');
+            //let quoteOpen = true;
+            text = text.replace(/"/gm, () => (quoteTracker.open = !quoteTracker.open) ? '»' : '«');
         }
 
         return text;
     }
+}
+
+export class QuoteTracker
+{
+    open = true;
 }

@@ -13,7 +13,7 @@ import { parseYamlFile } from "src/util";
 import parser, { ParseResult } from "src/translator/Parser";
 import { TopicType } from "src/page/PageTopic";
 import Location from "src/entity/location/global";
-import { EruditBlock } from "src/translator/block/eruditBlock";
+import DbTopicContributor from "src/entity/topicContributor/db";
 
 export default class FillTopics extends EruditProcess
 {
@@ -36,11 +36,12 @@ export default class FillTopics extends EruditProcess
 
             let dbTopics: DbTopic[] = [];
             let parseResults: ParseResult[] = [];
+            let dbContributors: DbTopicContributor[] = [];
             
             tocTopics.forEach(tocTopic =>
             {
                 this.startStage(`Topic ${tocTopic.id}`);
-                dbTopics.push(this.makeDbTopic(tocTopic, bookId, parseResults));
+                dbTopics.push(this.makeDbTopic(tocTopic, bookId, parseResults, dbContributors));
             });
 
             await ParseResult.insert(parseResults, this.db);
@@ -64,6 +65,13 @@ export default class FillTopics extends EruditProcess
                         .into(DbTopic)
                         .values(dbTopics)
                         .execute();
+
+            await this.db
+                        .createQueryBuilder()
+                        .insert()
+                        .into(DbTopicContributor)
+                        .values(dbContributors)
+                        .execute();
         }
     }
 
@@ -85,7 +93,7 @@ export default class FillTopics extends EruditProcess
         return toReturn;
     }
 
-    makeDbTopic(tocTopic: TopicBookTocItem, bookId: string, parseResults: ParseResult[]): DbTopic
+    makeDbTopic(tocTopic: TopicBookTocItem, bookId: string, parseResults: ParseResult[], dbContributors: DbTopicContributor[]): DbTopic
     {
         let dbTopic =           new DbTopic;
             dbTopic.id =        tocTopic.id;
@@ -93,7 +101,7 @@ export default class FillTopics extends EruditProcess
             dbTopic.bookId =    bookId;
 
         let topicPath = this.erudit.path.project('books', dbTopic.id);
-        let configPath = path.join(topicPath, 'config.yml');
+        let configPath = path.join(topicPath, 'topic.yml');
         
         ensureConfigExists(configPath);
 
@@ -104,6 +112,8 @@ export default class FillTopics extends EruditProcess
         dbTopic.title = config.title;
         dbTopic.desc = config.desc;
         dbTopic.keywords = config.keywords ? config.keywords.join(', ') : null;
+
+        dbContributors.push(...this.getDbContributors(tocTopic.id, config.contributors));
 
         tocTopic.parts.forEach(topicPart =>
         {
@@ -144,5 +154,25 @@ export default class FillTopics extends EruditProcess
         });
 
         return dbTopic;
+    }
+
+    getDbContributors(topicId: string, contributors: string[]): DbTopicContributor[]
+    {
+        if (!contributors || contributors.length === 0)
+            throw new Error('Empty contributors list!');
+        
+        let dbContributors = [];
+
+        contributors.forEach((contributorId, i) =>
+        {
+            let dbContributor = new DbTopicContributor;
+                dbContributor.topicId = topicId;
+                dbContributor.contributorId = contributorId;
+                dbContributor.displayOrder = i + 1;
+
+            dbContributors.push(dbContributor);
+        });
+
+        return dbContributors;
     }
 }

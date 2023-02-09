@@ -24,8 +24,8 @@ export class VFLink extends InlinerViewFactory<VLink, Link>
 
             let linkViewData = await LinkRouter.getViewData(raw.target, contextLocation);
 
-            view.target = linkViewData.href;
-            view.preview = linkViewData.preview;
+            view.target = linkViewData?.href;
+            view.preview = linkViewData?.preview;
 
         return view;
     }
