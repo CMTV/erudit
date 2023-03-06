@@ -23,5 +23,6 @@ export default class PageIndex extends Page
 
         this.seo = new SEO;
         this.seo.title = 'Математика. Понятно, подробно, с примерами.';
+        this.seo.desc = 'Сборник учебников по математике. Теория, конспекты и практика в одном флаконе.';
     }
 }

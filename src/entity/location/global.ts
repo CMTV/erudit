@@ -60,7 +60,7 @@ export default class Location
             throwMetaError(`Wrong number of parts in string location! Need 3, found ${parts.length}!`, { 'String location': strLocation });
 
         let location = new Location;
-            location.type =     parts[0].slice(1);
+            location.type =     parts[0].startsWith('@') ? parts[0].slice(1) : parts[0];
             location.id =       parts[1];
             location.target =   parts[2];
 

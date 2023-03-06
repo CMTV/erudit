@@ -59,7 +59,8 @@ html(lang= lang, data-layout= layout, data-topic= topicId ? topicId : false)
             // Live Reload
             script(src="/site/scripts/reload.js")
 
-        +adInit
+        if (!config.dev)
+            +adInit
 
     body
         script
