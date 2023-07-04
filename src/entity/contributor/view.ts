@@ -1,7 +1,7 @@
 import { erudit } from "src/erudit";
-import DbContributor from "../contributor/db";
+import DbContributor from "./db";
 
-export class ViewTopicContributor
+export class ViewBaseContributor
 {
     avatar: string;
     name:   string;
@@ -11,7 +11,7 @@ export class ViewTopicContributor
     {
         let dbContributor = await erudit.db.manager.findOne(DbContributor, { where: { id: contributorId } });
 
-        let view = new ViewTopicContributor;
+        let view = new ViewBaseContributor;
             view.name = dbContributor.displayName ?? dbContributor.name ?? dbContributor.id;
             
         if (dbContributor.avatarExt)

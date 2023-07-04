@@ -1,0 +1,194 @@
+@use 'def/color';
+@use 'def/size';
+@use 'def/bp';
+
+@use 'partial/aside';
+@use 'partial/scroll';
+@use 'partial/util';
+
+body > main > article
+{
+    > img.decoration
+    {
+        display: block;
+        max-width: 250px;
+        max-height: 250px;
+        margin-right: auto;
+        margin-left: auto;
+
+        @include color.themeDark
+        {
+            filter: invert(1);
+        }
+    }
+
+    > header
+    {
+        margin: 0 auto;
+        display: flex;
+        gap: size.$gap;
+        justify-content: center;
+
+        @include bp.max(mini)
+        {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        i
+        {
+            position: relative;
+            top: 3px;
+            color: var(--c_text-muted);
+            font-size: 30px;
+            cursor: help;
+        }
+
+        > .title
+        {
+            text-align: center;
+            font-size: 1.7em;
+            line-height: 1.2;
+        }
+    }
+
+    > .stats
+    {
+        display: flex;
+        gap: size.$gapBig;
+        justify-content: center;
+
+        > .statsBlock
+        {
+            display: flex;
+            flex-shrink: 0;
+            align-items: center;
+            gap: 7px;
+
+            cursor: help;
+
+            color: var(--c_text-muted);
+
+            > i
+            {
+                position: relative;
+                top: 1px;
+            }
+
+            &.definitions { color: var(--c_ab-definition); }
+            &.theorems { color: var(--c_ab-theorem); }
+        }
+    }
+
+    > .desc
+    {
+        text-align: center;
+        font-weight: bold;
+        color: var(--c_text-muted);
+        letter-spacing: .3px;
+        font-size: 1.2em;
+    }
+
+    > .goButton
+    {
+        display: flex;
+        gap: size.$gap;
+
+        width: 200px;
+        height: 60px;
+
+        @include util.flexCC;
+
+        border: 2px solid #26a4ff;
+        border-radius: size.$borderRadius;
+        background: linear-gradient(135deg, #0aa2f4, #1d8afd);
+        box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.15);
+
+        @include util.transition(box-shadow);
+
+        text-decoration: none;
+        color: white;
+        font-weight: 600;
+        text-transform: uppercase;
+
+        margin-left: auto;
+        margin-right: auto;
+
+        &:hover
+        {
+            box-shadow: 0px 0px 5px 5px rgba(4, 142, 248, 0.2);
+
+            > i
+            {
+                transform: scale(1.2);
+            }
+        }
+
+        > i
+        {
+            @include util.transition(transform);
+            font-size: 110%;
+        }
+    }
+
+    > .topics
+    {
+        display: flex;
+        flex-wrap: wrap;
+        gap: size.$gap;
+
+        > .topic
+        {
+            background: var(--c_bg-content-accent);
+            padding: 5px 10px;
+            border-radius: size.$borderRadius;
+        }
+    }
+}
+
+body > aside.minor
+{
+    > .full
+    {
+        display: flex;
+        flex-direction: column;
+
+        > header
+        {
+            display: flex;
+            justify-content: center;
+            gap: size.$gapSmall;
+
+            font-size: 115%;
+            font-weight: 600;
+
+            padding: size.$gap;
+            border-bottom: 1px solid var(--c_border);
+
+            > .count
+            {
+                color: var(--c_text-muted);
+            }
+        }
+
+        > .contributors
+        {
+            flex: 1;
+            overflow: auto;
+            @extend %scrollbar;
+
+            > .contributor
+            {                
+                @extend %contributor;
+            }
+        }
+    }
+
+    > .mini
+    {
+        > button.contribution
+        {
+            @extend %asideMinorButton;
+        }
+    }
+}

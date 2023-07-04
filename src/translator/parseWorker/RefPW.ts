@@ -24,9 +24,16 @@ export default class RefPW extends ParseWorker
 
         if (product instanceof Link)
         {
+            let target = product.target;
+
+            if (target.startsWith('^'))
+                target = this.refAliasMap[target.slice(1)];
+
+            product.target = target;
+
             let ref = new DbRef;
                 ref.from = this.location.getFullId();
-                ref.target = product.target;
+                ref.target = target;
 
             this.refs.push(ref);
         }

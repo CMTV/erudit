@@ -1,15 +1,38 @@
+@use 'def/color';
 @use 'def/size';
+@use 'def/bp';
 
+@use 'partial/aside';
 @use 'partial/scroll';
 @use 'partial/hover';
 @use 'partial/util';
 
 body > main > article
 {
+    > img.decoration
+    {
+        display: block;
+        float: right;
+        max-width: 200px;
+        max-height: 100px;
+        margin: 0;
+        margin-left: size.$gapBig;
+
+        @include bp.max(stretch)
+        {
+            display: none;
+        }
+
+        @include color.themeDark
+        {
+            filter: invert(1);
+        }
+    }
+
     > .topicInfo
     {
         display: grid;
-        grid-template-columns: 40px auto;
+        grid-template-columns: 40px auto auto;
         grid-template-rows: auto auto;
 
         > .type
@@ -33,6 +56,113 @@ body > main > article
             margin-top: size.$gap;
             color: var(--c_text-muted);
             font-size: 1.1em;
+        }
+    }
+
+    //
+    // Bottom Nav Block
+    //
+
+    > .navBlock
+    {
+        display: flex;
+        justify-content: space-between;
+
+        border-top: 1px solid var(--c_border);
+
+        > .button
+        {
+            position: relative;
+            display: grid;
+            grid-template-columns: auto auto;
+            grid-template-rows: auto auto;
+            column-gap: size.$gap;
+
+            padding-top: size.$gapBig;
+            text-decoration: none;
+
+            &::before
+            {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 2px;
+                background: transparent;
+                @include util.transition(background);
+            }
+
+            &[data-disabled],
+            &[data-current]
+            {
+                cursor: default;
+            }
+
+            &[data-disabled]
+            {
+                > i, > .label, > .desc { color: var(--c_text-dimmed); }
+            }
+
+            &[data-current]
+            {
+                > i { color: var(--c_text); }
+                &::before { background: var(--c_text-muted); }
+            }
+
+            &:not([data-disabled]):not([data-current]):hover
+            {
+                > i { color: var(--c_text); }
+                &::before { background: var(--c_border); }
+            }
+
+            > i
+            {
+                grid-column: 1 / 2;
+                grid-row: 1 / 3;
+                align-self: center;
+                justify-self: center;
+
+                font-size: 40px;
+                color: var(--c_text-muted);
+                @include util.transition(color);
+            }
+
+            > .label
+            {
+                font-weight: 600;
+                color: var(--c_text-muted);
+            }
+
+            > .desc
+            {
+                grid-column: 2 / 3;
+                grid-row: 2 / 3;
+
+                font-size: 90%;
+                color: var(--c_text-muted);
+            }
+
+            @include bp.max(stretch)
+            {
+                column-gap: 0;
+                row-gap: size.$gap;
+
+                > i
+                {
+                    grid-column: 1 / 3;
+                    grid-row: 1 / 2;
+                    font-size: 35px;
+                }
+
+                > .label
+                {
+                    grid-column: 1 / 3;
+                    grid-row: 2 / 3;
+                }
+
+                > .desc { display: none; }
+            }
         }
     }
 }
@@ -134,29 +264,10 @@ body > aside.minor
             }
 
             > .contributor
-            {                
-                display: flex;
-                align-items: center;
-                gap: size.$gap;
-
-                padding: size.$gap;
+            {
+                @extend %contributor;
                 border-top: 1px solid var(--c_border);
-
-                color: var(--c_text);
-                text-decoration: none;
-
-                @include util.transition(background);
-
-                &:hover
-                {
-                    background: var(--c_bg-content-accent);
-                }
-
-                > img
-                {
-                    @include util.size(40px);
-                    border-radius: 50%;
-                }
+                border-bottom: none;
             }
         }
 
@@ -246,7 +357,7 @@ body > aside.minor
                     position: absolute;
                     left: 0; top: 0;  bottom: 0px;
                     width: 3px;
-                    background: var(--c_text-dimmed);
+                    background: var(--c_text-muted);
                 }
             }
 

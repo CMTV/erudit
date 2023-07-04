@@ -1,7 +1,9 @@
 import EruditGroup from "src/process/EruditGroup";
+
 import BuildPageContributor from "./BuildPageContributor";
 import BuildPageIndex from "./BuildPageIndex";
 import BuildPageTopic from "./BuildPageTopic";
+import BuildPageBook from "./BuildPageBook";
 
 export default class BuildPageGroup extends EruditGroup
 {
@@ -13,6 +15,7 @@ export default class BuildPageGroup extends EruditGroup
             BuildPageIndex,
             BuildPageTopic,
             BuildPageContributor,
+            BuildPageBook,
         ];
     }
 }

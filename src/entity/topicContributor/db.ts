@@ -10,5 +10,8 @@ export default class DbTopicContributor
     contributorId: string;
 
     @Column()
+    bookId: string;
+
+    @Column()
     displayOrder: number;
 }

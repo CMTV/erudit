@@ -9,6 +9,18 @@ export default class DbBook
     @Column()
     title: string;
 
+    @Column({ nullable: true })
+    desc: string;
+
+    @Column('simple-array', { nullable: true })
+    results: string[];
+
+    @Column('simple-array', { nullable: true })
+    topics: string[];
+
+    @Column({ default: false })
+    hasDecoration: boolean;
+
     @Column()
     displayOrder: number;
 

@@ -4,6 +4,7 @@ import { EruditBlock } from "src/translator/block/eruditBlock";
 import { BlockView, BlockViewFactory, InlinerView, InlinerViewFactory } from "src/translator/view";
 
 // Block Factories
+import { VFHtml } from "./block/html/view";
 import { VFParagraph } from "./block/paragraph/view";
 import { VFHeading } from "./block/heading/view";
 import { VFMath as VFMathBlock } from "./block/math/view";
@@ -19,6 +20,7 @@ import { VFTask } from "./block/task/view";
 import { VFText } from "./inliner/text/view";
 import { VFMath as VFMathInliner } from "./inliner/math/view";
 import { VFLink } from "./inliner/link/view";
+import { VFTable } from "./block/table/view";
 
 declare type TVFactory<TVFactoryType> = (new () => TVFactoryType);
 
@@ -27,7 +29,9 @@ export default class Renderer
     location: { type: string, id: string };
 
     blockFactories: { [type: string]: TVFactory<BlockViewFactory<BlockView, EruditBlock>> } = {
+        html:       VFHtml,
         paragraph:  VFParagraph,
+
         heading:    VFHeading,
         math:       VFMathBlock,
         list:       VFList,
@@ -35,6 +39,7 @@ export default class Renderer
 
         image:      VFImage,
         gallery:    VFGallery,
+        table:      VFTable,
 
         include:    VFInclude,
 

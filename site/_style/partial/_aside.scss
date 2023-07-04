@@ -1,0 +1,47 @@
+@use 'def/size';
+
+@use 'partial/util';
+
+%asideMinorButton
+{
+    @include util.flexCC;
+    @include util.size(size.$asideMini);
+    font-size: 25px;
+    color: var(--c_text-dimmed);
+    background: transparent;
+
+    @include util.transition(background, color);
+
+    &:hover
+    {
+        cursor: pointer;
+        color: var(--c_text);
+        background: var(--c_bg-content-accent);
+    }
+}
+
+%contributor
+{
+    display: flex;
+    align-items: center;
+    gap: size.$gap;
+
+    padding: size.$gap;
+    border-bottom: 1px solid var(--c_border);
+
+    color: var(--c_text);
+    text-decoration: none;
+
+    @include util.transition(background);
+
+    &:hover
+    {
+        background: var(--c_bg-content-accent);
+    }
+
+    > img
+    {
+        @include util.size(40px);
+        border-radius: 50%;
+    }
+}

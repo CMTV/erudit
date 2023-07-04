@@ -6,6 +6,11 @@ article: Статья
 summary: Конспект
 practicum: Практикум
 
+topicTypeDesc:
+    article: Разобраться в теме
+    summary: Запомнить важное
+    practicum: Закрепить задачами
+
 back: Назад
 
 theme:
@@ -81,5 +86,16 @@ vendor:
         errorMsg: Не получилось загрузить изображение!
 
 on: на
+
+bookPage:
+    book: Учебник
+    stats:
+        topics: Темы
+        definitions: Понятия
+        theorems: Утверждения
+        tasks: Задания
+    learn: Изучить!
+    results: Что научимся делать?
+    keyConcepts: Основные темы
 
 contribution: Вклад

@@ -1,0 +1,62 @@
+extends /template/default
+
+include /include/toc
+
+block content
+    if (decoration)
+        img.decoration(src= decoration)
+
+    header
+        i(class="i-book", title= i18n('bookPage.book'))
+        h1.title= bookTitle
+
+    .stats
+        .statsBlock.topics(title= i18n('bookPage.stats.topics'))
+            i(class="i-file-lines")
+            span= topicCount
+        .statsBlock.definitions(title= i18n('bookPage.stats.definitions'))
+            i(class="i-cube")
+            span= definitions
+        .statsBlock.theorems(title= i18n('bookPage.stats.theorems'))
+            i(class="i-gavel")
+            span= theorems
+        .statsBlock.tasks(title= i18n('bookPage.stats.tasks'))
+            i(class="i-check")
+            span= tasks
+
+    if (desc)
+        .desc= desc
+
+    if (firstTopicId)
+        a(href= '/' + firstTopicId).goButton
+            i(class="i-graduation-cap")
+            span= i18n('bookPage.learn')
+
+    if (results)
+        h2= i18n('bookPage.results')
+        ul
+            each result in results
+                li= result
+
+    if (topics)
+        h2= i18n('bookPage.keyConcepts')
+        .topics
+            each topic in topics
+                .topic= topic
+
+    if (!config.dev)
+        +adBlock('R-A-2185026-1', 'afterContent')
+
+block minorFull
+    header
+        .label= i18n('contribution') + ':'
+        .count= contributors.length
+    .contributors
+        each contributor in contributors
+            a.contributor(href= contributor.link)
+                img(src= contributor.avatar)
+                .name= contributor.name
+
+block minorMini
+    button.contribution(title= i18n('contribution'))
+        i(class='i-users')

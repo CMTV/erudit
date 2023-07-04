@@ -11,6 +11,7 @@ import DbUnique from "src/entity/unique/db";
 import DbRef from "src/entity/ref/db";
 import DbFile from "src/entity/file/db";
 import DbTopicContributor from "src/entity/topicContributor/db";
+import DbBookStats from "src/entity/bookStats/db";
 
 export default function getDb(pathToDb: string)
 {
@@ -24,6 +25,7 @@ export default function getDb(pathToDb: string)
             DbShelf,
             DbBook,
             DbBookToc,
+            DbBookStats,
 
             DbTopic,
             DbTopicToc,

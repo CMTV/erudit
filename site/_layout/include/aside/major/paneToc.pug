@@ -21,7 +21,7 @@ include /include/toc
             .controls
                 .navButtons
                     .back(title= i18n('back')): i(class="i-arrow-left")
-                    a.home(title= i18n('paneToc.controls.home'), href="google.com"): i(class="i-house")
+                    a.home(title= i18n('paneToc.controls.home'), href=`/${bookId}/@book`): i(class="i-house")
 
                 .filter
                     .label= i18n('paneToc.controls.display')

@@ -8,6 +8,7 @@ export default abstract class ParseWorker
     abstract applyTo(parseResult: ParseResult): void;
 
     location: Location;
+    extra;
 
     step(product: Product, factory: Factory<Product>): void | Product {}
     finally() {}

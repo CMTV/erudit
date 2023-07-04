@@ -4,6 +4,9 @@ include /include/ads
 include /include/toc
 
 block content
+    if (decoration)
+        img.decoration(src= decoration)
+
     .topicInfo
         .type(title= i18n(topicType))
             case topicType
@@ -24,6 +27,17 @@ block content
 
     != content
 
+    .navBlock
+        each t in ['article', 'summary', 'practicum']
+            a.button(
+                href= topicTypes.includes(t) && t !== topicType ? `../@${t}` : null,
+                data-disabled= !topicTypes.includes(t),
+                data-current= t === topicType
+            )
+                i(class= `i-${topicIcon(t)}`)
+                .label= i18n(t)
+                .desc= i18n('topicTypeDesc.' + t)
+
     if (!config.dev)
         +adBlock('R-A-2185026-1', 'afterContent')
 
@@ -39,7 +53,7 @@ block minorFull
         each t in ['article', 'summary', 'practicum']
             +switchButton(
                 topicTypes.includes(t) && t !== topicType ? `../@${t}` : null,
-                t === 'article' ? 'file-lines' : `topic-${t}`,
+                topicIcon(t),
                 i18n(t),
                 { current: t === topicType, disabled: !topicTypes.includes(t) }
             )
@@ -86,7 +100,7 @@ block minorMini
     each t in ['article', 'summary', 'practicum']
         +miniSwitchButton(
             topicTypes.includes(t) && t !== topicType ? `../@${t}` : null,
-            t === 'article' ? 'file-lines' : `topic-${t}`,
+            topicIcon(t),
             i18n(t),
             { current: t === topicType, disabled: !topicTypes.includes(t) }
         )

@@ -1,11 +1,10 @@
 import DbBook from "src/entity/book/db";
+import { ViewBaseContributor } from "src/entity/contributor/view";
 import DbTopic from "src/entity/topic/db";
 import RepoTopic from "src/entity/topic/repository";
 import DbTopicContributor from "src/entity/topicContributor/db";
-import { ViewTopicContributor } from "src/entity/topicContributor/view";
 import DbTopicToc from "src/entity/topicToc/db";
 import ViewTopicTocItem from "src/entity/topicToc/view";
-import Layout from "src/frontend/Layout";
 import SEO from "src/page/component/SEO";
 import PageTopic, { TopicType } from "src/page/PageTopic";
 import EruditProcess from "src/process/EruditProcess";
@@ -24,7 +23,7 @@ export default class BuildPageTopic extends EruditProcess
         {
             let topicId = topicIds[i];
             let dbTopic = await this.db.manager.findOne(DbTopic, { where: { id: topicId }});
-            let bookTitle = (await this.db.manager.findOne(DbBook, { where: { id: dbTopic.bookId }})).title;
+            let dbBook = await this.db.manager.findOne(DbBook, { where: { id: dbTopic.bookId }});
 
             let topicTypes = Object.values(TopicType).filter(type => dbTopic[type]);
 
@@ -41,8 +40,10 @@ export default class BuildPageTopic extends EruditProcess
                     page.topicId = topicId;
                     page.bookId = dbTopic.bookId;
 
-                    page.bookTitle = bookTitle;
+                    page.bookTitle = dbBook.title;
                     page.bookToc = readFile(this.erudit.path.site('site', 'book-tocs', dbTopic.bookId + '.html'));
+
+                    page.decoration = dbBook.hasDecoration ? '/' + dbBook.id + '/@book/decoration.svg' : null;
 
                     page.topicTypes = topicTypes;
 
@@ -57,7 +58,7 @@ export default class BuildPageTopic extends EruditProcess
                     page.toc = ViewTopicTocItem.makeListFrom(dbTopicToc);
 
                     page.seo = new SEO;
-                    page.seo.title = `${dbTopic.title} | ${this.erudit.lang.phrase(type)} | ${bookTitle} ${this.erudit.lang.phrase('on')} OMath`;
+                    page.seo.title = `${dbTopic.title} | ${this.erudit.lang.phrase(type)} | ${page.bookTitle} ${this.erudit.lang.phrase('on')} OMath`;
                     page.seo.desc = dbTopic.desc;
                     page.seo.keywords = dbTopic.keywords;
 
@@ -68,14 +69,14 @@ export default class BuildPageTopic extends EruditProcess
         }        
     }
 
-    async getViewContributors(topicId: string): Promise<ViewTopicContributor[]>
+    async getViewContributors(topicId: string): Promise<ViewBaseContributor[]>
     {
         let contributors = [];
 
         let contributorIds = (await this.db.manager.find(DbTopicContributor, { where: { topicId: topicId }, order: { displayOrder: 'ASC' } })).map(dbItem => dbItem.contributorId);
 
         for (let i = 0; i < contributorIds.length; i++)
-            contributors.push(await ViewTopicContributor.fromId(contributorIds[i]));
+            contributors.push(await ViewBaseContributor.fromId(contributorIds[i]));
         
         return contributors;
     }

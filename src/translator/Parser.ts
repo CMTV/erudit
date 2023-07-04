@@ -21,6 +21,8 @@ import FInclude, { getChunkUniques } from "src/translator/block/include/factory"
 import FChunk from "src/translator/block/chunk/factory";
 import FParagraph from "src/translator/block/paragraph/factory";
 import FHr from "src/translator/block/hr/factory";
+import FHtml from "./block/html/factory";
+import FTable from "./block/table/factory";
 
 // Accent Blocks
 import { FDefinition, FExample, FImportant, FTheorem } from "src/translator/block/accentBlock/factory";
@@ -35,6 +37,7 @@ import UniquePW from "src/translator/parseWorker/UniquePW";
 import RefPW from "src/translator/parseWorker/RefPW";
 import FilePW from "src/translator/parseWorker/FilePW";
 import { EruditBlock } from "./block/eruditBlock";
+import StatsPW from "./parseWorker/StatsPW";
 
 //#region BLP Parser
 //
@@ -60,6 +63,7 @@ let blpParser = new EruditBlpParser;
         FRefAlias,
         FSpoiler,
         FTask,
+        FTable,
 
         FInclude,
         FChunk,
@@ -69,6 +73,7 @@ let blpParser = new EruditBlpParser;
         FDefinition,
         FTheorem,
 
+        FHtml,
         FParagraph
     ];
 
@@ -147,17 +152,21 @@ export class ParseResult
 
 class Parser
 {
-    parse(text: string, location: Location): ParseResult
+    parse(text: string, location: Location, extra = {}): ParseResult
     {
         let parseResult = new ParseResult;
 
         let workers: ParseWorker[] = [
             new UniquePW,
             new RefPW,
-            new FilePW
+            new FilePW,
+            new StatsPW
         ];
 
-        workers.forEach(worker => worker.location = location);
+        workers.forEach(worker => {
+            worker.location = location,
+            worker.extra = extra
+        });
 
         withErrorMeta(() =>
         {            

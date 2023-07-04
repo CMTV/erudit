@@ -10,7 +10,7 @@
         if (sectionNames.length > 0)
             .controls
                 each sectionName in sectionNames
-                    button(data-section= sectionName)
+                    button(data-section= sectionName, title= i18n(`task.${sectionName}`))
                         i
 
     .statement!= statement

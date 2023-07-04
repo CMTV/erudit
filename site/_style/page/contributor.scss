@@ -1,6 +1,7 @@
 @use 'def/size';
 @use 'def/bp';
 
+@use 'partial/aside';
 @use 'partial/scroll';
 @use 'partial/hover';
 @use 'partial/util';
@@ -71,7 +72,7 @@ body > aside.minor
         {
             display: flex;
             justify-content: center;
-            gap: size.$gap;
+            gap: size.$gapSmall;
 
             font-size: 115%;
             font-weight: 600;
@@ -97,20 +98,7 @@ body > aside.minor
     {
         > button.contribution
         {
-            @include util.flexCC;
-            @include util.size(size.$asideMini);
-            font-size: 25px;
-            color: var(--c_text-muted);
-            background: transparent;
-    
-            @include util.transition(background, color);
-    
-            &:hover
-            {
-                cursor: pointer;
-                color: var(--c_text);
-                background: var(--c_bg-content-accent);
-            }
+            @extend %asideMinorButton;
         }
     }
 }

@@ -113,7 +113,7 @@ export default class FillTopics extends EruditProcess
         dbTopic.desc = config.desc;
         dbTopic.keywords = config.keywords ? config.keywords.join(', ') : null;
 
-        dbContributors.push(...this.getDbContributors(tocTopic.id, config.contributors));
+        dbContributors.push(...this.getDbContributors(tocTopic.id, bookId, config.contributors));
 
         tocTopic.parts.forEach(topicPart =>
         {
@@ -126,7 +126,8 @@ export default class FillTopics extends EruditProcess
 
                 let parseResult = parser.parse(
                     fs.readFileSync(topicPartPath, 'utf-8'),
-                    location
+                    location,
+                    { bookId: bookId}
                 );
 
                 // Checking for duplicating IDs (COPIED FROM UniquePW.ts!!!)
@@ -156,7 +157,7 @@ export default class FillTopics extends EruditProcess
         return dbTopic;
     }
 
-    getDbContributors(topicId: string, contributors: string[]): DbTopicContributor[]
+    getDbContributors(topicId: string, bookId: string, contributors: string[]): DbTopicContributor[]
     {
         if (!contributors || contributors.length === 0)
             throw new Error('Empty contributors list!');
@@ -168,6 +169,7 @@ export default class FillTopics extends EruditProcess
             let dbContributor = new DbTopicContributor;
                 dbContributor.topicId = topicId;
                 dbContributor.contributorId = contributorId;
+                dbContributor.bookId = bookId;
                 dbContributor.displayOrder = i + 1;
 
             dbContributors.push(dbContributor);

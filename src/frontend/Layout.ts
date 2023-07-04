@@ -11,7 +11,13 @@ export default class Layout
             basedir:    normalize(erudit.path.package('site/_layout')),
             //cache:      !erudit.dev,
             lang:       erudit.lang.langCode,
-            i18n:       (key, ...values) => erudit.lang.phrase(key, values)       
+            i18n:       (key, ...values) => erudit.lang.phrase(key, values),
+            topicIcon:  topicType => {
+                if (topicType === 'article')
+                    return 'file-lines';
+
+                return 'topic-' + topicType;
+            }
         }
     }
 
