@@ -48,13 +48,11 @@ export default class FillTopics extends EruditProcess
 
             for (let j = 0; j < dbTopics.length; j++)
             {
-                let getAllowedType = (dbTopic: DbTopic) => Object.values(TopicType).filter(type => dbTopic[type]).shift();
-
                 if (j !== 0)
-                    dbTopics[j].previousId = dbTopics[j - 1].id + '/@' + getAllowedType(dbTopics[j - 1]);
+                    dbTopics[j].previousId = dbTopics[j - 1].id;
                 
                 if (j !== dbTopics.length - 1)
-                    dbTopics[j].nextId = dbTopics[j + 1].id + '/@' + getAllowedType(dbTopics[j + 1]);
+                    dbTopics[j].nextId = dbTopics[j + 1].id;
             }
 
             this.startStage('Insert topics into database');

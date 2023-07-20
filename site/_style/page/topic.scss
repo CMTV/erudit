@@ -63,7 +63,7 @@ body > main > article
     // Bottom Nav Block
     //
 
-    > .navBlock
+    > .typeNavBlock
     {
         display: flex;
         justify-content: space-between;
@@ -78,7 +78,7 @@ body > main > article
             grid-template-rows: auto auto;
             column-gap: size.$gap;
 
-            padding-top: size.$gapBig;
+            padding-top: size.$gapStruct;
             text-decoration: none;
 
             &::before
@@ -163,6 +163,39 @@ body > main > article
 
                 > .desc { display: none; }
             }
+        }
+    }
+
+    > .topicNavBlock
+    {
+        border-top: 1px solid var(--c_border);
+        padding-top: size.$gapStruct;
+        display: flex;
+
+        > .sep
+        {
+            flex: 1;
+        }
+
+        > a
+        {
+            color: var(--c_text-muted);
+            text-decoration: none;
+            display: flex;
+            gap: size.$gap;
+            align-items: center;
+
+            @include util.transition(color);
+
+            &:hover { color: var(--c_text); }
+
+            > i
+            {
+                font-size: 30px;
+            }
+
+            @include bp.max(stretch) { > .long { display: none; } }
+            @include bp.min(stretch, 1) { > .short { display: none;} }
         }
     }
 }

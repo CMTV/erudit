@@ -17,13 +17,17 @@ export default class BuildPageTopic extends EruditProcess
 
     async do()
     {
-        let topicIds = await (new RepoTopic(this.db)).getTopicIds();
+        let topicRepo = new RepoTopic(this.db);
+        let topicIds = await topicRepo.getTopicIds();
 
         for (let i = 0; i < topicIds.length; i++)
         {
             let topicId = topicIds[i];
             let dbTopic = await this.db.manager.findOne(DbTopic, { where: { id: topicId }});
             let dbBook = await this.db.manager.findOne(DbBook, { where: { id: dbTopic.bookId }});
+
+            let nextData = await topicRepo.getNextPrevious(dbTopic.nextId);
+            let previousData = await topicRepo.getNextPrevious(dbTopic.previousId);
 
             let topicTypes = Object.values(TopicType).filter(type => dbTopic[type]);
 
@@ -47,8 +51,11 @@ export default class BuildPageTopic extends EruditProcess
 
                     page.topicTypes = topicTypes;
 
-                    page.next = dbTopic.nextId;
-                    page.previous = dbTopic.previousId;
+                    page.next = nextData.link;
+                    page.nextTitle = nextData.title;
+
+                    page.previous = previousData.link;
+                    page.previousTitle = previousData.title;
 
                     page.title = dbTopic.title;
                     page.desc = dbTopic.desc;

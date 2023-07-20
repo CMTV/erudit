@@ -38,6 +38,9 @@ export default class PageTopic extends Page
     next: string;
     previous: string;
 
+    nextTitle: string;
+    previousTitle: string;
+
     contributors: ViewBaseContributor[];
 
     constructor()

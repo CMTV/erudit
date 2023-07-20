@@ -13,9 +13,19 @@ export default class RepoTopic extends Repository
                     .map(obj => obj.id);
     }
 
-    // async getTopicTypes(topicId: string)
-    // {
-    //     let article = (await this.db.createQueryBuilder(DbTopic, 'topic').select('1'))
+    async getNextPrevious(topicId: string)
+    {
+        if (!topicId)
+            return {};
 
-    // }
+        let dbTopic = await this.db.manager.findOne(DbTopic, { select: ['title', 'parts'], where: { id: topicId } });
+
+        if (!dbTopic)
+            return {};
+
+        return {
+            link: topicId + '/@' + dbTopic.parts.shift(),
+            title: dbTopic.title
+        }
+    }
 }

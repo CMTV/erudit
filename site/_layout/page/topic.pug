@@ -27,7 +27,7 @@ block content
 
     != content
 
-    .navBlock
+    .typeNavBlock
         each t in ['article', 'summary', 'practicum']
             a.button(
                 href= topicTypes.includes(t) && t !== topicType ? `../@${t}` : null,
@@ -37,6 +37,19 @@ block content
                 i(class= `i-${topicIcon(t)}`)
                 .label= i18n(t)
                 .desc= i18n('topicTypeDesc.' + t)
+
+    .topicNavBlock
+        if (previous)
+            a.previous(href= `/${previous}`)
+                i.i-arrow-left
+                span.short Назад
+                span.long= previousTitle
+        .sep
+        if (next)
+            a.next(href= `/${next}`)
+                span.short Дальше
+                span.long= nextTitle
+                i.i-arrow-right
 
     if (!config.dev)
         +adBlock('R-A-2185026-1', 'afterContent')

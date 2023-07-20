@@ -30,6 +30,7 @@
     border-bottom: 1px solid var(--c_border);
 
     color: var(--c_text);
+    font-size: 105%;
     text-decoration: none;
 
     @include util.transition(background);

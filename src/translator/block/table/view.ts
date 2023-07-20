@@ -1,5 +1,6 @@
 import { BlockView, BlockViewFactory } from "src/translator/view";
 import Table from "./block";
+import Layout from "src/frontend/Layout";
 
 export class VTable extends BlockView
 {
@@ -18,6 +19,6 @@ export class VFTable extends BlockViewFactory<VTable, Table>
 
     async getRender(view: VTable)
     {
-        return view.content;
+        return Layout.renderFile('block/table.pug', view);
     }
 }

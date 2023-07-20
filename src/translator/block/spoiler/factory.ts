@@ -8,7 +8,7 @@ export default class FSpoiler extends EruditBlockFactory<Spoiler>
 {
     canParse(str: string): boolean
     {
-        return str.startsWith('@spoiler');    
+        return str.startsWith('@spoiler');
     }
 
     protected parse(str: string): Spoiler

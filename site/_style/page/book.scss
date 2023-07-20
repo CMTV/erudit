@@ -11,14 +11,20 @@ body > main > article
     > img.decoration
     {
         display: block;
-        max-width: 250px;
-        max-height: 250px;
+        max-width: 230px;
+        max-height: 230px;
         margin-right: auto;
         margin-left: auto;
 
         @include color.themeDark
         {
             filter: invert(1);
+        }
+
+        @include bp.max(mini)
+        {
+            max-width: 150px;
+            max-height: 150px;
         }
     }
 
@@ -31,7 +37,7 @@ body > main > article
 
         @include bp.max(mini)
         {
-            flex-direction: column;
+            > i { display: none; }
             align-items: center;
         }
 

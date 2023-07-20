@@ -9,7 +9,7 @@ import DbFile from "src/entity/file/db";
 import Location from "src/entity/location/global";
 
 // Block Factories
-import { default as FBlockMath } from "src/translator/block/math/factory";
+import { default as FBlockMath, FObjMath } from "src/translator/block/math/factory";
 import FHeading from "src/translator/block/heading/factory";
 import { FList, FBlockList } from "src/translator/block/list/factory";
 import FImage from "src/translator/block/image/factory";
@@ -52,6 +52,7 @@ let blpParser = new EruditBlpParser;
 
     blpParser.blockFactories = [
         FBlockMath,
+        FObjMath,
 
         FHeading,
         FHr,
