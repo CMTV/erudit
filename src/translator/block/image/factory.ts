@@ -43,6 +43,12 @@ export default class FImage extends EruditBlockObjFactory<Image>
         if (obj._classList)
             image._classList = obj._classList;
 
+        image.minWidth ??= obj.minWidth
+        image.maxWidth ??= obj.maxWidth
+        
+        if (obj.width)
+            image.minWidth = image.maxWidth = obj.width;
+
         return image;
     }
 }

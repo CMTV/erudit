@@ -9,4 +9,7 @@ export default class Image extends EruditBlock
     height: number;
     caption: string;
     invertible: boolean;
+
+    minWidth: number;
+    maxWidth: number;
 }

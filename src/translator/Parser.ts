@@ -23,6 +23,7 @@ import FParagraph from "src/translator/block/paragraph/factory";
 import FHr from "src/translator/block/hr/factory";
 import FHtml from "./block/html/factory";
 import FTable from "./block/table/factory";
+import FArray from "./block/array/factory";
 
 // Accent Blocks
 import { FDefinition, FExample, FImportant, FTheorem } from "src/translator/block/accentBlock/factory";
@@ -65,6 +66,8 @@ let blpParser = new EruditBlpParser;
         FSpoiler,
         FTask,
         FTable,
+
+        FArray,
 
         FInclude,
         FChunk,

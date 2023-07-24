@@ -10,6 +10,9 @@ export class VImage extends BlockView
     height: number;
     caption: string;
     invertible: boolean;
+
+    minWidth: number;
+    maxWidth: number;
 }
 
 export class VFImage extends BlockViewFactory<VImage, Image>
@@ -22,6 +25,8 @@ export class VFImage extends BlockViewFactory<VImage, Image>
             view.height = block.height;
             view.caption = block.caption;
             view.invertible = block.invertible;
+            view.minWidth = block.minWidth;
+            view.maxWidth = block.maxWidth;
 
         return view;
     }

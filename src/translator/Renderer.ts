@@ -15,12 +15,13 @@ import { VFHr } from "./block/hr/view";
 import { VFImage } from "./block/image/view";
 import { VFGallery } from "./block/gallery/view";
 import { VFTask } from "./block/task/view";
+import { VFTable } from "./block/table/view";
+import { VFArray } from "./block/array/view";
 
 // Inliner Factories
 import { VFText } from "./inliner/text/view";
 import { VFMath as VFMathInliner } from "./inliner/math/view";
 import { VFLink } from "./inliner/link/view";
-import { VFTable } from "./block/table/view";
 
 declare type TVFactory<TVFactoryType> = (new () => TVFactoryType);
 
@@ -40,6 +41,7 @@ export default class Renderer
         image:      VFImage,
         gallery:    VFGallery,
         table:      VFTable,
+        array:      VFArray,
 
         include:    VFInclude,
 

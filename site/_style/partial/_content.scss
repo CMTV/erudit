@@ -159,6 +159,20 @@
     }
 
     //
+    // Array
+    //
+
+    .array
+    {
+        display: flex;
+        flex-wrap: wrap;
+        gap: size.$gapBig;
+
+        align-items: center;
+        justify-content: center;
+    }
+
+    //
     // Inline text style
     //
 
