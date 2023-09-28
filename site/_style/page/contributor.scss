@@ -16,7 +16,20 @@ body > main > article
         align-items: center;
         gap: size.$gap;
 
+        margin: size.$gapBig;
+        margin-bottom: 0;
         padding-bottom: size.$gapBig;
+
+        font-size: 110%;
+
+        @include bp.max(mini)
+        {
+            margin: size.$gap;
+            margin-bottom: 0;
+            padding-bottom:size.$gap;
+            font-size: 100%;
+        }
+
 
         border-bottom: 1px solid var(--c_border);
 
@@ -38,7 +51,7 @@ body > main > article
     
             > .slogan
             {
-                font-size: 1.1em;
+                font-size: 1.05em;
                 color: var(--c_text-muted);
             }
         }
@@ -91,6 +104,119 @@ body > aside.minor
             flex: 1;
             overflow: auto;
             @extend %scrollbar;
+
+            display: flex;
+            flex-direction: column;
+
+            > section
+            {
+                display: flex;
+                flex-direction: column;
+                padding: size.$gap;
+
+                &:not(:last-of-type)
+                {
+                    border-bottom: 1px solid var(--c_border);
+                }
+
+                > .book
+                {
+                    display: flex;
+                    gap: size.$gapSmall;
+                    align-items: center;
+
+                    color: var(--c_text-muted);
+                    font-weight: 600;
+
+                    &[data-open]
+                    {
+                        > i { transform: rotate(180deg); }
+
+                        & + .topics
+                        {
+                            padding-top: size.$gap;
+                        }
+                    }
+
+                    &:hover
+                    {
+                        cursor: pointer;
+
+                        > .title
+                        {
+                            text-decoration-color: initial;
+                        }
+                    }
+
+                    > i
+                    {
+                        color: var(--c_text-dimmed);
+                        transform: rotate(90deg);
+                        @include util.transition(transform);
+                    }
+
+                    > .title
+                    {
+                        font-size: 105%;
+                        text-decoration: underline;
+                        text-decoration-color: transparent;
+                        @include util.transition(text-decoration-color);
+                    }
+
+                    > .count
+                    {
+                        color: var(--c_text-dimmed);
+                        font-weight: normal;
+                    }
+                }
+
+                > .book:not([data-open]) + .topics
+                {
+                    height: 0;
+                    overflow: hidden;
+                }
+
+                > .topics
+                {
+                    display: flex;
+                    flex-direction: column;
+                    gap: size.$gap;
+
+                    padding-left: 3px;
+
+                    > .topic
+                    {
+                        > a
+                        {
+                            display: flex;
+                            gap: size.$gap;
+
+                            font-size: 97%;
+                            color: var(--c_text-muted);
+                            text-decoration: none;
+
+                            > i
+                            {
+                                position: relative;
+                                top: 3px;
+                                font-size: 17px;
+                            }
+
+                            > span
+                            {
+                                text-decoration: underline;
+                                text-decoration-color: transparent;
+                                @include util.transition(text-decoration-color);
+                            }
+
+                            &:hover > span
+                            {
+                                text-decoration-color: initial;
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 

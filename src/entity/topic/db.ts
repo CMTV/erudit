@@ -1,4 +1,4 @@
-import { Block } from "blp";
+import { Block } from "bitran";
 import { Column, Entity, PrimaryColumn } from "typeorm";
 
 @Entity()

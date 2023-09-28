@@ -6,8 +6,10 @@ import DbContributor from "src/entity/contributor/db";
 
 import { getAvatarExt, IDataContributorInfo } from "src/entity/contributor/data";
 import { parseYamlFile } from "src/util";
-import parser, { ParseResult } from "src/translator/Parser";
-import Location from "src/entity/location/global";
+import { Location, LocationType, Parser } from "translator";
+import { readFile } from "src/util/io";
+import { T_HELPER } from "src/translator/helper";
+import { insertParseResult } from "src/translator/db";
 
 export default class FillContributors extends EruditProcess
 {
@@ -20,11 +22,11 @@ export default class FillContributors extends EruditProcess
         if (!fs.existsSync(dir))
             return;
 
-        let dbContributors: DbContributor[] = [];
-        let parseResults: ParseResult[] = [];
-
-        fs.readdirSync(dir).forEach(contributorId =>
+        let contributorIds = fs.readdirSync(dir);
+        for (let i = 0; i < contributorIds.length; i++)
         {
+            let contributorId = contributorIds[i];
+
             this.startStage(`Contributor '${contributorId}'`);
 
             let filePath = (...parts: string[]) => path.join(dir, contributorId, ...parts);
@@ -48,30 +50,18 @@ export default class FillContributors extends EruditProcess
             if (files.includes('about.md'))
             {
                 let location = new Location;
-                    location.type = 'contributor';
-                    location.id = dbContributor.id;
+                    location.type = LocationType.Contributor;
+                    location.path = dbContributor.id;
 
-                let parseResult = parser.parse(
-                    fs.readFileSync(filePath('about.md'), 'utf-8'),
-                    location
-                );
+                let parser = new Parser(location, T_HELPER);
+                let parseResult = await parser.parse(readFile(filePath('about.md')));
 
-                parseResults.push(parseResult);
                 dbContributor.about = parseResult.blocks;
+
+                await insertParseResult(this.db, parseResult);
             }
 
-            dbContributors.push(dbContributor);
-        });
-
-        this.startStage(`Inserting contributors into database`);
-
-        await this.db
-                    .createQueryBuilder()
-                    .insert()
-                    .into(DbContributor)
-                    .values(dbContributors)
-                    .execute();
-
-        await ParseResult.insert(parseResults, this.db);
+            await this.db.manager.save(dbContributor);
+        }
     }
 }

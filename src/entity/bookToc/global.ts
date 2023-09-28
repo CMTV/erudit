@@ -8,7 +8,7 @@ export enum BookTocItemType
 
 export class BookTocItem extends TocItem
 {
-    children: BookTocItem[];
+    declare children: BookTocItem[];
 }
 
 export class TopicBookTocItem extends BookTocItem

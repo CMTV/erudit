@@ -1,4 +1,5 @@
 import glob from "glob";
+import { copyAssetsTo } from "translator/node";
 
 import EruditProcess from "src/process/EruditProcess";
 import { b2fSlash, copyFile } from "src/util/io";
@@ -39,5 +40,8 @@ export default class MoveSiteFiles extends EruditProcess
             rootFile,
             this.erudit.path.site(rootFile.replace(siteRootPath, '').replace('site/_root/', ''))
         ));
+
+        // Move translator files
+        copyAssetsTo(this.erudit.path.site('site', 'content'));
     }
 }

@@ -1,6 +1,6 @@
 {
     "name": "erudit",
-    "version": "1.1.2",
+    "version": "1.2.0",
     "description": "Static Site Generator (SSG) for creating perfect education websites.",
     "author": {
         "name": "CMTV",
@@ -34,8 +34,8 @@
         "@cmtv/error-meta": "^1.0.6",
         "2tree": "^1.0.3",
         "arg": "^5.0.1",
-        "better-sqlite3": "^7.5.0",
-        "blp": "^3.0.5",
+        "better-sqlite3": "^8.6.0",
+        "bitran": "^0.0.10",
         "chalk": "^4.1.2",
         "chokidar": "^3.5.3",
         "dobot": "^0.0.6",
@@ -43,14 +43,14 @@
         "express": "^4.18.1",
         "glob": "^8.0.3",
         "image-size": "^1.0.1",
-        "katex": "^0.16.4",
         "lodash": "^4.17.21",
         "nkv": "^2.3.2",
-        "nodemon": "^1.14.9",
+        "nodemon": "^3.0.1",
         "pug": "^3.0.2",
         "rimraf": "^3.0.2",
         "sass": "^1.54.3",
-        "typeorm": "^0.3.4",
+        "translator": "github:open-math/translator",
+        "typeorm": "^0.3.17",
         "ws": "^8.8.1",
         "yaml": "^2.0.0-11"
     }

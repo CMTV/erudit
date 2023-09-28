@@ -5,8 +5,9 @@ import DbTopicContributor from "src/entity/topicContributor/db";
 import SEO from "src/page/component/SEO";
 import PageContributor from "src/page/PageContributor";
 import EruditProcess from "src/process/EruditProcess";
-import Renderer from "src/translator/Renderer";
+import { T_HELPER } from "src/translator/helper";
 import { copyFile } from "src/util/io";
+import { Location, LocationType, Renderer } from "translator";
 
 export default class BuildPageContributor extends EruditProcess
 {
@@ -31,11 +32,11 @@ export default class BuildPageContributor extends EruditProcess
             page.name =     dbContributor.displayName ?? dbContributor.name ?? dbContributor.id;
             page.slogan =   dbContributor.slogan;
 
-            let renderer = new Renderer;
-                renderer.location = {
-                    type: 'contributor',
-                    id: contributorId
-                }
+            let location = new Location;
+                location.type = LocationType.Contributor;
+                location.path = contributorId;
+
+            let renderer = new Renderer(location, T_HELPER);
 
             if (dbContributor.about)
                 page.content = await renderer.renderBlocks(dbContributor.about);
@@ -59,7 +60,7 @@ export default class BuildPageContributor extends EruditProcess
 
     async getContribution(contributorId: string)
     {
-        let topicIds = (await this.db.manager.find(DbTopicContributor, { select: { topicId: true }, where: { contributorId: contributorId } })).map(dbItem => dbItem.topicId);
+        let topicIds = (await this.db.manager.find(DbTopicContributor, { select: { topicId: true }, where: { contributorId: contributorId }, order: { displayOrder: 'ASC' } })).map(dbItem => dbItem.topicId);
 
         let bookTopicMap = {};
 

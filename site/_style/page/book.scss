@@ -5,8 +5,9 @@
 @use 'partial/aside';
 @use 'partial/scroll';
 @use 'partial/util';
+@use 'partial/progress';
 
-body > main > article
+body > main > article > [data-content]
 {
     > img.decoration
     {
@@ -148,6 +149,18 @@ body > main > article
             background: var(--c_bg-content-accent);
             padding: 5px 10px;
             border-radius: size.$borderRadius;
+        }
+    }
+
+    > .progress
+    {
+        @extend %progress;
+
+        padding: 0;
+
+        .explain, .percent, .goals .goal
+        {
+            font-size: 95%;
         }
     }
 }

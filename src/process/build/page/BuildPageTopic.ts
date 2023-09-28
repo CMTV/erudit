@@ -8,8 +8,9 @@ import ViewTopicTocItem from "src/entity/topicToc/view";
 import SEO from "src/page/component/SEO";
 import PageTopic, { TopicType } from "src/page/PageTopic";
 import EruditProcess from "src/process/EruditProcess";
-import Renderer from "src/translator/Renderer";
+import { T_HELPER } from "src/translator/helper";
 import { readFile } from "src/util/io";
+import { Location, LocationType, Renderer } from "translator";
 
 export default class BuildPageTopic extends EruditProcess
 {
@@ -31,13 +32,15 @@ export default class BuildPageTopic extends EruditProcess
 
             let topicTypes = Object.values(TopicType).filter(type => dbTopic[type]);
 
-            let renderer = new Renderer;
-
             for (let j = 0; j < topicTypes.length; j++)
             {
                 let type = topicTypes[j];
 
-                renderer.location = { type: type, id: topicId };
+                let location = new Location;
+                    location.type = type as any;
+                    location.path = topicId;
+
+                let renderer = new Renderer(location, T_HELPER);
 
                 let page = new PageTopic;
                     page.topicType = type;

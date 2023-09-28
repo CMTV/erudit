@@ -1,0 +1,77 @@
+@use 'def/size';
+@use 'def/color';
+@use 'def/bp';
+@use 'partial/util';
+@use 'partial/hover';
+@use 'partial/progress';
+
+body > main > article
+{
+    > .wipBooks
+    {
+        display: flex;
+        gap: size.$gap;
+        padding: size.$gapBig;
+        padding-top: 0;
+
+        @include bp.max(mini)
+        {
+            padding: size.$gap;
+            padding-top: 0;
+        }
+    }
+
+    .wipBook
+    {
+        border-radius: size.$borderRadius;
+        border: 1px solid var(--c_border);
+        overflow: hidden;
+
+        @include bp.max(mini)
+        {
+            font-size: 90%;
+        }
+
+        > header
+        {
+            display: flex;
+            align-items: center;
+            gap: size.$gap;
+            padding: size.$gap;
+            border-bottom: 1px solid var(--c_border);
+
+            background: var(--c_bg-content-shade);
+
+            > a > img
+            {
+                display: block;
+                width: 40px;
+
+                @include color.themeDark
+                {
+                    filter: invert(1);
+                }
+            }
+
+            > .title a
+            {
+                color: var(--c_text);
+                font-weight: 600;
+                font-size: 125%;
+                @extend %underline;
+            }
+        }
+
+        > .desc
+        {
+            font-size: 107%;
+            padding: size.$gap;
+            border-bottom: 1px solid var(--c_border);
+        }
+
+        > .progress
+        {
+            @extend %progress;
+        }
+    }
+}

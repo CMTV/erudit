@@ -2,7 +2,6 @@
 @use 'def/bp';
 
 @use 'partial/util';
-@use 'partial/content';
 @use 'partial/hover';
 @use 'partial/scroll';
 
@@ -65,10 +64,7 @@
                 bottom: 0;
             }
 
-            &:not([data-state]) > .inner
-            {
-                @extend %CONTENT;
-            }
+
 
             // State Screens
 

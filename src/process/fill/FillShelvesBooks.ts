@@ -3,8 +3,9 @@ import DbBook from "src/entity/book/db";
 import DbShelf from "src/entity/shelf/db";
 import { parseYamlFile } from "src/util";
 import { exists, normalize } from "src/util/io";
-import DataBookInfo from "src/entity/book/data";
+import DataBookInfo, { DataBookWip } from "src/entity/book/data";
 import DbBookStats from "src/entity/bookStats/db";
+import { BookWipItem } from "src/entity/book/global";
 
 export default class FillShelvesBooks extends EruditProcess
 {
@@ -108,6 +109,15 @@ export default class FillShelvesBooks extends EruditProcess
         dbBook.desc ??= bookInfo.desc;
         dbBook.results ??= bookInfo.results;
         dbBook.topics ??= bookInfo.topics;
+
+        let bookWipPath = normalize(bookDir, 'wip.yml');
+
+        if (!exists(bookWipPath))
+            return dbBook;
+
+        let bookWip = parseYamlFile(bookWipPath) as DataBookWip;
+
+        dbBook.wipItems = bookWip.todo;
 
         return dbBook;
     }

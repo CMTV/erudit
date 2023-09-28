@@ -21,9 +21,17 @@ html(lang= lang, data-layout= layout, data-topic= topicId ? topicId : false)
         link(rel="icon", href="/site/graphics/favicons/favicon.svg")
         link(rel="icon", type="image/png", href="/site/graphics/favicons/favicon.png")
 
+        // Translator
+        link(rel="stylesheet", href="/site/content/style.css")
+        link(rel="stylesheet", href="/site/content/assets/icons/style.css")
+        script(src="/site/content/script.js")
+
         // PhotoSwipe
-        script(src="/site/vendor/photoswipe/photoswipe.umd.min.js")
-        script(src="/site/vendor/photoswipe/photoswipe-lightbox.umd.min.js") 
+        link(rel="stylesheet", href="/site/content/assets/vendor/photoswipe/photoswipe.css")
+        link(rel="stylesheet", href="/site/content/assets/vendor/photoswipe/photoswipe-dynamic-caption-plugin.css")
+        script(src="/site/content/assets/vendor/photoswipe/photoswipe.umd.min.js")
+        script(src="/site/content/assets/vendor/photoswipe/photoswipe-lightbox.umd.min.js")
+        script(src="/site/content/assets/vendor/photoswipe/photoswipe-dynamic-caption-plugin.umd.min.js")
         script.
             var PhotoSwipeLang = {
                 closeTitle:         '#{i18n('vendor.photoswipe.close')}',
@@ -33,10 +41,8 @@ html(lang= lang, data-layout= layout, data-topic= topicId ? topicId : false)
                 errorMsg:           '#{i18n('vendor.photoswipe.errorMsg')}'
             }
 
-        link(href="/site/vendor/photoswipe/photoswipe.css", rel="stylesheet")
-
-        // Katex
-        link(href= '/site/vendor/katex/katex.min.css', rel="stylesheet")
+        // KaTeX
+        link(rel="stylesheet", href="/site/content/assets/vendor/katex/katex.min.css")
 
         // Icons
         link(rel="stylesheet", href="/site/fonts/icons/style.css")

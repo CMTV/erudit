@@ -1,0 +1,108 @@
+@use 'def/size';
+@use 'def/color';
+@use 'def/bp';
+@use 'partial/util';
+@use 'partial/hover';
+
+%progress
+{
+    $doneColor: #509aff;
+
+    padding: size.$gap;
+
+    &:not([data-goals-open])
+    {
+        .goals { display: none; }
+    }
+
+    &[data-goals-open]
+    {
+        > .explain > .done > i { transform: rotate(180deg); }
+    }
+
+    > .bar
+    {
+        display: flex;
+        gap: size.$gap;
+        margin-top: 10px;
+
+        @include bp.max(mini) { gap: size.$gapSmall; }
+
+        .barItem
+        {
+            flex: 1;
+            height: 10px;
+            border-radius: size.$borderRadius;
+            background: var(--c_border);
+
+            &.done
+            {
+                background: $doneColor;
+            }
+        }
+    }
+
+    > .explain
+    {
+        margin-top: size.$gap;
+        display: flex;
+
+        > .done
+        {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+
+            cursor: pointer;
+
+            font-size: 105%;
+            font-weight: 600;
+            color: var(--c_text-muted);
+
+            > i
+            {
+                color: var(--c_text-dimmed);
+                transform: rotate(90deg);
+                @include util.transition(transform);
+            }
+
+            > span
+            {
+                text-decoration: underline;
+                text-decoration-color: transparent;
+                @include util.transition(text-decoration-color);
+            }
+
+            &:hover > span { text-decoration-color: initial; }
+        }
+
+        > .sep { flex: 1 }
+
+        > .percent
+        {
+            font-size: 105%;
+            font-weight: 600;
+        }
+    }
+
+    > .goals
+    {
+        display: flex;
+        flex-wrap: wrap;
+        gap: size.$gap;
+        padding-top: size.$gap;
+
+        > .goal
+        {
+            background: var(--c_bg-content-accent);
+            padding: 5px 10px;
+            border-radius: size.$borderRadius;
+
+            &.done
+            {
+                background: $doneColor;
+                color: white;
+            }
+        }
+    }
+}

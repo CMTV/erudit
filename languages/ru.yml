@@ -99,3 +99,22 @@ bookPage:
     keyConcepts: Основные темы
 
 contribution: Вклад
+
+content:
+    error: 'Ошибка!'
+    anchor: 'Ссылка на этот раздел'
+    accentBlock:
+        important:
+            name: Важно
+        example:
+            name: Пример
+            expand: Решение
+        definition:
+            name: Понятие
+        theorem:
+            name: Утверждение
+            expand: Доказательство
+    task:
+        hint: Указание
+        answer: Ответ
+        solution: Решение

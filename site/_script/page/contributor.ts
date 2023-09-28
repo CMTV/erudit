@@ -8,4 +8,9 @@ window.addEventListener('load', () =>
     {
         asideToggler.toggleAside(asideToggler.asides.minor, true);
     });
+
+    asideToggler.asides.minor.querySelectorAll(':scope .contributionList .book').forEach(bookElem =>
+    {
+        bookElem.addEventListener('click', () => bookElem.toggleAttribute('data-open'));
+    });
 });

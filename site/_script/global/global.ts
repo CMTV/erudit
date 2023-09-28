@@ -4,9 +4,11 @@ import MajorToc from "./toc/MajorToc";
 
 import Preview from "./preview/Preview";
 import OMath from "./OMath";
-import { initContentLogicIn } from "./content/logic";
+import { getContentOptions } from "./content";
 
 window['OMath'] = new OMath;
+
+declare let OMathContent;
 
 window.addEventListener('DOMContentLoaded', () =>
 {
@@ -16,5 +18,20 @@ window.addEventListener('DOMContentLoaded', () =>
     new AsideMajor(OMath.get().asideToggler);
     new MajorToc(OMath.get().asideToggler);
 
-    initContentLogicIn(document.querySelector('body > main > article'));
+    OMathContent.initProducts(
+        document.querySelector('body > main > article > [data-content]'),
+        getContentOptions()
+    );
 });
+
+globalThis.OMathEvent = globalThis.OMathEvent || {};
+
+globalThis.OMathEvent.onLinkClick = (link, e) =>
+{
+    console.log('foo');
+
+    let url = link.getAttribute('data-preview').replace(/[\|:]/gm, '/');
+        url = '/site/uniques/' + url + '.html';
+
+    OMath.get().preview.loadView(url, link.getAttribute('href'));
+}

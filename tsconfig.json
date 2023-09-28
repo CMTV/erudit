@@ -11,8 +11,9 @@
         "rootDir": "src",
         "paths": { "src/*": ["./src/*"] },
 
-        "target": "ES2019",
-        "module": "commonjs",
+        "target": "ESNext",
+        "moduleResolution": "NodeNext",
+        "module": "NodeNext",
         "outDir": "dist",
         "declaration": true
     },

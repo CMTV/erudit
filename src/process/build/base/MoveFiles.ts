@@ -1,7 +1,8 @@
 import DbFile from "src/entity/file/db";
-import Location from "src/entity/location/global";
+import { locationToDistPath, locationToSrcPath } from "src/entity/file/router";
 import EruditProcess from "src/process/EruditProcess";
 import { copyFile } from "src/util/io";
+import { Location } from "translator";
 
 export default class MoveFiles extends EruditProcess
 {
@@ -9,16 +10,17 @@ export default class MoveFiles extends EruditProcess
 
     async do()
     {
-        let files = (await this.db.manager.find(DbFile)).map(dbFile => dbFile.src);
+        let fileLocations = (await this.db.manager.find(DbFile)).map(dbFile => dbFile.src);
         
-        files.forEach(file =>
+        for (let i = 0; i < fileLocations.length; i++)
         {
-            let location = Location.fromString(file);
+            let fileLocation = fileLocations[i];
+            let location = Location.fromString(fileLocation);
 
-            let srcPath = this.erudit.path.project(location.toSrcPath());
-            let destPath = this.erudit.path.site('site', 'files', location.toPath());
+            let srcPath = this.erudit.path.project(locationToSrcPath(location));
+            let destPath = this.erudit.path.site('site', 'files', locationToDistPath(location));
 
             copyFile(srcPath, destPath);
-        });
+        }
     }
 }

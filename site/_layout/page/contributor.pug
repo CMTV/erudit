@@ -10,18 +10,26 @@ block content
             if (slogan)
                 .slogan= slogan
     
-    != content
+    div(data-content)!= content
 
 block minorFull
     header
         .label= i18n('contribution') + ':'
         .count= contributionCount
 
-    .contributionList.tocTree
+    .contributionList
         each book in contribution
-            +tocGroup(book.title)
-                each topic in book.topics
-                    +tocItem(0, 'file-lines', topic.title, { href: topic.link })
+            section
+                .book
+                    i.i-chevron-up
+                    span.title= book.title
+                    span.count= book.topics.length
+                .topics
+                    each topic in book.topics
+                        .topic
+                            a(href= topic.link)
+                                i.i-file-lines
+                                span= topic.title
 
 block minorMini
     button.contribution(title= i18n('contribution'))

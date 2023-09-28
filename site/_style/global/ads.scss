@@ -9,11 +9,12 @@
     &.beforeContent
     {
         max-height: 150px;
+        padding-top: size.$gapBig;
     }
 
     &.afterContent
     {
-        //margin-bottom: size.$gapBig;
+        margin-top: size.$gapBig;
     }
 
     // &.left

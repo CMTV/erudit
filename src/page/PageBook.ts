@@ -2,6 +2,7 @@ import Page from "src/page/Page";
 import AsideMajor, { AsideMajorPane } from "src/page/component/asideMajor/AsideMajor";
 import SEO from "src/page/component/SEO";
 import { ViewBaseContributor } from "src/entity/contributor/view";
+import { BookWipItem } from "src/entity/book/global";
 
 export default class PageBook extends Page
 {
@@ -29,6 +30,8 @@ export default class PageBook extends Page
     desc: string;
     results: string[];
     topics: string[];
+
+    wipItems: BookWipItem[];
 
     constructor()
     {

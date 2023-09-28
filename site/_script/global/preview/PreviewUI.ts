@@ -1,9 +1,11 @@
 import { getAnimSpeed } from "global/computed";
-import { initContentLogicIn } from "global/content/logic";
 
 import { BackButton, ExitButton, GotoButton, MiniButton, MiniButtonState } from "./button";
 import Screen from "./Screen";
 import View from "./View";
+import { getContentOptions } from "global/content";
+
+declare let OMathContent;
 
 export default class PreviewUI
 {
@@ -216,7 +218,12 @@ export default class PreviewUI
         {
             this.screens[screen.id] = screen;
             this.elements.display.appendChild(screen.element);
-            initContentLogicIn(screen.element);
+
+            OMathContent.initProducts(
+                screen.element,
+                getContentOptions()
+            );
+            
             screen.onHeightChange = (height) => !this.collapsed && this.setHeight(height);
         }
 

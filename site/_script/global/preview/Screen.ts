@@ -21,6 +21,7 @@ export default class Screen
             
             let inner = document.createElement('div');
                 inner.className = 'inner';
+                inner.setAttribute('data-content', '');
                 inner.innerHTML = raw;
 
             screen.appendChild(inner);

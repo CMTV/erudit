@@ -8,4 +8,12 @@ window.addEventListener('load', () =>
     {
         asideToggler.toggleAside(asideToggler.asides.minor, true);
     });
+
+    document.querySelectorAll('body > main > article .progress').forEach(progressElem =>
+    {
+        progressElem.querySelector(':scope .explain > .done').addEventListener('click', () =>
+        {
+            progressElem.toggleAttribute('data-goals-open');
+        });
+    });
 });

@@ -39,6 +39,8 @@ export default class BuildPageBook extends EruditProcess
                 page.results = dbBook.results;
                 page.topics = dbBook.topics;
 
+                page.wipItems = dbBook.wipItems;
+
                 page.decoration = dbBook.hasDecoration ? '/' + dbBook.id + '/@book/decoration.svg' : null;
 
                 page.firstTopicId = await repoBook.getFirstTopicId(bookId);

@@ -1,4 +1,4 @@
-import { Block } from "blp";
+import { Block } from "bitran";
 
 import EruditProcess from "src/process/EruditProcess";
 import RepoTopic from "src/entity/topic/repository";
@@ -7,7 +7,6 @@ import DbTopic from "src/entity/topic/db";
 import TopicTocMaker from "src/entity/topicToc/maker";
 import { TopicType } from "src/page/PageTopic";
 import DbUnique from "src/entity/unique/db";
-import Include from "src/translator/block/include/block";
 
 /**
  * Generates toc trees for every topic part.
@@ -70,11 +69,11 @@ export default class FillTopicTocs extends EruditProcess
             let skip = false;
             let block = blocks[i];
 
-            if (block._type === 'include')
+            if (block.type === 'include')
             {
                 skip = true;
 
-                let dbUnique = await this.db.manager.findOne(DbUnique, { where: { id: (block as Include).id } });
+                let dbUnique = await this.db.manager.findOne(DbUnique, { where: { id: (block as any).id } });
                 if (dbUnique)
                 {
                     fullList = fullList.concat(await this.extendBlockList(dbUnique.content));

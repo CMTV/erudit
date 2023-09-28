@@ -1,19 +1,51 @@
 extends /template/default
 
 block content
-    h1 Математика
+    div(data-content)
+        h1 Математика
 
-    p Математика — очень интересная и в то же время трудная наука!
+        p Математика — очень интересная и в то же время трудная наука!
 
-    P На этом сайте вы найдете набор учебников, в которых <b>подробно</b>, <b>понятно</b> и с <b>примерами</b> излагаются разные аспекты математики.
+        P На этом сайте вы найдете набор учебников, в которых <b>подробно</b>, <b>понятно</b> и с <b>примерами</b> излагаются разные аспекты математики.
 
-    p Каждый из учебников состоит из набора тем. А сами темы состоят из трех разделов:
+        p Каждый из учебников состоит из набора тем. А сами темы состоят из трех разделов:
 
-    ol
-        li Статья — полная и подробная теория
-        li Конспект — выжимка самых важных моментов
-        li Практикум — набор задач для отработки и закрепления полученных знаний
+        ol
+            li Статья — полная и подробная теория
+            li Конспект — выжимка самых важных моментов
+            li Практикум — набор задач для отработки и закрепления полученных знаний
 
-    p С нами вы научитесь математике!
+        p С нами вы научитесь математике!
 
-    p <b>Вперед!</b>
+        p <b>Вперед!</b>
+
+        if (wipBooks.length)
+            h2 В разработке
+            p Эти учебники находятся в активной разработке, но в них уже есть что посмотреть. Если у вас есть желание, настоятельно рекомендуем присоединиться к написанию и исправлению статей.
+
+    if (wipBooks.length)
+        .wipBooks
+            each book in wipBooks
+                .wipBook
+                    header
+                        if (book.hasDecoration)
+                            a(href= `/${book.id}/@book`): img(src= '/' + book.id + '/@book/decoration.svg')
+                        .title
+                            a(href= `/${book.id}/@book`)= book.title
+                    .desc!= book.desc
+                    .progress
+                        .bar
+                            each item in book.wipItems
+                                .barItem(class= { 'done': item.done })
+                        .explain
+                            - let doneItems = book.wipItems.filter(item => item.done).length
+                            .done
+                                i.i-chevron-up
+                                span= `Задачи: ${doneItems} из ${book.wipItems.length}`
+                            .sep
+                            - let donePercent = Math.floor((doneItems / book.wipItems.length) * 100)
+                            .percent= `Завершен на ${donePercent}%`
+
+                        .goals
+                            each item in book.wipItems
+                                .goal(class= { 'done': item.done })= item.goal

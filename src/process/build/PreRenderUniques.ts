@@ -1,10 +1,10 @@
-import { Block } from "blp";
+import { Block } from "bitran";
 
 import DbUnique from "src/entity/unique/db";
 import EruditProcess from "src/process/EruditProcess";
-import { VFSpoiler } from "src/translator/block/spoiler/view";
-import Renderer from "src/translator/Renderer";
+import { T_HELPER } from "src/translator/helper";
 import { writeFile } from "src/util/io";
+import { Location, Renderer } from "translator";
 import { IsNull, Not } from "typeorm";
 
 export default class PreRenderUniques extends EruditProcess
@@ -24,18 +24,11 @@ export default class PreRenderUniques extends EruditProcess
 
     async preRenderUnique(id: string, content: Block[])
     {
-        id = id.split('/').map((part, i, arr) => i === arr.length - 1 ? part.replace(':', '_') : part).join('/');
-
-        let renderer = new Renderer;
-            renderer.inlinerFactories['spoiler'] = VFSpoiler;
-            renderer.location = {
-                type: id.split('/')[0].slice(1),
-                id: id.split('/').slice(1, -1).join('/')
-            }
-
+        let location = Location.fromString(id);
+        let renderer = new Renderer(location, T_HELPER);
         let html = await renderer.renderBlocks(content);
 
-        let dest = this.erudit.path.site('site', 'uniques', id + '.html');
+        let dest = this.erudit.path.site('site', 'uniques', id.replace(/[\|:]/gm, '/') + '.html');
 
         writeFile(dest, html);
     }

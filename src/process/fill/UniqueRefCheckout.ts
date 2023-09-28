@@ -1,11 +1,7 @@
 import chalk from "chalk";
+import { Location, LocationType } from "translator";
 
-import Location from "src/entity/location/global";
-import DbRef from "src/entity/ref/db";
-import RepoRef from "src/entity/ref/repository";
-import DbUnique from "src/entity/unique/db";
 import EruditProcess from "src/process/EruditProcess";
-import { LinkRouter } from "src/translator/inliner/link/global";
 
 /**
  * Warns if there are refs that lead to unknown uniques.
@@ -17,38 +13,34 @@ export default class UniqueRefCheckout extends EruditProcess
 
     async do()
     {
-        let repo = new RepoRef(this.db);
-        let refs = await repo.getRefs();
-        let brokenArr: DbRef[] = [];
+        let brokenRefs = await this.db.query(`SELECT db_ref.target, db_ref."from" FROM db_ref LEFT JOIN db_unique ON db_ref.target = db_unique.id WHERE db_unique.id IS NULL`);
+        let finalBrokenArr = [];
 
-        for (let i = 0; i < refs.length; i++)
+        for (let i = 0; i < brokenRefs.length; i++)
         {
-            let ref = refs[i];
-        
-            let contextLocation = new Location;
-                contextLocation.type = ref.from.split('/')[0].slice(1);
-                contextLocation.id = ref.from.split('/').slice(1).join('/');
+            let brokenRef = brokenRefs[i];
+            let targetLocation = Location.fromString(brokenRef.target);
 
-            let broken = false;
-            let uniqueId = LinkRouter.getUniqueId(ref.target, contextLocation);
+            let broken = true;
 
-            if (uniqueId)
-                broken = !(await this.db.manager.findOne(DbUnique, { where: { id: uniqueId }}));
+            if (targetLocation.type === LocationType.Direct)
+                broken = false;
+
+            if (targetLocation.target === '')
+                broken = false;
 
             if (broken)
-                brokenArr.push(ref);
+                finalBrokenArr.push(brokenRef);
   
             // ref.hasPreview =    !!unique?.content;
             // ref.broken =        !unique;
-
-            this.db.manager.save(ref);
         }
 
-        if (brokenArr.length > 0)
+        if (finalBrokenArr.length > 0)
         {
             let brokenData = {};
 
-            brokenArr.forEach(broken =>
+            finalBrokenArr.forEach(broken =>
             {
                 if (!brokenData[broken.from])
                     brokenData[broken.from] = [];
@@ -56,11 +48,14 @@ export default class UniqueRefCheckout extends EruditProcess
                 brokenData[broken.from].push(broken.target);
             });
 
-            let warn = `Found ${chalk.whiteBright.bold.redBright(brokenArr.length)} broken ref${brokenArr.length > 1 ? 's' : ''}:\n\n`;
+            let warn = `Found ${chalk.whiteBright.bold.redBright(finalBrokenArr.length)} broken ref${finalBrokenArr.length > 1 ? 's' : ''}:\n\n`;
 
             Object.keys(brokenData).forEach(key =>
             {
-                warn += chalk.gray('FROM') + ' ' + key + '\n';
+                let keyLocation = Location.fromString(key);
+                    keyLocation.target = '';
+
+                warn += chalk.gray('FROM') + ' ' + keyLocation.toString() + '\n';
                 brokenData[key].forEach(value => warn += '  ' + chalk.gray('TO') + ' ' + value + '\n');
 
                 warn += '\n';

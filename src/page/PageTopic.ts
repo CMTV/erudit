@@ -24,6 +24,7 @@ export default class PageTopic extends Page
     topicType: TopicType;
     topicTypes: TopicType[];
 
+    bookId: string;
     bookTitle: string;
     bookToc: string;
 

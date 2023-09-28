@@ -1,20 +1,19 @@
 import TreeMaker from "2tree";
-import { Block } from "blp";
+import { Block } from "bitran";
 
 import { TocItem } from "src/entity/toc/global";
-import { RenderExtra } from "src/translator/Renderer";
 
 // Blocks
-import Heading from "src/translator/block/heading/block";
-import { AccentBlock } from "src/translator/block/accentBlock/factory";
-import Include from "src/translator/block/include/block";
-import Task from "src/translator/block/task/block";
+import { Heading } from "translator/content";
+import { AccentBlock } from "translator/content";
+import { Include } from "translator/content";
+import { Task } from "translator/content";
 
 export default class TopicTocMaker extends TreeMaker<Block, TocItem>
 {
     rawToProduct(block: Block): TocItem
     {
-        switch (block._type)
+        switch (block.type)
         {
             case 'heading':     return heading(block as Heading);
             case 'important':   return accentBlock(block as AccentBlock);
@@ -30,7 +29,7 @@ export default class TopicTocMaker extends TreeMaker<Block, TocItem>
 
     isContainer(block: Block): boolean
     {
-        return block._type === 'heading';
+        return block.type === 'heading';
     }
 
     isChild(block: Block, container: Block): boolean
@@ -50,16 +49,16 @@ export default class TopicTocMaker extends TreeMaker<Block, TocItem>
 function heading(heading: Heading): TocItem
 {
     let tocItem = new TocItem;
-        tocItem.type =  heading._type;
-        tocItem.id =    heading._id;
-        tocItem.title = RenderExtra.toPlainString(heading.title);
+        tocItem.type =  heading.type;
+        tocItem.id =    heading['id'];
+        tocItem.title = heading.title;
 
     return tocItem;
 }
 
 function accentBlock(accentBlock: AccentBlock): TocItem
 {
-    if (!accentBlock._id)
+    if (!accentBlock['id'])
         return null;
 
     if (!accentBlock.title)
@@ -69,8 +68,8 @@ function accentBlock(accentBlock: AccentBlock): TocItem
         return null;
 
     let tocItem = new TocItem;
-        tocItem.type =  accentBlock._type;
-        tocItem.id =    accentBlock._id;
+        tocItem.type =  accentBlock.type;
+        tocItem.id =    accentBlock['id'];
         tocItem.title = accentBlock.title;
 
     return tocItem;
@@ -86,8 +85,8 @@ function include(include: Include): TocItem
 function task(task: Task): TocItem
 {
     let tocItem = new TocItem;
-        tocItem.type =  task._type;
-        tocItem.id =    task._id;
+        tocItem.type =  task.type;
+        tocItem.id =    task['id'];
         tocItem.title = task.title;
 
     return tocItem;

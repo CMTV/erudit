@@ -1,5 +1,4 @@
 import { withErrorMeta } from "@cmtv/error-meta";
-import fs from "fs";
 import path from "path";
 
 import RepoBook from "src/entity/book/repository";
@@ -10,10 +9,11 @@ import EruditProcess from "src/process/EruditProcess";
 import { BookTocItem, TopicBookTocItem } from "src/entity/bookToc/global";
 import { ensureConfigExists, ensureConfigValid } from "src/entity/topic/validate";
 import { parseYamlFile } from "src/util";
-import parser, { ParseResult } from "src/translator/Parser";
-import { TopicType } from "src/page/PageTopic";
-import Location from "src/entity/location/global";
 import DbTopicContributor from "src/entity/topicContributor/db";
+import { Location, LocationType, ParseResult, Parser } from "translator";
+import { exists, readFile } from "src/util/io";
+import { T_HELPER } from "src/translator/helper";
+import { insertParseResult } from "src/translator/db";
 
 export default class FillTopics extends EruditProcess
 {
@@ -34,42 +34,23 @@ export default class FillTopics extends EruditProcess
 
             let tocTopics = this.getTopics(toc);
 
-            let dbTopics: DbTopic[] = [];
-            let parseResults: ParseResult[] = [];
-            let dbContributors: DbTopicContributor[] = [];
-            
-            tocTopics.forEach(tocTopic =>
+            for (let j = 0; j < tocTopics.length; j++)
             {
+                let tocTopic = tocTopics[j];
+
                 this.startStage(`Topic ${tocTopic.id}`);
-                dbTopics.push(this.makeDbTopic(tocTopic, bookId, parseResults, dbContributors));
-            });
 
-            await ParseResult.insert(parseResults, this.db);
+                let handleResult = await this.handleTopic(tocTopic, bookId);
 
-            for (let j = 0; j < dbTopics.length; j++)
-            {
-                if (j !== 0)
-                    dbTopics[j].previousId = dbTopics[j - 1].id;
-                
-                if (j !== dbTopics.length - 1)
-                    dbTopics[j].nextId = dbTopics[j + 1].id;
+                handleResult.dbTopic.previousId =   tocTopics[j - 1]?.id;
+                handleResult.dbTopic.nextId =       tocTopics[j + 1]?.id;
+
+                await Promise.all([
+                    this.db.manager.save(handleResult.dbTopic),
+                    this.db.manager.save(handleResult.dbContributors),
+                    insertParseResult(this.db, ...handleResult.parseResults),
+                ]);
             }
-
-            this.startStage('Insert topics into database');
-
-            await this.db
-                        .createQueryBuilder()
-                        .insert()
-                        .into(DbTopic)
-                        .values(dbTopics)
-                        .execute();
-
-            await this.db
-                        .createQueryBuilder()
-                        .insert()
-                        .into(DbTopicContributor)
-                        .values(dbContributors)
-                        .execute();
         }
     }
 
@@ -90,8 +71,8 @@ export default class FillTopics extends EruditProcess
 
         return toReturn;
     }
-
-    makeDbTopic(tocTopic: TopicBookTocItem, bookId: string, parseResults: ParseResult[], dbContributors: DbTopicContributor[]): DbTopic
+    
+    async handleTopic(tocTopic: TopicBookTocItem, bookId: string)
     {
         let dbTopic =           new DbTopic;
             dbTopic.id =        tocTopic.id;
@@ -100,59 +81,41 @@ export default class FillTopics extends EruditProcess
 
         let topicPath = this.erudit.path.project('books', dbTopic.id);
         let configPath = path.join(topicPath, 'topic.yml');
-        
+
         ensureConfigExists(configPath);
-
         let config: DataTopicConfig = parseYamlFile(configPath);
-
         withErrorMeta(() => ensureConfigValid(config), { Config: configPath });
 
         dbTopic.title = config.title;
         dbTopic.desc = config.desc;
         dbTopic.keywords = config.keywords ? config.keywords.join(', ') : null;
 
-        dbContributors.push(...this.getDbContributors(tocTopic.id, bookId, config.contributors));
+        let parseResults: ParseResult[] = [];
 
-        tocTopic.parts.forEach(topicPart =>
+        for (let i = 0; i < tocTopic.parts.length; i++)
         {
+            let topicPart = tocTopic.parts[i];
             let topicPartPath = path.join(topicPath, topicPart + '.md');
-            if (fs.existsSync(topicPartPath))
+
+            if (exists(topicPartPath))
             {
                 let location = new Location;
-                    location.type = topicPart;
-                    location.id = tocTopic.id;
+                    location.type = topicPart as LocationType;
+                    location.path = tocTopic.id;
 
-                let parseResult = parser.parse(
-                    fs.readFileSync(topicPartPath, 'utf-8'),
-                    location,
-                    { bookId: bookId}
-                );
-
-                // Checking for duplicating IDs (COPIED FROM UniquePW.ts!!!)
-                {
-                    let hUniques = parseResult.blocks.filter(unique => unique._id?.startsWith('ah:'));
-
-                    hUniques.forEach((hUnique, i) =>
-                    {
-                        if (hUniques.slice(0, i).map(hUnique => hUnique._id).includes(hUnique._id))
-                            hUnique._id += '-';
-                    });
-
-                    let tUniques = parseResult.blocks.filter(unique => unique._id?.startsWith('atask:'));
-
-                    tUniques.forEach((tUnique, i) =>
-                    {
-                        if (tUniques.slice(0, i).map(tUnique => tUnique._id).includes(tUnique._id))
-                            tUnique._id += '-';
-                    });
-                }
+                let parser = new Parser(location, T_HELPER);
+                let parseResult = await parser.parse(readFile(topicPartPath));
 
                 parseResults.push(parseResult);
                 dbTopic[topicPart] = parseResult.blocks;
             }
-        });
+        }
 
-        return dbTopic;
+        return {
+            dbTopic:        dbTopic,
+            parseResults:   parseResults,
+            dbContributors: this.getDbContributors(tocTopic.id, bookId, config.contributors)
+        };
     }
 
     getDbContributors(topicId: string, bookId: string, contributors: string[]): DbTopicContributor[]
