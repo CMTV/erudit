@@ -8,6 +8,9 @@ export default class DbContributor
     @PrimaryColumn()
     id: string;
 
+    @Column({ default: false })
+    editor: boolean;
+
     @Column({ nullable: true })
     name: string;
 

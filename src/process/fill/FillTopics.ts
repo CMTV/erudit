@@ -14,6 +14,7 @@ import { Location, LocationType, ParseResult, Parser } from "translator";
 import { exists, readFile } from "src/util/io";
 import { T_HELPER } from "src/translator/helper";
 import { insertParseResult } from "src/translator/db";
+import BookStatsPW from "src/translator/parseWorker/BookStatsPW";
 
 export default class FillTopics extends EruditProcess
 {
@@ -104,6 +105,8 @@ export default class FillTopics extends EruditProcess
                     location.path = tocTopic.id;
 
                 let parser = new Parser(location, T_HELPER);
+                    parser.filterParseWorkers = (pwArr) => pwArr.concat([new BookStatsPW(bookId)]);
+
                 let parseResult = await parser.parse(readFile(topicPartPath));
 
                 parseResults.push(parseResult);

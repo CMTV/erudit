@@ -1,0 +1,126 @@
+@use 'def/size';
+@use 'def/bp';
+
+@use 'partial/util';
+@use 'partial/hover';
+
+body > main > article
+{
+    padding: size.$gapStruct;
+    @include bp.max(mini) { padding: size.$gap; font-size: 92%; }
+
+    > .editorsInfo,
+    > .contributorsInfo
+    {
+        margin-bottom: size.$gapStruct;
+
+        > h2
+        {
+            font-size: 1.8em;
+            margin-bottom: size.$gap;
+        }
+
+        > p
+        {
+            font-size: 1.15em;
+            line-height: 1.4;
+            text-align: justify;
+            hyphens: auto;
+        }
+    }
+
+    > .contributorsInfo
+    {
+        margin-top: 2 * size.$gapStruct;
+    }
+
+    .contributors
+    {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .contributors > .contributor
+    {
+        display: flex;
+        align-items: center;
+        gap: size.$gap;
+        padding: size.$gapStruct 0;
+
+        // Sep border
+        border-bottom: 1px solid var(--c_border);
+        &:first-of-type
+        {
+            border-top: 1px solid var(--c_border);
+        }
+
+        @include bp.max(mini)
+        {
+            flex-direction: column;
+        }
+
+        > .avatar
+        {
+            > img
+            {
+                display: block;
+                border-radius: 50%;
+                @include util.size(60px);
+            }
+        }
+
+        > .info
+        {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+
+            @include bp.max(mini)
+            {
+                align-items: center;
+            }
+
+            > .name
+            {
+                font-size: 1.27em;
+                font-weight: 600;
+
+                > a
+                {
+                    @extend %underline;
+                }
+            }
+
+            > .slogan
+            {
+                font-size: 110%;
+                color: var(--c_text-muted);
+            }
+        }
+
+        > .contribution
+        {
+            display: flex;
+            gap: size.$gapStruct;
+
+            > .item
+            {
+                display: flex;
+                align-items: center;
+                flex-wrap: nowrap;
+                gap: size.$gapSmall;
+
+                cursor: help;
+
+                font-size: 23px;
+                font-weight: 600;
+
+                @include bp.max(mini) { font-size: 20px; }
+
+                > i     { color: var(--c_text-dimmed) }
+                > span  { color: var(--c_text-muted) }
+            }
+        }
+    }
+}

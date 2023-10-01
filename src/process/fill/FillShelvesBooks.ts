@@ -5,7 +5,6 @@ import { parseYamlFile } from "src/util";
 import { exists, normalize } from "src/util/io";
 import DataBookInfo, { DataBookWip } from "src/entity/book/data";
 import DbBookStats from "src/entity/bookStats/db";
-import { BookWipItem } from "src/entity/book/global";
 
 export default class FillShelvesBooks extends EruditProcess
 {

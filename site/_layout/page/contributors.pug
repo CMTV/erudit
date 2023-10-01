@@ -1,0 +1,43 @@
+extends /template/default
+
+mixin contributor(data)
+    .contributor(class= { editor: data.editor })
+        a.avatar(href= data.link)
+            img(src= data.avatar)
+
+        .info
+            .name: a(href= data.link)= data.name
+            if (data.slogan)
+                .slogan= data.slogan
+            
+            if (data.roles)
+                .roles
+                    each role in data.roles
+                        .role= role
+
+        .contribution
+            .item.topics(title= i18n('page.contributors.stat.topics'))
+                i.i-file-lines
+                span= data.topics
+            .item.books(title= i18n('page.contributors.stat.books'))
+                i.i-book
+                span= data.books
+
+block content
+    .editorsInfo
+        h2= i18n('page.contributors.redaction.title')
+        p= i18n('page.contributors.redaction.explain')
+
+    if (editors)
+        .contributors
+            each editor in editors
+                +contributor(editor)
+
+    .contributorsInfo
+        h2= i18n('page.contributors.users.title')
+        p= i18n('page.contributors.users.explain')
+
+    if (contributors)
+        .contributors
+            each contributor in contributors
+                +contributor(contributor)

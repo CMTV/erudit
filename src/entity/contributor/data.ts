@@ -3,6 +3,7 @@ export interface IDataContributorInfo
     name:           string;
     displayName:    string;
     slogan:         string;
+    editor:         boolean;
     links:          { [label: string]: string }
 }
 

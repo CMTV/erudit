@@ -28,7 +28,7 @@ export default class PageContributor extends Page
         super();
 
         let asideMajor = new AsideMajor;
-            asideMajor.pane = AsideMajorPane.Toc;
+            asideMajor.pane = AsideMajorPane.Pages;
         
         this.asideMajor = asideMajor;
     }

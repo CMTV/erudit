@@ -42,6 +42,7 @@ export default class FillContributors extends EruditProcess
                 let info = parseYamlFile(filePath('contributor.yml')) as IDataContributorInfo;
 
                 dbContributor.name =          info.name;
+                dbContributor.editor =        info.editor;
                 dbContributor.displayName =   info.displayName;
                 dbContributor.slogan =        info.slogan;
                 dbContributor.links =         info.links;
