@@ -9,8 +9,19 @@ window.addEventListener('load', () =>
         asideToggler.toggleAside(asideToggler.asides.minor, true);
     });
 
-    asideToggler.asides.minor.querySelector(':scope > .full > .contributors').addEventListener('click', () =>
-    {
-        asideToggler.asides.minor.querySelector(':scope > .full').toggleAttribute('data-contributors-view');
-    });
+    setupContributorsView();
 });
+
+function setupContributorsView()
+{
+    let minorElem = OMath.get().asideToggler.asides.minor;
+
+    let contributorsOpenElem = minorElem.querySelector(':scope > .full > .contributors');
+    let view = minorElem.querySelector(':scope > .full > .minorView.contribution');
+    let closeElem = view.querySelector(':scope .close');
+
+    [contributorsOpenElem, closeElem].forEach(element =>
+    {
+        element.addEventListener('click', () => view.toggleAttribute('data-visible'));
+    });
+}

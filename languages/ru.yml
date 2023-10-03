@@ -99,6 +99,10 @@ bookPage:
     keyConcepts: Основные темы
 
 page:
+    topic:
+        contribution:
+            title: Вклад
+            make: Внести свой вклад
     contributors:
         redaction:
             title: Редакция

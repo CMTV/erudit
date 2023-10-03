@@ -30,7 +30,6 @@ body > main > article
             font-size: 100%;
         }
 
-
         border-bottom: 1px solid var(--c_border);
 
         > .avatar
@@ -113,11 +112,7 @@ body > aside.minor
                 display: flex;
                 flex-direction: column;
                 padding: size.$gap;
-
-                &:not(:last-of-type)
-                {
-                    border-bottom: 1px solid var(--c_border);
-                }
+                border-bottom: 1px solid var(--c_border);
 
                 > .book
                 {

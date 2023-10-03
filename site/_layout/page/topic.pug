@@ -86,26 +86,36 @@ block minorFull
                             tocItem.label,
                             { href: `#${tocItem.id}` }
                         )
-    
-    .contributorsList
-        .expand
-        each contributor in [...contributors].reverse()
-            a.contributor(href= contributor.link)
-                img(src= contributor.avatar)
-                .name= contributor.name
 
-    .contributors
+    .contributors(title= i18n('page.topic.contribution.title'))
         -
             let toPreview = 4
             let hasMore = contributors.length > toPreview
 
-        .label= i18n('contribution') + ':'
         .avatars
             each contributor in contributors.slice(0, toPreview)
                 img(src= contributor.avatar)
 
         if (hasMore)
             .more= '+' + (contributors.length - toPreview)
+
+    .minorView.contribution
+        .inner
+            .contributors
+                .expand
+                each contributor in [...contributors].reverse()
+                    a.contributor(href= contributor.link)
+                        img(src= contributor.avatar)
+                        .name= contributor.name
+            a.contribute(href= "/contribution-link")
+                .figure
+                    i.i-plus
+                span= i18n('page.topic.contribution.make')
+
+            .info
+                span.title= i18n('page.topic.contribution.title') + ':'
+                span.number= contributors.length
+                i.i-xmark.close
 
 block minorMini
     mixin miniSwitchButton(href, icon, label, options = {})

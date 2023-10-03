@@ -7,6 +7,35 @@
 @use 'partial/hover';
 @use 'partial/util';
 
+//
+//
+//
+
+@mixin minorView
+{
+    &:not([data-visible])
+    {
+        opacity: 0;
+        pointer-events: none;
+        touch-action: none;
+    }
+
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 100vh;
+    height: 100dvh;
+    z-index: 1;
+    background: var(--c_bg-content-shade);
+
+    box-shadow: inset  3px 0 5px 2px rgba(0, 0, 0, .05);
+
+    @include util.transition(opacity);
+}
+
+//
+//
+//
+
 body > main > article
 {
     > header
@@ -235,6 +264,9 @@ body > aside.minor
     {
         display: flex;
         flex-direction: column;
+        position: relative;
+
+        > .minorView { @include minorView; }
 
         > .typeSwitcher
         {
@@ -304,79 +336,140 @@ body > aside.minor
             }
         }
 
-        > .contributorsList
-        {
-            flex: 0;
-
-            display: flex;
-            flex-direction: column;
-
-            overflow: auto;
-            @extend %scrollbar;
-
-            @include util.transition(flex);
-
-            > .expand
-            {
-                flex: 1;
-            }
-
-            > .contributor
-            {
-                @extend %contributor;
-                border-top: 1px solid var(--c_border);
-                border-bottom: none;
-            }
-        }
-
         > .contributors
         {
             display: flex;
             align-items: center;
-            gap: size.$gapSmall;
+            gap: size.$gap;
             padding: size.$gap;
             border-top: 1px solid var(--c_border);
+            
+            @include util.transition(background);
 
             cursor: pointer;
 
-            &:hover > .label { color: var(--c_text); }
-
-            > .label
+            &:hover
             {
-                font-weight: 600;
-                color: var(--c_text-muted);
-                @include util.transition(color);
+                background: var(--c_bg-content-accent);
             }
 
             > .avatars
             {
                 display: flex;
-                gap: size.$gapSmall;
+                gap: size.$gap;
                 
                 > img
                 {
-                    @include util.size(30px);
+                    @include util.size(40px);
                     border-radius: 50%;
                 }
             }
+
+            > .more
+            {
+                color: var(--c_text-muted);
+                font-weight: 600;
+                font-size: 18px;
+            }
         }
 
-        &[data-contributors-view]
+        > .minorView.contribution > .inner
         {
-            > .typeSwitcher
+            height: 100%;
+
+            display: flex;
+            flex-shrink: 0;
+            flex-direction: column;
+            justify-content: end;
+
+            > .contributors
             {
-                height: 0;
+                display: flex;
+                flex-direction: column;
+
+                overflow: auto;
+                @extend %scrollbar;
+
+                > .expand
+                {
+                    flex: 1;
+                }
+
+                > .contributor
+                {
+                    @extend %contributor;
+                    border-top: 1px solid var(--c_border);
+                    border-bottom: none;
+                }
             }
 
-            > .topicToc
+            > .contribute
             {
-                flex: 0;
-                opacity: 0;
+                display: flex;
+                gap: size.$gap;
+                align-items: center;
+                padding: size.$gap;
+                border-top: 1px solid var(--c_border);
+
+                color: inherit;
+                text-decoration: none;
+
+                @include util.transition(background);
+
+                &:hover
+                {
+                    background: var(--c_bg-content-accent);
+                }
+
+                > .figure
+                {
+                    border: 2px dashed var(--c_border);
+                    border-radius: 50%;
+                    @include util.size(40px);
+                    @include util.flexCC;
+
+                    > i
+                    {
+                        font-size: 20px;
+                        color: var(--c_text-muted);
+                    }
+                }
             }
 
-            > .contributorsList
+            > .info
             {
-                flex: 1;
+                border-top: 1px solid var(--c_border);
+                align-items: center;
+                display: flex;
+                height: 70px;
+
+                > .title
+                {
+                    font-size: 1.1em;
+                    font-weight: 600;
+                    margin-right: size.$gapSmall;
+                    padding-left: size.$gap;
+                }
+
+                > .number
+                {
+                    flex: 1;
+                    font-weight: 600;
+                    color: var(--c_text-muted);
+                }
+
+                > .close
+                {
+                    padding: size.$gap;
+                    padding-right: size.$gapStruct;
+                    font-size: 25px;
+                    color: var(--c_text-muted);
+                    cursor: pointer;
+
+                    @include util.transition(color);
+
+                    &:hover { color: var(--c_text); }
+                }
             }
         }
     }
