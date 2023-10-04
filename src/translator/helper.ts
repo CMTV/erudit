@@ -5,24 +5,25 @@ import { Helper, Location } from "translator";
 import { erudit } from "src/erudit";
 import { locationToDistPath, locationToSrcPath } from "src/entity/file/router";
 import DbUnique from "src/entity/unique/db";
+import { exists } from "src/util/io";
 
 export class TranslatorHelper extends Helper
 {
     isEditor() { return false; }
 
-    async getParserFileSrc(location: Location): Promise<string>
+    async hasImage(location: Location): Promise<boolean>
     {
-        return erudit.path.project(locationToSrcPath(location));
+        return exists(erudit.path.project(locationToSrcPath(location)));
     }
 
-    async getRenderFileSrc(location: Location): Promise<string>
+    async getImageSrc(location: Location): Promise<string>
     {
         return '/site/files/' + locationToDistPath(location);
     }
 
-    async getImageSize(src: string): Promise<{ width: number; height: number; }>
+    async getImageSize(location: Location): Promise<{ width: number; height: number; }>
     {
-        return imageSize(src);
+        return imageSize(erudit.path.project(locationToSrcPath(location)));
     }
 
     async getUnique(id: string): Promise<Block[]>

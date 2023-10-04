@@ -1,4 +1,3 @@
-import { erudit } from "src/erudit";
 import { Location, LocationType } from "translator";
 
 export function locationToSrcPath(location: Location)
