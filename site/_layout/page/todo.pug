@@ -1,0 +1,44 @@
+extends /template/hq
+
+block content
+    h1 Список улучшений
+    p.
+        Наша цель — всем вместе написать лучшие учебники по математике в мире.<br>
+        Но невозможно сделать все идеально сразу.
+        Всегда найдется что-то, что можно сделать лучше.
+        Если вы хотите внести вклад, то можете улучшить что-нибудь из этого списка.
+
+    if (books)
+        .books
+            each bookData, bookId in books
+                .book
+                    header
+                        a.figure(href= bookData.link)
+                            if bookData.decoration
+                                img(src= bookData.decoration)
+                            else
+                                i.i-book
+                        .title: a(href= bookData.link)= bookData.title
+                        .stats
+                            i.i-warning
+                            span= bookData.todosNum
+                        .showSwitch
+                            i.i-eye
+                    .topics
+                        each topicData, topicId in bookData.topics
+                            .topic
+                                header
+                                    .action
+                                        i.i-chevron-up.todoSwitch
+                                        i.i-file-lines
+                                        .title= topicData.title
+                                        .stats= Object.keys(topicData.todos).length
+                                    .expand
+                                .todos
+                                    each todoData, todoId in topicData.todos
+                                        .todo
+                                            a(href= todoData.href)
+                                                i.i-warning
+                                                span= todoData.title
+    else
+        .noTodos Материала для улучшения в данный момент нет.

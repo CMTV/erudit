@@ -1,4 +1,4 @@
-extends /template/default
+extends /template/hq
 
 mixin contributor(data)
     .contributor(class= { editor: data.editor })
@@ -34,7 +34,11 @@ block content
                 +contributor(editor)
 
     .contributorsInfo
-        h2= i18n('page.contributors.users.title')
+        h2
+            span= i18n('page.contributors.users.title')
+            a(href="/contribute-guide").becomeMember
+                i.i-user-plus
+                span= i18n('page.contributors.join')
         p= i18n('page.contributors.users.explain')
 
     if (contributors)

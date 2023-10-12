@@ -4,6 +4,8 @@
 @use 'partial/util';
 @use 'partial/hover';
 
+@use 'template/hq';
+
 body > main > article
 {
     padding: size.$gapStruct;
@@ -32,6 +34,46 @@ body > main > article
     > .contributorsInfo
     {
         margin-top: 2 * size.$gapStruct;
+
+        > h2
+        {
+            position: relative;
+
+            > a.becomeMember
+            {
+                position: absolute;
+                top: 3px; right: 0;
+
+                display: flex;
+                gap: size.$gapSmall;
+                align-items: center;
+
+                height: 40px;
+                padding: 0 10px;
+                background: var(--c_bg-content-accent);
+                border-radius: size.$borderRadius;
+                border: 2px solid transparent;
+
+                color: var(--c_text-muted);
+                font-weight: normal;
+                font-size: 17px;
+                text-decoration: none;
+
+                @include util.transition(color, border-color);
+
+                &:hover
+                {
+                    color: var(--c_text);
+                    border-color: var(--c_text-disabled);
+                }
+
+                > span
+                {
+                    line-height: 1;
+                    @include bp.max(mini) { display: none; }
+                }
+            }
+        }
     }
 
     .contributors

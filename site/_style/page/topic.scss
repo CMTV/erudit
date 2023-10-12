@@ -336,6 +336,65 @@ body > aside.minor
             }
         }
 
+        > .contribute,
+        > .editorSwitch
+        {
+            display: flex;
+            gap: size.$gap;
+            align-items: center;
+            padding: size.$gap;
+            border-top: 1px solid var(--c_border);
+        }
+
+        > .editorSwitch
+        {
+            height: 70px;
+
+            color: var(--c_text-warning);
+            cursor: pointer;
+
+            @include util.transition(background);
+
+            &:hover
+            {
+                background: var(--c_bg-content-accent);
+            }
+
+            > i
+            {
+                font-size: 25px;
+                padding-left: 7px;
+            }
+        }
+
+        > .contribute
+        {
+            color: var(--c_text-muted);
+            text-decoration: none;
+
+            @include util.transition(background, color);
+
+            &:hover
+            {
+                color: var(--c_text);
+                background: var(--c_bg-content-accent);
+            }
+
+            > .figure
+            {
+                border: 2px dashed var(--c_border);
+                border-radius: 50%;
+                @include util.size(40px);
+                @include util.flexCC;
+
+                > i
+                {
+                    font-size: 20px;
+                    color: var(--c_text-muted);
+                }
+            }
+        }
+
         > .contributors
         {
             display: flex;
@@ -373,7 +432,8 @@ body > aside.minor
             }
         }
 
-        > .minorView.contribution > .inner
+        > .minorView.contribution > .inner,
+        > .minorView.todo > .inner
         {
             height: 100%;
 
@@ -382,6 +442,45 @@ body > aside.minor
             flex-direction: column;
             justify-content: end;
 
+            > .info
+            {
+                border-top: 1px solid var(--c_border);
+                align-items: center;
+                display: flex;
+                height: 70px;
+                padding-right: size.$gap;
+
+                > .title
+                {
+                    font-size: 1.1em;
+                    font-weight: 600;
+                    margin-right: size.$gapSmall;
+                    padding-left: size.$gap;
+                }
+
+                > .number
+                {
+                    flex: 1;
+                    font-weight: 600;
+                    color: var(--c_text-muted);
+                }
+
+                > .close
+                {
+                    padding: size.$gap;
+                    font-size: 25px;
+                    color: var(--c_text-muted);
+                    cursor: pointer;
+
+                    @include util.transition(color);
+
+                    &:hover { color: var(--c_text); }
+                }
+            }
+        }
+
+        > .minorView.contribution > .inner
+        {
             > .contributors
             {
                 display: flex;
@@ -402,74 +501,63 @@ body > aside.minor
                     border-bottom: none;
                 }
             }
+        }
 
-            > .contribute
+        > .minorView.todo > .inner
+        {
+            @mixin listItem
             {
-                display: flex;
-                gap: size.$gap;
-                align-items: center;
-                padding: size.$gap;
-                border-top: 1px solid var(--c_border);
+                min-height: 70px;
 
-                color: inherit;
+                display: flex;
+                align-items: center;
+                gap: size.$gap;
+                padding: size.$gap;
+
+                border-top: 1px solid var(--c_border);
+                border-bottom: none;
+
+                color: var(--c_text-muted);
                 text-decoration: none;
 
-                @include util.transition(background);
+                @include util.transition(background, color);
 
                 &:hover
                 {
+                    color: var(--c_text);
                     background: var(--c_bg-content-accent);
                 }
 
-                > .figure
+                > i
                 {
-                    border: 2px dashed var(--c_border);
-                    border-radius: 50%;
-                    @include util.size(40px);
-                    @include util.flexCC;
-
-                    > i
-                    {
-                        font-size: 20px;
-                        color: var(--c_text-muted);
-                    }
+                    position: relative;
+                    top: 1px;
+                    font-size: 25px;
                 }
             }
 
-            > .info
+            > .todos
             {
-                border-top: 1px solid var(--c_border);
-                align-items: center;
                 display: flex;
-                height: 70px;
+                flex-direction: column;
 
-                > .title
-                {
-                    font-size: 1.1em;
-                    font-weight: 600;
-                    margin-right: size.$gapSmall;
-                    padding-left: size.$gap;
-                }
+                overflow: auto;
+                @extend %scrollbar;
 
-                > .number
+                > .expand
                 {
                     flex: 1;
-                    font-weight: 600;
-                    color: var(--c_text-muted);
                 }
 
-                > .close
+                > a.todo
                 {
-                    padding: size.$gap;
-                    padding-right: size.$gapStruct;
-                    font-size: 25px;
-                    color: var(--c_text-muted);
-                    cursor: pointer;
-
-                    @include util.transition(color);
-
-                    &:hover { color: var(--c_text); }
+                    @include listItem;
                 }
+            }
+
+            > a.how
+            {
+                @include listItem;
             }
         }
     }

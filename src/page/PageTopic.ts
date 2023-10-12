@@ -3,6 +3,7 @@ import AsideMajor, { AsideMajorPane } from "src/page/component/asideMajor/AsideM
 import ViewTopicTocItem from "src/entity/topicToc/view";
 import SEO from "src/page/component/SEO";
 import { ViewBaseContributor } from "src/entity/contributor/view";
+import { ViewTodoItem } from "src/entity/todo/view";
 
 export enum TopicType
 {
@@ -41,6 +42,8 @@ export default class PageTopic extends Page
 
     nextTitle: string;
     previousTitle: string;
+
+    todos: ViewTodoItem[];
 
     contributors: ViewBaseContributor[];
 

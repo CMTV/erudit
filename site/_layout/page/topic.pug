@@ -99,6 +99,16 @@ block minorFull
         if (hasMore)
             .more= '+' + (contributors.length - toPreview)
 
+    if (todos)
+        .editorSwitch
+            i.i-warning
+            span Помогите улучшить!
+    else
+        a.contribute(href= "/contribute-guide")
+            .figure
+                i.i-plus
+            span= i18n('page.topic.contribute')
+
     .minorView.contribution
         .inner
             .contributors
@@ -107,15 +117,28 @@ block minorFull
                     a.contributor(href= contributor.link)
                         img(src= contributor.avatar)
                         .name= contributor.name
-            a.contribute(href= "/contribution-link")
-                .figure
-                    i.i-plus
-                span= i18n('page.topic.contribution.make')
 
             .info
                 span.title= i18n('page.topic.contribution.title') + ':'
                 span.number= contributors.length
                 i.i-xmark.close
+
+    if (todos)
+        .minorView.todo
+            .inner
+                .todos
+                    .expand
+                    each todo in [...todos].reverse()
+                        a.todo(href= `#${todo.id}`)
+                            i.i-warning
+                            span= todo.title
+                a.how(href="/contribute-guide")
+                    i.i-circle-question
+                    span Как улучшить?
+                .info
+                    span.title Улучшения:
+                    span.number= todos.length
+                    i.i-xmark.close
 
 block minorMini
     mixin miniSwitchButton(href, icon, label, options = {})

@@ -15,6 +15,7 @@ import { exists, readFile } from "src/util/io";
 import { T_HELPER } from "src/translator/helper";
 import { insertParseResult } from "src/translator/db";
 import BookStatsPW from "src/translator/parseWorker/BookStatsPW";
+import DbTodo from "src/entity/todo/db";
 
 export default class FillTopics extends EruditProcess
 {
@@ -47,8 +48,7 @@ export default class FillTopics extends EruditProcess
                 handleResult.dbTopic.nextId =       tocTopics[j + 1]?.id;
 
                 await Promise.all([
-                    this.db.manager.save(handleResult.dbTopic),
-                    this.db.manager.save(handleResult.dbContributors),
+                    this.db.manager.save([handleResult.dbTopic, ...handleResult.dbContributors, ...handleResult.dbTodos]),
                     insertParseResult(this.db, ...handleResult.parseResults),
                 ]);
             }
@@ -91,7 +91,8 @@ export default class FillTopics extends EruditProcess
         dbTopic.desc = config.desc;
         dbTopic.keywords = config.keywords ? config.keywords.join(', ') : null;
 
-        let parseResults: ParseResult[] = [];
+        let parseResults:   ParseResult[] = [];
+        let dbTodos:        DbTodo[] = [];
 
         for (let i = 0; i < tocTopic.parts.length; i++)
         {
@@ -109,6 +110,18 @@ export default class FillTopics extends EruditProcess
 
                 let parseResult = await parser.parse(readFile(topicPartPath));
 
+                dbTodos = dbTodos.concat(parseResult.todos.map(rawTodo =>
+                {
+                    let dbTodo = new DbTodo;
+                        dbTodo.id =         rawTodo.id;
+                        dbTodo.title =      rawTodo.title;
+                        dbTodo.bookId =     bookId;
+                        dbTodo.topicId =    tocTopic.id;
+                        dbTodo.part =       topicPart;
+                    
+                    return dbTodo;
+                }));
+
                 parseResults.push(parseResult);
                 dbTopic[topicPart] = parseResult.blocks;
             }
@@ -117,7 +130,8 @@ export default class FillTopics extends EruditProcess
         return {
             dbTopic:        dbTopic,
             parseResults:   parseResults,
-            dbContributors: this.getDbContributors(tocTopic.id, bookId, config.contributors)
+            dbContributors: this.getDbContributors(tocTopic.id, bookId, config.contributors),
+            dbTodos:        dbTodos,
         };
     }
 

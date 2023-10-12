@@ -1,5 +1,4 @@
 import Repository from "src/db/Repository";
-import DbUnique from "src/entity/unique/db";
 import DbRef from "./db";
 
 export default class RepoRef extends Repository

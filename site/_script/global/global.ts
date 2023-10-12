@@ -5,6 +5,7 @@ import MajorToc from "./toc/MajorToc";
 import Preview from "./preview/Preview";
 import OMath from "./OMath";
 import { getContentOptions } from "./content";
+import { initAnchorDetector, revealTarget } from "./anchor";
 
 window['OMath'] = new OMath;
 

@@ -27,7 +27,5 @@ export default class Style
         }
 
         writeFile(destPath, css);
-
-        
     }
 }

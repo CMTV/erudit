@@ -1,4 +1,5 @@
 import OMath from "global/OMath";
+import { initAnchorDetector } from "global/anchor";
 
 window.addEventListener('load', () =>
 {
@@ -10,6 +11,12 @@ window.addEventListener('load', () =>
     });
 
     setupContributorsView();
+    setupTodoView();
+
+    if (window.location.hash.startsWith('#todo:'))
+        toggleTodoView();
+
+    initAnchorDetector();
 });
 
 function setupContributorsView()
@@ -24,4 +31,29 @@ function setupContributorsView()
     {
         element.addEventListener('click', () => view.toggleAttribute('data-visible'));
     });
+}
+
+function setupTodoView()
+{
+    let minorElem = OMath.get().asideToggler.asides.minor;
+
+    let todoSwitch = minorElem.querySelector(':scope > .full > .editorSwitch');
+    let minorView = minorElem.querySelector(':scope > .full > .minorView.todo');
+
+    if (!minorView)
+        return;
+    
+    let closeElem = minorView.querySelector(':scope .close');
+
+    [todoSwitch, closeElem].forEach(element =>
+    {
+        element.addEventListener('click', () => toggleTodoView())
+    });
+}
+
+export function toggleTodoView()
+{
+    document.documentElement.classList.toggle('displayTodo');
+    let minorView = OMath.get().asideToggler.asides.minor.querySelector(':scope > .full > .minorView.todo');
+    minorView.toggleAttribute('data-visible');
 }

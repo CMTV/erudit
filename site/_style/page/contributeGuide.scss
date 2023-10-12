@@ -1,0 +1,35 @@
+@use 'def/size';
+@use 'def/bp';
+
+@use 'template/hq';
+
+body > main > article
+{
+    display: flex;
+    flex-direction: column;
+    gap: size.$gapStruct;
+
+    font-size: 18px;
+    padding: size.$gapStruct;
+
+    @include bp.max(mini)
+    {
+        padding: size.$gap;
+        font-size: 92%;
+    }
+    
+    > h2
+    {
+        font-size: 1.5em;
+    }
+
+    ol, ul
+    {
+        list-style-position: inside;
+
+        li
+        {
+            margin-bottom: size.$gapSmall;
+        }
+    }
+}

@@ -1,0 +1,59 @@
+@use 'def/size';
+@use 'partial/util';
+
+body > aside.minor > .full
+{
+    > header
+    {
+        @include util.flexCC;
+        padding: size.$gap;
+        border-bottom: 1px solid var(--c_border);
+        font-weight: 600;
+        font-size: 110%;
+    }
+
+    .listSimpleItem[data-current]
+    {
+        color: var(--c_text);
+    }
+}
+
+body > aside.minor > .mini
+{
+    display: flex;
+    flex-direction: column;
+
+    > .minorButton
+    {
+        @include util.flexCC;
+        @include util.size(size.$asideMini);
+        font-size: 25px;
+        text-decoration: none;
+        color: var(--c_text-dimmed);
+        background: transparent;
+        cursor: pointer;
+
+        @include util.transition(background, color);
+
+        &:hover
+        {
+            color: var(--c_text);
+            background: var(--c_bg-content-accent);
+        }
+
+        &[data-current]
+        {
+            position: relative;
+            color: var(--c_text);
+
+            &::before
+            {
+                content: "";
+                position: absolute;
+                left: 0; top: 0;  bottom: 0px;
+                width: 3px;
+                background: var(--c_text-muted);
+            }
+        }
+    }
+}

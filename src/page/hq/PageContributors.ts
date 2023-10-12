@@ -1,17 +1,14 @@
 import { ViewContributor } from "src/entity/contributor/view";
-import Page from "./Page";
-import SEO from "./component/SEO";
-import AsideMajor, { AsideMajorPane } from "./component/asideMajor/AsideMajor";
+import SEO from "../component/SEO";
+import AsideMajor, { AsideMajorPane } from "../component/asideMajor/AsideMajor";
+import PageHQ from "./PageHQ";
 
-export default class PageContributors extends Page
+export default class PageContributors extends PageHQ
 {
     layout = 'contributors';
-    singlePage = 'contributors';
-
+    hqPage = 'contributors';
+    
     hasStyle = true;
-
-    asideMajor: AsideMajor;
-    seo: SEO;
 
     editors: ViewContributor[];
     contributors: ViewContributor[];
@@ -19,11 +16,6 @@ export default class PageContributors extends Page
     constructor()
     {
         super();
-
-        let asideMajor = new AsideMajor;
-            asideMajor.pane = AsideMajorPane.Pages;
-
-        this.asideMajor = asideMajor;
 
         this.seo = new SEO;
         this.seo.title = 'Участники | OMath';

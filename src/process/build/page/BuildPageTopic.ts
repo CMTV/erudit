@@ -1,5 +1,7 @@
 import DbBook from "src/entity/book/db";
 import { ViewBaseContributor } from "src/entity/contributor/view";
+import RepoTodo from "src/entity/todo/repository";
+import { ViewTodoItem } from "src/entity/todo/view";
 import DbTopic from "src/entity/topic/db";
 import RepoTopic from "src/entity/topic/repository";
 import DbTopicContributor from "src/entity/topicContributor/db";
@@ -72,11 +74,13 @@ export default class BuildPageTopic extends EruditProcess
                     page.seo.desc = dbTopic.desc;
                     page.seo.keywords = dbTopic.keywords;
 
+                    page.todos = await this.getViewTodos(dbTopic.id, type);
+
                     page.contributors = await this.getViewContributors(dbTopic.id);
 
                 page.compile();
             }
-        }        
+        }
     }
 
     async getViewContributors(topicId: string): Promise<ViewBaseContributor[]>
@@ -89,5 +93,14 @@ export default class BuildPageTopic extends EruditProcess
             contributors.push(await ViewBaseContributor.fromId(contributorIds[i]));
         
         return contributors;
+    }
+
+    async getViewTodos(topicId: string, part: string): Promise<ViewTodoItem[]>
+    {
+        let repo = new RepoTodo(this.db);
+        let dbTodos = await repo.getTopicTodos(topicId, part);
+        let viewTodos = dbTodos.map(dbTodo => ViewTodoItem.fromDbTodo(dbTodo));
+
+        return viewTodos.length === 0 ? null : viewTodos;
     }
 }

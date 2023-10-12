@@ -1,6 +1,6 @@
 import RepoContributor from "src/entity/contributor/repository";
 import { ViewContributor } from "src/entity/contributor/view";
-import PageContributors from "src/page/PageContributors";
+import PageContributors from "src/page/hq/PageContributors";
 import EruditProcess from "src/process/EruditProcess";
 
 export default class BuildPageContributors extends EruditProcess

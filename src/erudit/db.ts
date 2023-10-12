@@ -12,6 +12,7 @@ import DbRef from "src/entity/ref/db";
 import DbFile from "src/entity/file/db";
 import DbTopicContributor from "src/entity/topicContributor/db";
 import DbBookStats from "src/entity/bookStats/db";
+import DbTodo from "src/entity/todo/db";
 
 export default function getDb(pathToDb: string)
 {
@@ -30,6 +31,7 @@ export default function getDb(pathToDb: string)
             DbTopic,
             DbTopicToc,
             DbTopicContributor,
+            DbTodo,
 
             DbUnique,
             DbRef,
