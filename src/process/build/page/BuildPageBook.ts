@@ -1,4 +1,5 @@
 import DbBook from "src/entity/book/db";
+import { ViewBookRefItem } from "src/entity/book/ref/view";
 import RepoBook from "src/entity/book/repository";
 import { getContributorList } from "src/entity/book/view";
 import RepoBookStats from "src/entity/bookStats/repository";
@@ -40,6 +41,8 @@ export default class BuildPageBook extends EruditProcess
                 page.topics = dbBook.topics;
 
                 page.wipItems = dbBook.wipItems;
+
+                page.refs = dbBook.refs ? dbBook.refs.map(ref => ViewBookRefItem.fromRef(ref)) : null;
 
                 page.decoration = dbBook.hasDecoration ? '/' + dbBook.id + '/@book/decoration.svg' : null;
 

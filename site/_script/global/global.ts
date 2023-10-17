@@ -5,7 +5,6 @@ import MajorToc from "./toc/MajorToc";
 import Preview from "./preview/Preview";
 import OMath from "./OMath";
 import { getContentOptions } from "./content";
-import { initAnchorDetector, revealTarget } from "./anchor";
 
 window['OMath'] = new OMath;
 
@@ -19,9 +18,11 @@ window.addEventListener('DOMContentLoaded', () =>
     new AsideMajor(OMath.get().asideToggler);
     new MajorToc(OMath.get().asideToggler);
 
+    globalThis.OMathContentOptions = getContentOptions();
+
     OMathContent.initProducts(
         document.querySelector('body > main > article > [data-content]'),
-        getContentOptions()
+        globalThis.OMathContentOptions
     );
 });
 

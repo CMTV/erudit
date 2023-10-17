@@ -8,7 +8,6 @@ html(lang= lang, data-layout= layout, data-topic= topicId ? topicId : false)
         meta(name="viewport", content="width=device-width, initial-scale=1")
         meta(name="generator", content="Erudit " + version)
         meta(name="build-time", content= config.buildTime)
-        meta(name="vk-group-verify", content="VK51836")
 
         title= seo.title
         
@@ -19,10 +18,17 @@ html(lang= lang, data-layout= layout, data-topic= topicId ? topicId : false)
             meta(name="keywords", content= seo.keywords)
 
         //- OG Protocol
+        meta(property="og:site_name", content= i18n('global.siteName'))
+
         meta(property="og:title", content= seo.title)
 
         if (seo.desc)
             meta(property="og:description", content= seo.desc)
+
+        if (seo.ogImg)
+            meta(property="og:image", content= seo.ogImg.href)
+            meta(property="og:image:width", content= seo.ogImg.width)
+            meta(property="og:image:height", content= seo.ogImg.height)
 
         meta(property="og:image", content= config.getUrl() + "/site/graphics/ogImage.png")
         meta(property="og:image:type", content="image/png")
@@ -38,6 +44,8 @@ html(lang= lang, data-layout= layout, data-topic= topicId ? topicId : false)
         link(rel="stylesheet", href="/site/content/style.css")
         link(rel="stylesheet", href="/site/content/assets/icons/style.css")
         script(src="/site/content/script.js")
+        script.
+            globalThis.TaskGenUrl = '/site/content/worker_taskGen.js';
 
         // PhotoSwipe
         link(rel="stylesheet", href="/site/content/assets/vendor/photoswipe/photoswipe.css")

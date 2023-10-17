@@ -19,8 +19,6 @@ export function revealTarget(id: string)
 
     let targetElem = document.getElementById(id);
 
-    setTimeout(() => { console.log(document.getElementById(id)) }, 1000);
-
     if (!targetElem)
         return;
 

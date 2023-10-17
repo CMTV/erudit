@@ -66,6 +66,42 @@ block content
                     each item in wipItems
                         .goal(class= { 'done': item.done })= item.goal
 
+        if (refs)
+            h2= i18n('page.book.refs.heading')
+            p= i18n('page.book.refs.explain')
+
+            mixin ref(ref)
+                .refHolder
+                    .ref
+                        .typeFigure
+                            i(class= `i-${ref.icon}`)
+                        .info
+                            .title
+                                a(href= ref.link ? ref.link : null, target="_blank")= ref.title
+
+                                if (ref.link)
+                                    i.i-up-right-from-square
+
+                            if (ref.desc)
+                                .desc= ref.desc
+
+                            if (ref.resume)
+                                .resume= ref.resume
+
+                            //- if (ref.refs)
+                            //-     .more
+                            //-         i.i-chevron-up
+                            //-         span= `Вложенные: ${ref.refs.length}`
+
+                    if (ref.refs)
+                        .subRefs
+                            each subRef in ref.refs
+                                +ref(subRef)
+
+            .refs
+                each ref in refs
+                    +ref(ref)
+
         if (!config.dev)
             +adBlock('R-A-2185026-1', 'afterContent')
 

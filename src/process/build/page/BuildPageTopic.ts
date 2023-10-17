@@ -1,3 +1,6 @@
+import sizeOf from "image-size";
+
+import { CONFIG } from "src/config";
 import DbBook from "src/entity/book/db";
 import { ViewBaseContributor } from "src/entity/contributor/view";
 import RepoTodo from "src/entity/todo/repository";
@@ -7,12 +10,13 @@ import RepoTopic from "src/entity/topic/repository";
 import DbTopicContributor from "src/entity/topicContributor/db";
 import DbTopicToc from "src/entity/topicToc/db";
 import ViewTopicTocItem from "src/entity/topicToc/view";
+import OgImg from "src/page/component/OgImg";
 import SEO from "src/page/component/SEO";
 import PageTopic, { TopicType } from "src/page/PageTopic";
 import EruditProcess from "src/process/EruditProcess";
 import { T_HELPER } from "src/translator/helper";
-import { readFile } from "src/util/io";
-import { Location, LocationType, Renderer } from "translator";
+import { copyFile, exists, readFile } from "src/util/io";
+import { Location, Renderer } from "translator";
 
 export default class BuildPageTopic extends EruditProcess
 {
@@ -33,6 +37,8 @@ export default class BuildPageTopic extends EruditProcess
             let previousData = await topicRepo.getNextPrevious(dbTopic.previousId);
 
             let topicTypes = Object.values(TopicType).filter(type => dbTopic[type]);
+
+            let ogImg = await this.getOgImg(topicId);
 
             for (let j = 0; j < topicTypes.length; j++)
             {
@@ -73,6 +79,7 @@ export default class BuildPageTopic extends EruditProcess
                     page.seo.title = `${dbTopic.title} | ${this.erudit.lang.phrase(type)} | ${page.bookTitle} ${this.erudit.lang.phrase('on')} OMath`;
                     page.seo.desc = dbTopic.desc;
                     page.seo.keywords = dbTopic.keywords;
+                    page.seo.ogImg = ogImg;
 
                     page.todos = await this.getViewTodos(dbTopic.id, type);
 
@@ -102,5 +109,27 @@ export default class BuildPageTopic extends EruditProcess
         let viewTodos = dbTodos.map(dbTodo => ViewTodoItem.fromDbTodo(dbTodo));
 
         return viewTodos.length === 0 ? null : viewTodos;
+    }
+    
+    async getOgImg(topicId: string)
+    {
+        let imgSrcPath = this.erudit.path.project('books', topicId, 'ogImage.png');
+        
+        if (!exists(imgSrcPath))
+            return null;
+
+        // Auto Generate if not found!
+
+        let imgDestPath = this.erudit.path.site(topicId, '@topic', 'ogImage.png');
+        copyFile(imgSrcPath, imgDestPath);
+
+        let size = sizeOf(imgSrcPath);
+
+        let ogImg = new OgImg;
+            ogImg.href = CONFIG.getUrl() + '/' + topicId + '/@topic/ogImage.png';
+            ogImg.width = size.width;
+            ogImg.height = size.height;
+
+        return ogImg;
     }
 }

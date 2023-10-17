@@ -163,6 +163,125 @@ body > main > article > [data-content]
             font-size: 95%;
         }
     }
+
+    > .refs
+    {
+        > .refHolder
+        {
+            padding: size.$gap 0;
+            border-bottom: 1px solid var(--c_border);
+
+            &:first-of-type
+            {
+                border-top: 1px solid var(--c_border);
+            }
+        }
+    }
+
+    .refs
+    {
+        display: flex;
+        flex-direction: column;
+
+        .refHolder > .ref
+        {
+            display: flex;
+            gap: size.$gap;
+
+            > .typeFigure > i
+            {
+                position: relative;
+                top: 2px;
+                color: var(--c_text-muted);
+            }
+
+            > .info
+            {
+                display: flex;
+                flex-direction: column;
+                gap: 3px;
+
+                > .title
+                {
+
+                    > a
+                    {
+                        font-weight: 600;
+                        @extend %underline;
+                    }
+
+                    > i
+                    {
+                        position: relative;
+                        margin-left: 10px;
+                        font-size: 11px;
+                        opacity: .7;
+                        color: var(--c_text-dimmed);
+                    }
+                }
+
+                > .desc,
+                > .resume
+                {
+                    font-size: .95em;
+                    color: var(--c_text-muted);
+                }
+
+                > .resume
+                {
+                    font-style: italic;
+                }
+
+                // > .more
+                // {
+                //     margin-top: 5px;
+
+                //     display: flex;
+                //     align-items: center;
+                //     gap: 5px;
+                //     font-size: .85em;
+                //     color: var(--c_text-muted);
+
+                //     > i
+                //     {
+                //         color: var(--c_text-dimmed);
+                //         transform: rotate(90deg);
+
+                //         @include util.transition(transform);
+                //     }
+
+                //     > span
+                //     {
+                //         @extend %underline;
+                //     }
+                // }
+            }
+        }
+    }
+
+    .refHolder > .subRefs
+    {
+        margin-top: size.$gap;
+        display: flex;
+        flex-direction: column;
+        gap: size.$gap;
+        padding-left: size.$gapStruct;
+
+        font-size: 95%;
+
+        .ref
+        {
+            > .typeFigure > i
+            {
+                color: var(--c_text-dimmed);
+            }
+
+            > .info
+            {
+                > .title { color: var(--c_text-muted); }
+            }
+        }
+    }
 }
 
 body > aside.minor

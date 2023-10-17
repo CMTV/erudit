@@ -7,7 +7,6 @@ import { IProjectConfig, loadRawConfig, TBooks, validateConfig } from "src/erudi
 import { Language, loadLangObj } from "src/erudit/i18n";
 
 import getDb from "src/erudit/db";
-import { Config, SET_CONFIG } from "./config";
 
 export class Erudit
 {

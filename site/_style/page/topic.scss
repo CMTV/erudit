@@ -552,6 +552,11 @@ body > aside.minor
                 > a.todo
                 {
                     @include listItem;
+
+                    > span
+                    {
+                        font-size: .93em;
+                    }
                 }
             }
 

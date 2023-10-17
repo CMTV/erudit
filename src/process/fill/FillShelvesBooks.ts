@@ -5,6 +5,7 @@ import { parseYamlFile } from "src/util";
 import { exists, normalize } from "src/util/io";
 import DataBookInfo, { DataBookWip } from "src/entity/book/data";
 import DbBookStats from "src/entity/bookStats/db";
+import { BookRefItem } from "src/entity/book/ref/global";
 
 export default class FillShelvesBooks extends EruditProcess
 {
@@ -95,29 +96,56 @@ export default class FillShelvesBooks extends EruditProcess
             dbBook.shelfId = shelfId;
             dbBook.displayOrder = ++this.bookDisplayOrder;
 
-        let bookDir = this.erudit.path.project('books', id, '@book');
-        let bookInfoPath = normalize(bookDir, 'info.yml');
+        this.setupBookInfo(dbBook, id);
+
+        dbBook.hasDecoration = exists(normalize(this.getBookDir(id), 'decoration.svg'));
+
+        dbBook.refs = this.getBookRefs(id);
+        dbBook.wipItems = this.getBookWip(id);
+
+        return dbBook;
+    }
+
+    setupBookInfo(dbBook: DbBook, bookId: string)
+    {
+        let bookInfoPath = normalize(this.getBookDir(bookId), 'info.yml');
 
         if (!exists(bookInfoPath))
             return dbBook;
-
-        dbBook.hasDecoration = exists(normalize(bookDir, 'decoration.svg'));
 
         let bookInfo = parseYamlFile(bookInfoPath) as DataBookInfo;
 
         dbBook.desc ??= bookInfo.desc;
         dbBook.results ??= bookInfo.results;
         dbBook.topics ??= bookInfo.topics;
+    }
 
-        let bookWipPath = normalize(bookDir, 'wip.yml');
+    getBookRefs(bookId: string)
+    {
+        let bookRefsPath = normalize(this.getBookDir(bookId), 'refs.yml');
+
+        if (!exists(bookRefsPath))
+            return null;
+
+        return parseYamlFile(bookRefsPath) as BookRefItem[];
+    }
+
+    getBookWip(bookId: string)
+    {
+        let bookWipPath = normalize(this.getBookDir(bookId), 'wip.yml');
 
         if (!exists(bookWipPath))
-            return dbBook;
+            return null;
 
-        let bookWip = parseYamlFile(bookWipPath) as DataBookWip;
+        return (parseYamlFile(bookWipPath) as DataBookWip).todo;
+    }
 
-        dbBook.wipItems = bookWip.todo;
+    //
+    //
+    //
 
-        return dbBook;
+    getBookDir(bookId: string)
+    {
+        return this.erudit.path.project('books', bookId, '@book');
     }
 }

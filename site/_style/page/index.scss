@@ -10,7 +10,8 @@ body > main > article
     > .wipBooks
     {
         display: flex;
-        gap: size.$gap;
+        flex-direction: column;
+        gap: size.$gapStruct;
         padding: size.$gapBig;
         padding-top: 0;
 

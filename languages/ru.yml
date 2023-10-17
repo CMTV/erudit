@@ -99,6 +99,13 @@ bookPage:
     keyConcepts: Основные темы
 
 page:
+    book:
+        refs:
+            heading: Источники
+            explain: |
+                Список источников, которые использовались при написании учебника.
+                Для более глубокого погружения в материал рекомендуем ознакомиться с ними подробнее.
+
     topic:
         contribute: Внести свой вклад
         contribution:
@@ -141,3 +148,13 @@ content:
         hint: Указание
         answer: Ответ
         solution: Решение
+        similar: Аналоги
+        similarNum: Аналог
+        generate: Сгенерировать аналог
+
+#
+#
+#
+
+global:
+    siteName: Открытая математика
