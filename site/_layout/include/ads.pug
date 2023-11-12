@@ -1,16 +1,26 @@
 mixin adInit
-    // Ads
-    script.
-        window.yaContextCb=window.yaContextCb||[]
-    script(src="https://yandex.ru/ads/system/context.js", async='')
+    if (!config.dev)
+        // Ads
+        script.
+            window.yaContextCb=window.yaContextCb||[]
+        script(src="https://yandex.ru/ads/system/context.js", async='')
 
 mixin adBlock(id, name)
     .ads(class= name)
         div(id=`yandex_rtb_${id}`)
-        script.
-            window.yaContextCb.push(()=>{
-                Ya.Context.AdvManager.render({
-                    renderTo: 'yandex_rtb_#{id}',
-                    blockId: '#{id}'
+            .expandOverlay
+            .noAdsContainer
+                i.i-warning
+                .info
+                    - let br = (name === 'left') ? '<br>' : ' ';
+                    p Контент на этом сайте!{br}<strong>полезный</strong> и <strong>бесплатный</strong>.
+                    p Помогите нам: отключите блокировщик рекламы или <a href="/sponsors/"><strong>станьте спонсором</strong></a>!
+
+        if (!config.dev)
+            script.
+                window.yaContextCb.push(()=>{
+                    Ya.Context.AdvManager.render({
+                        renderTo: 'yandex_rtb_#{id}',
+                        blockId: '#{id}'
+                    })
                 })
-            })

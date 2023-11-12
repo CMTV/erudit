@@ -7,6 +7,7 @@ import FillBookTocs from "./FillBookTocs";
 import FillTopics from "./FillTopics";
 import FillTopicTocs from "./FillTopicTocs";
 import UniqueRefCheckout from "./UniqueRefCheckout";
+import FillSponsors from "./FillSponsors";
 
 export default class FillGroup extends EruditGroup
 {
@@ -16,6 +17,7 @@ export default class FillGroup extends EruditGroup
     {
         return [
             FillContributors,
+            FillSponsors,
             FillShelvesBooks,
             FillBookTocs,
             FillTopics,

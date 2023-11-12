@@ -85,7 +85,7 @@ export default class MajorToc
         Object.values(this.bookTocs).forEach(tocElement => tocElement.removeAttribute('data-current'));
         this.bookTocs[bookId].setAttribute('data-current', '');
         this.views.book.querySelector('.bookTitle').innerHTML = this.views.global.querySelector(`.tocItem[data-id="${bookId}"] > a > .label`).innerHTML;
-        this.views.book.querySelector('.controls > .navButtons > .home').setAttribute('href', `/${bookId}/@book`);
+        this.views.book.querySelector('.controls > .navButtons > .home').setAttribute('href', `/book/${bookId}`);
     }
 
     setView(view: HTMLElement)

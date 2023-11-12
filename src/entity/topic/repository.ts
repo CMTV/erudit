@@ -1,5 +1,6 @@
 import Repository from "src/db/Repository";
 import DbTopic from "./db";
+import { link } from "src/router";
 
 export default class RepoTopic extends Repository
 {
@@ -24,7 +25,7 @@ export default class RepoTopic extends Repository
             return {};
 
         return {
-            link: topicId + '/@' + dbTopic.parts.shift(),
+            link: link(dbTopic.parts.shift() as any, topicId),
             title: dbTopic.title
         }
     }

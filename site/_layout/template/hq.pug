@@ -8,15 +8,15 @@ mixin fullLink(pageName, link, icon, label)
 block minorFull
     header Центр развития
     .listItems
-        +fullLink('contributors', '/contributors', 'users', 'Участники')
-        +fullLink('todo', '/todo', 'warning', 'Что можно улучшить?')
-        +fullLink('contribute-guide', '/contribute-guide', 'circle-question', 'Как внести вклад?')
+        +fullLink('contributors', link('contributors'), 'users', 'Участники')
+        +fullLink('todo', link('todo'), 'warning', 'Что можно улучшить?')
+        +fullLink('contribute-guide', link('guide'), 'circle-question', 'Как внести вклад?')
 
 mixin minorButton(pageName, icon, link)
     a.minorButton(href= link, data-current= hqPage === pageName ? '' : null)
         i(class= `i-${icon}`)
 
 block minorMini
-    +minorButton('contributors', 'users', '/contributors')
-    +minorButton('todo', 'warning', '/todo')
-    +minorButton('contribute-guide', 'circle-question', '/contribute-guide')
+    +minorButton('contributors', 'users', link('contributors'))
+    +minorButton('todo', 'warning', link('todo'))
+    +minorButton('contribute-guide', 'circle-question', link('guide'))

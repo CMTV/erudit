@@ -7,6 +7,7 @@ import BuildPageBook from "./BuildPageBook";
 import BuildPageContributors from "./BuildPageContributors";
 import BuildPageTodo from "./BuildPageTodo";
 import BuildPageContributeGuide from "./BuildPageContributeGuide";
+import BuildPageSponsors from "./BuildPageSponsors";
 
 export default class BuildPageGroup extends EruditGroup
 {
@@ -17,6 +18,7 @@ export default class BuildPageGroup extends EruditGroup
         return [
             BuildPageIndex,
             BuildPageTopic,
+            BuildPageSponsors,
             BuildPageContributors,
             BuildPageContributor,
             BuildPageBook,

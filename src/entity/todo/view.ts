@@ -2,6 +2,8 @@ import { erudit } from "src/erudit";
 import DbTodo from "./db";
 import DbTopic from "../topic/db";
 import DbBook from "../book/db";
+import { link } from "src/router";
+import { getBookDecorationLink } from "../book/global";
 
 export class ViewTodoItem
 {
@@ -58,8 +60,8 @@ export class ViewTodoBook
         let view = new ViewTodoBook;
             view.id = bookId;
             view.title = dbBook.title;
-            view.decoration = dbBook.hasDecoration ? `/${bookId}/@book/decoration.svg` : null;
-            view.link = `/${bookId}/@book/`;
+            view.decoration = dbBook.hasDecoration ? getBookDecorationLink(bookId) : null;
+            view.link = link('book', bookId);
             view.topics = {};
             view.todosNum = 0;
 

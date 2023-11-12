@@ -26,7 +26,7 @@ export default abstract class Page
     compile()
     {
         let dest = this.getDest();
-        SITEMAP.urls.push(CONFIG.getUrl() + '/' + dest.replace('index.html', ''));
+        SITEMAP.urls.push(CONFIG.getUrl() + dest.replace('/index.html', ''));
         Layout.compileFile(`page/${this.layout}.pug`, dest, this);
     }
 }

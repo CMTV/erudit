@@ -1,6 +1,7 @@
 import { erudit } from "src/erudit";
 import DbContributor from "./db";
 import RepoContributor from "./repository";
+import { link } from "src/router";
 
 export class ViewBaseContributor
 {
@@ -60,10 +61,10 @@ export class ViewContributor
 
 function getContributorLink(contirbutorId: string)
 {
-    return `/@contributor/${contirbutorId}/`;
+    return link('contributor', contirbutorId);
 }
 
 function getAvatarSrc(dbContributor: DbContributor)
 {
-    return '/site/graphics/' + (dbContributor.avatarExt ? `contributors/${dbContributor.id}.${dbContributor.avatarExt}` : 'defaultAvatar.png');
+    return '/site/graphics/' + (dbContributor.avatarExt ? `contributors/${dbContributor.id}.${dbContributor.avatarExt}` : 'defaultAvatar.svg');
 }

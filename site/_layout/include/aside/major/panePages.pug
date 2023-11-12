@@ -5,5 +5,6 @@ mixin page(name, icon, href)
         .label= i18n(`aside.major.pages.${name}`)
 
 .listItems
-    +page('home', 'house', '/')
-    +page('hq', 'building', '/contributors/')
+    +page('home',       'house',    '/')
+    +page('hq',         'building', link('contributors'))
+    +page('sponsors',   'donate',   link('sponsors'))

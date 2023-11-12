@@ -1,0 +1,38 @@
+.sponsor(id= `sponsor-${id}`)
+    a.avatar(href= link, target="_blank")
+        if (avatarVideo)
+            video(playsinline='', muted='', loop='', autoplay='', src= avatarVideo)
+        else
+            img(src= avatar, loading="lazy")
+
+    .dataWrapper
+        .triangle
+        .bg
+        .inner
+            .message
+            .info
+                .name
+                    if (emoji)
+                        .emoji= emoji
+                    a(href= link, target="_blank")= name
+                    if (link)
+                        i.i-up-right-from-square
+                .actions
+                    a.support(href="/sponsors/", title="Хочу так же!")
+                        i.i-message-plus
+                    .next(title="Следующий " + (tier === 3 ? 'меценат' : 'соратник'))
+                        i.i-arrow-right
+
+    if (tier === 3)
+        style.
+            html[data-theme$='light'] #sponsor-#{id}
+            {
+                --avatarBorder: #{theme.border[0]};
+                --bg: #{theme.bg[0]};
+            }
+
+            html[data-theme$='dark'] #sponsor-#{id}
+            {
+                --avatarBorder: #{theme.border[1]};
+                --bg: #{theme.bg[1]};
+            }

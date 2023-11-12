@@ -27,9 +27,11 @@ $gap: calc($gapBig / 2);
     align-items: center;
     padding: $gap $gapBig;
 
+    @include util.transition(background);
+
     &[data-accent] { a { color: var(--c_text) !important; } }
     &[data-current] { background: var(--c_bg-content-accent); }
-
+    
     > a
     {
         display: inline-flex;

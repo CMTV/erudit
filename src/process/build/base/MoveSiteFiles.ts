@@ -1,8 +1,8 @@
-import glob from "glob";
+import { globSync } from "glob";
 import { copyAssetsTo } from "translator/node";
 
 import EruditProcess from "src/process/EruditProcess";
-import { b2fSlash, copyFile } from "src/util/io";
+import { copyFile, normalize, toForwardSlash } from "src/util/io";
 
 export default class MoveSiteFiles extends EruditProcess
 {
@@ -10,30 +10,38 @@ export default class MoveSiteFiles extends EruditProcess
 
     async do()
     {
-        let ignorePatterns = ['_*/**', '**/_*'];
+        let ignorePatterns = (path) => 
+        {
+            let patterns = ['**/_*', '_*/**'];
+            return patterns.map(pattern => path + '/' + pattern);
+        }
 
-        let sitePath = b2fSlash(this.erudit.path.package()) + '/';
-        let siteRootPath = b2fSlash(this.erudit.path.package()) + '/';
+        let sitePath = this.erudit.path.package('site');
+        let siteRootPath = this.erudit.path.package('site', '_root');
 
-        let siteFiles = glob.sync(
-            sitePath + 'site/**/*',
+        let siteFiles = globSync(
+            toForwardSlash(sitePath) + '/**/*',
             {
-                ignore: ignorePatterns.map(pattern => sitePath + 'site/' + pattern),
-                nodir: true,
+                ignore: ignorePatterns(toForwardSlash(sitePath)),
+                nodir: true
             }
         );
 
-        let rootFiles = glob.sync(
-            siteRootPath + 'site/_root/**/*',
+        let rootFiles = globSync(
+            toForwardSlash(siteRootPath) + '/**/*',
             {
-                ignore: ignorePatterns.map(pattern => siteRootPath + 'site/_root/' + pattern),
-                nodir: true,
+                ignore: ignorePatterns(toForwardSlash(siteRootPath)),
+                nodir: true
             }
         );
+
+        //
+        // Move
+        //
 
         siteFiles.forEach(siteFile => copyFile(
             siteFile,
-            this.erudit.path.site(siteFile.replace(sitePath, ''))
+            this.erudit.path.site(siteFile.replace(sitePath, 'site'))
         ));
 
         rootFiles.forEach(rootFile => copyFile(

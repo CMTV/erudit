@@ -1,5 +1,12 @@
 import OMath from "global/OMath";
 import { initAnchorDetector } from "global/anchor";
+import { LiveTocPos } from "include/liveTocPos";
+import { SPONSOR_DATA, SponsorBlockController, loadTopicSponsorData } from "include/sponsorBlock";
+
+window.addEventListener('DOMContentLoaded', () =>
+{
+    setupTopicSponsors();
+});
 
 window.addEventListener('load', () =>
 {
@@ -17,6 +24,8 @@ window.addEventListener('load', () =>
         toggleTodoView();
 
     initAnchorDetector();
+
+    new LiveTocPos(asideToggler.asides.minor.querySelector(':scope > .full .topicToc .tocTree'));
 });
 
 function setupContributorsView()
@@ -48,6 +57,24 @@ function setupTodoView()
     [todoSwitch, closeElem].forEach(element =>
     {
         element.addEventListener('click', () => toggleTodoView())
+    });
+}
+
+function setupTopicSponsors()
+{
+    let tier3Elem = document.getElementById('sponsorBlockTier3');
+    let tier2Elem = document.getElementById('sponsorBlockTier2');
+
+    loadTopicSponsorData().then(result =>
+    {
+        if (!result)
+        {
+            [tier3Elem, tier2Elem].forEach(elem => elem.remove());
+            return;
+        }
+
+        new SponsorBlockController(tier3Elem, 3);
+        new SponsorBlockController(tier2Elem, 2);
     });
 }
 

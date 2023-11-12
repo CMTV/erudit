@@ -1,6 +1,8 @@
 import pug from "pug";
+import { CONFIG } from "src/config";
 
 import { erudit } from "src/erudit";
+import { link } from "src/router";
 import { normalize, writeFile } from "src/util/io";
 
 export default class Layout
@@ -9,8 +11,10 @@ export default class Layout
     {
         return {
             basedir:    normalize(erudit.path.package('site/_layout')),
+            compileDebug: CONFIG.dev,
             //cache:      !erudit.dev,
             lang:       erudit.lang.langCode,
+            link:       link,
             i18n:       (key, ...values) => erudit.lang.phrase(key, values),
             topicIcon:  topicType => {
                 if (topicType === 'article')
@@ -28,9 +32,7 @@ export default class Layout
 
     static renderFile(srcPath: string, view: any = {}, options = this.getPugOptions())
     {
-        let baseDir = normalize(erudit.path.package('site/_layout'));
-            srcPath = normalize(baseDir, srcPath);
-
+        srcPath = this.normalizeLayoutPath(srcPath);
         return pug.renderFile(srcPath, {...options, ...view});
     }
 
@@ -45,30 +47,20 @@ export default class Layout
             writeFile(destPath + '.json', JSON.stringify(view, null, 4));
     }
 
-    // static render(src: string, view: any)
-    // {
-    //     let baseDir = normalize(erudit.path.package('site/_layout'));
-    //     let srcPath = normalize(baseDir, src);
+    static compileFileClient(layout: string)
+    {
+        return pug.compileFileClient(this.normalizeLayoutPath(layout), { compileDebug: CONFIG.dev });
+    }
 
-    //     let pugOptions = {
-    //         filename:   srcPath,
-    //         basedir:    baseDir,
-    //         cache:      !erudit.dev,
-    //         lang:       erudit.lang.langCode,
-    //         i18n:       (key, ...values) => erudit.lang.phrase(key, values)
-    //     }
+    //
 
-    //     return pug.renderFile(srcPath, {...pugOptions, ...view});
-    // }
+    static normalizeLayoutPath(path: string)
+    {
+        path = normalize(erudit.path.package('site', '_layout', path));
 
-    // static compile(src: string, view: any, dest: string)
-    // {
-    //     let destPath = normalize(erudit.path.site(dest));
-    //     let html = this.render(src, view);
+        if (!path.endsWith('.pug'))
+            path += '.pug';
 
-    //     writeFile(destPath, html);
-
-    //     if (erudit.dev)
-    //         writeFile(destPath + '.json', JSON.stringify(view, null, 4));
-    // }
+        return path;
+    }
 }

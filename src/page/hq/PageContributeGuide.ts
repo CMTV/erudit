@@ -1,3 +1,4 @@
+import { link } from "src/router";
 import SEO from "../component/SEO";
 import PageHQ from "./PageHQ";
 
@@ -19,6 +20,6 @@ export default class PageContributeGuide extends PageHQ
 
     getDest(): string
     {
-        return `contribute-guide/index.html`
+        return link('guide', 'index.html');
     }
 }

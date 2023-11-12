@@ -1,4 +1,5 @@
 import DbBook from "src/entity/book/db";
+import { getBookDecorationLink } from "src/entity/book/global";
 import { ViewBookRefItem } from "src/entity/book/ref/view";
 import RepoBook from "src/entity/book/repository";
 import { getContributorList } from "src/entity/book/view";
@@ -6,6 +7,7 @@ import RepoBookStats from "src/entity/bookStats/repository";
 import PageBook from "src/page/PageBook";
 import SEO from "src/page/component/SEO";
 import EruditProcess from "src/process/EruditProcess";
+import { link } from "src/router";
 import { copyFile, readFile } from "src/util/io";
 
 export default class BuildPageBook extends EruditProcess
@@ -44,7 +46,7 @@ export default class BuildPageBook extends EruditProcess
 
                 page.refs = dbBook.refs ? dbBook.refs.map(ref => ViewBookRefItem.fromRef(ref)) : null;
 
-                page.decoration = dbBook.hasDecoration ? '/' + dbBook.id + '/@book/decoration.svg' : null;
+                page.decoration = dbBook.hasDecoration ? getBookDecorationLink(bookId) : null;
 
                 page.firstTopicId = await repoBook.getFirstTopicId(bookId);
                 page.contributors = await getContributorList(await repoBook.getBookContributors(bookId));
@@ -59,7 +61,7 @@ export default class BuildPageBook extends EruditProcess
             if (dbBook.hasDecoration)
                 copyFile(
                     this.erudit.path.project('books', bookId, '@book', 'decoration.svg'),
-                    this.erudit.path.site(bookId, '@book', 'decoration.svg')
+                    this.erudit.path.site(getBookDecorationLink(bookId))
                 )
         }
     }

@@ -1,6 +1,7 @@
 import { ViewTodoBook } from "src/entity/todo/view";
 import SEO from "../component/SEO";
 import PageHQ from "./PageHQ";
+import { link } from "src/router";
 
 export default class PageTodo extends PageHQ
 {
@@ -23,6 +24,6 @@ export default class PageTodo extends PageHQ
 
     getDest(): string
     {
-        return `todo/index.html`;
+        return link('todo', 'index.html');
     }
 }

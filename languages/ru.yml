@@ -31,8 +31,9 @@ aside:
             language: Язык
             other: Другое
         pages:
-            home: Главная
-            hq: Центр развития
+            home:       Главная
+            hq:         Центр развития
+            sponsors:   Спонсоры
 
 panes:
     toc: Оглавление
@@ -147,6 +148,7 @@ content:
     task:
         hint: Указание
         answer: Ответ
+        note: Примечание
         solution: Решение
         similar: Аналоги
         similarNum: Аналог

@@ -2,7 +2,7 @@ extends /template/default
 
 block content
     div(data-content)
-        h1 Математика
+        h1 Открытая математика
 
         p Математика — очень интересная и в то же время трудная наука!
 
@@ -29,9 +29,9 @@ block content
                 .wipBook
                     header
                         if (book.hasDecoration)
-                            a(href= `/${book.id}/@book`): img(src= '/' + book.id + '/@book/decoration.svg')
+                            a(href= `/book/${book.id}/`): img(src= '/book/' + book.id + '/decoration.svg')
                         .title
-                            a(href= `/${book.id}/@book`)= book.title
+                            a(href= `/book/${book.id}/`)= book.title
                     .desc!= book.desc
                     .progress
                         .bar

@@ -2,6 +2,7 @@ import sizeOf from "image-size";
 
 import { CONFIG } from "src/config";
 import DbBook from "src/entity/book/db";
+import { getBookDecorationLink } from "src/entity/book/global";
 import { ViewBaseContributor } from "src/entity/contributor/view";
 import RepoTodo from "src/entity/todo/repository";
 import { ViewTodoItem } from "src/entity/todo/view";
@@ -14,6 +15,7 @@ import OgImg from "src/page/component/OgImg";
 import SEO from "src/page/component/SEO";
 import PageTopic, { TopicType } from "src/page/PageTopic";
 import EruditProcess from "src/process/EruditProcess";
+import { link } from "src/router";
 import { T_HELPER } from "src/translator/helper";
 import { copyFile, exists, readFile } from "src/util/io";
 import { Location, Renderer } from "translator";
@@ -58,7 +60,7 @@ export default class BuildPageTopic extends EruditProcess
                     page.bookTitle = dbBook.title;
                     page.bookToc = readFile(this.erudit.path.site('site', 'book-tocs', dbTopic.bookId + '.html'));
 
-                    page.decoration = dbBook.hasDecoration ? '/' + dbBook.id + '/@book/decoration.svg' : null;
+                    page.decoration = dbBook.hasDecoration ? getBookDecorationLink(dbBook.id) : null;
 
                     page.topicTypes = topicTypes;
 
@@ -120,13 +122,13 @@ export default class BuildPageTopic extends EruditProcess
 
         // Auto Generate if not found!
 
-        let imgDestPath = this.erudit.path.site(topicId, '@topic', 'ogImage.png');
+        let imgDestPath = this.erudit.path.site(link('topicFile', topicId, 'ogImage.png'));
         copyFile(imgSrcPath, imgDestPath);
 
         let size = sizeOf(imgSrcPath);
 
         let ogImg = new OgImg;
-            ogImg.href = CONFIG.getUrl() + '/' + topicId + '/@topic/ogImage.png';
+            ogImg.href = CONFIG.getUrl() + link('topicFile', topicId, 'ogImage.png');
             ogImg.width = size.width;
             ogImg.height = size.height;
 

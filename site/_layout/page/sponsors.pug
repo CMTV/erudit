@@ -1,0 +1,136 @@
+extends /template/default
+
+mixin joinButton
+    a.join(href="https://boosty.to/omath", title="Поддержать проект!")
+        i.i-user-plus
+
+mixin highTierSponsor(sponsor)
+    .sponsor(id= `sponsor-${sponsor.id}`)
+        header
+            a.avatar(href= sponsor.link, target="_blank")
+                if (sponsor.avatarVideo)
+                    video(playsinline='', muted='', loop='', autoplay='', src= sponsor.avatarVideo)
+                else
+                    img(src= sponsor.avatar, loading="lazy")
+                
+                if (sponsor.avatarVideo)
+
+            if (sponsor.emoji)
+                .emoji= sponsor.emoji
+
+        .info
+            .name
+                a(href= sponsor.link, target="_blank")= sponsor.name
+                if (sponsor.link)
+                    i.i-up-right-from-square
+            if (sponsor.slogan)
+                .slogan= sponsor.slogan
+
+        if (sponsor.emoji)
+                        .emoji= sponsor.emoji
+
+        if (sponsor.tier === 3)
+            style.
+                html[data-theme$='light'] #sponsor-#{sponsor.id}
+                {
+                    --text: #{sponsor.theme.text[0]};
+                    --avatarBorder: #{sponsor.theme.border[0]};
+                    --bg: #{sponsor.theme.bg[0]};
+                }
+
+                html[data-theme$='dark'] #sponsor-#{sponsor.id}
+                {
+                    --text: #{sponsor.theme.text[1]};
+                    --avatarBorder: #{sponsor.theme.border[1]};
+                    --bg: #{sponsor.theme.bg[1]};
+                }
+
+block content
+    header
+        h1 Спонсоры
+        p.
+            Весь контент сайта доступен бесплатно.
+            Написание качественного и интересного материала требует много времени.
+            А способов питаться крутым контентом еще не придумали (а было бы классно), поэтому проект существует только благодаря финансовой поддержке заинтересованных читателей.
+
+    .tier3
+        h2 Меценаты
+        +joinButton
+
+        .list
+            each sponsor in tier3
+                +highTierSponsor(sponsor)
+
+    .tier2
+        h2 Соратники
+        +joinButton
+
+        .list
+            each sponsor in tier2
+                +highTierSponsor(sponsor)
+
+    .tier1
+        h2 Помощники
+        +joinButton
+
+        .list
+            each sponsor in tier1
+                a.sponsor(href= sponsor.link ? sponsor.link : null, target="_blank")
+                    if (sponsor.emoji)
+                        .emoji= sponsor.emoji
+                    .name= sponsor.name
+                    if (sponsor.link)
+                        i.link.i-up-right-from-square
+
+    if (retired)
+        .retired
+            h2 Мемориал
+            .list
+                each sponsor in retired
+                    .sponsor
+                        .name= sponsor.name
+
+mixin tier(tier, name)
+    .tier
+        h3= name
+        .desc
+            block
+        a(href="https://boosty.to/omath")
+            i.i-user-plus
+            span Присоединиться
+
+block minorMini
+    button.tierInfo(title="Уровни поддержки")
+        i(class='i-circle-question')
+
+block minorFull
+    header Уровни поддержки
+    .tiers
+        +tier(1, 'Помощник')
+            p Отображаемые данные:
+            ul
+                li Имя
+                li Ссылка
+                li Эмоджи
+
+        +tier(2, 'Соратник')
+            p Отображаемые данные:
+            ul
+                li Имя
+                li Ссылка
+                li Эмоджи
+                li: strong Свои сообщения
+                li: strong Слоган
+                li: strong Аватарка
+
+        +tier(3, 'Меценат')
+            p Отображаемые данные:
+            ul
+                li Имя
+                li Ссылка
+                li Эмоджи
+                li Свои сообщения
+                li Слоган
+                li: strong Видео-аватарка
+                li: strong Свой цвет подсветки
+                li: strong Сверху страниц

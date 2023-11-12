@@ -2,6 +2,7 @@ import { ViewContributionBook } from "src/process/build/page/BuildPageContributo
 import AsideMajor, { AsideMajorPane } from "./component/asideMajor/AsideMajor";
 import SEO from "./component/SEO";
 import Page from "./Page";
+import { link } from "src/router";
 
 export default class PageContributor extends Page
 {
@@ -35,6 +36,6 @@ export default class PageContributor extends Page
 
     getDest(): string
     {
-        return `@contributor/${this.id}/index.html`;
+        return link('contributor', this.id, 'index.html');
     }
 }

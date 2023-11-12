@@ -1,0 +1,273 @@
+@use 'def/size';
+@use 'def/bp';
+
+@use 'partial/util';
+@use 'partial/hover';
+
+@mixin emoji
+{
+    text-shadow: 1px 1px 2px rgba(0,0,0,.5);
+}
+
+@mixin topicBlock
+{
+    position: relative;
+
+    overflow: hidden;
+    margin-top: size.$gapStruct;
+    @include util.transition(height);
+
+    @include bp.max(mini) { margin-bottom: size.$gap; }
+
+    .sponsor
+    {
+        position: absolute;
+        left: 0; top: 0;
+        width: 100%;
+
+        @include util.transition(opacity);
+
+        &:not(.current)
+        {
+            opacity: 0;
+            pointer-events: none;
+            touch-action: none;
+        }
+    }
+
+    .sponsor
+    {
+        --avatarBorder: var(--c_text-disabled);
+        --bg: transparent;
+
+        display: flex;
+        gap: size.$gapStruct;
+        align-items: start;
+
+        .avatar
+        {
+            border: 2px solid var(--avatarBorder);
+            border-radius: 50%;
+
+            > img
+            {
+                @include util.size(60px);
+                display: block;
+                border-radius: 50%;
+                border: 2px solid var(--c_bg-content);
+            }
+
+            > video
+            {
+                @include util.size(60px);
+                display: block;
+                border-radius: 50%;
+                border: 2px solid var(--c_bg-content);
+                object-fit: cover;
+            }
+        }
+        
+        .dataWrapper
+        {
+            --triangleSize: 20px;
+        }
+
+        .dataWrapper
+        {
+            flex: 1;
+            position: relative;
+
+            border: 2px solid var(--c_border);
+            border-radius: size.$borderRadius;
+            border-top-left-radius: 0;
+
+            background: var(--c_bg-content-shade);
+        }
+
+        .dataWrapper > .bg
+        {
+            position: absolute;
+            top: -2px; right: -2px; bottom: -2px; left: calc(-2px - var(--triangleSize));
+            border-radius: size.$borderRadius;
+            background: var(--bg);
+            clip-path: polygon(
+                2px 0,
+                100% 0,
+                100% 100%,
+                var(--triangleSize) 100%,
+                var(--triangleSize) calc(var(--triangleSize) - 1px)
+            );
+        }
+
+        .dataWrapper > .triangle
+        {
+            position: absolute;
+            top: -2px;
+            left: calc(-1 * var(--triangleSize));
+
+            width: 0px;
+            height: 0px;
+            border-style: solid;
+            border-width: 0 var(--triangleSize) var(--triangleSize) 0;
+            border-color: transparent var(--c_border) transparent transparent;
+            transform: rotate(0deg);
+
+            &::after
+            {
+                --innerTriangleSize: calc(var(--triangleSize) - 5px);
+
+                content: "";
+                position: absolute;
+                right: calc(-1 * var(--triangleSize));
+                top: 2px;
+
+                width: 0px;
+                height: 0px;
+                border-style: solid;
+                border-width: 0 var(--innerTriangleSize) var(--innerTriangleSize) 0;
+                border-color: transparent var(--c_bg-content-shade) transparent transparent;
+                transform: rotate(0deg);
+            }
+        }
+
+        .dataWrapper > .inner
+        {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: size.$gapSmall;
+
+            padding: size.$gap;
+
+            .message
+            {
+                font-family: "Noto Serif";
+                font-weight: 450;
+                font-size: 1.15em;
+            }
+
+            .info
+            {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                gap: size.$gapSmall;
+
+                > .name,
+                > .support
+                {
+                    flex-wrap: nowrap;
+                }
+
+                > .name
+                {
+                    display: flex;
+                    align-items: center;
+                    gap: 7.5px;
+
+                    color: var(--c_text-muted);
+
+                    > .emoji
+                    {
+                        @include emoji;
+                        position: relative;
+                        left: -2px;
+
+                        & + a
+                        {
+                            position: relative;
+                            left: -3px;
+                        }
+                    }
+
+                    > a
+                    {
+                        font-weight: 600;
+                        @extend %underline;
+                    }
+
+                    > i
+                    {
+                        position: relative;
+                        top: 1px;
+                        color: var(--c_text-dimmed);
+                        font-size: 13px;
+                    }
+                }
+
+                .actions
+                {
+                    display: flex;
+                    align-items: center;
+                    opacity: .7;
+
+                    position: relative;
+                    top: 3px;
+
+                    .support,
+                    .next
+                    {
+                        text-decoration: none;
+                        color: var(--c_text-muted);
+                        padding: 0 10px;
+
+                        @include hover.color(var(--c_text), true);
+                    }
+
+                    .next { padding-right: 0; }
+                }
+            }
+        }
+        
+        @include bp.max(mini)
+        {
+            gap: 20px;
+
+            .avatar
+            {
+                border-width: 1.5px;
+            }
+
+            .avatar > img,
+            .avatar > video
+            {
+                @include util.size(35px);
+                border-width: 1px;
+            }
+
+            .dataWrapper
+            {
+                --triangleSize: 12px;
+            }
+
+            .dataWrapper > .inner
+            {
+                padding: size.$gapSmall;
+
+                .message
+                {
+                    font-size: 95%;
+                }
+
+                .info
+                {
+                    .name,
+                    .support
+                    {
+                        font-size: 87%;
+                    }
+
+                    .name
+                    {
+                        gap: 5px;
+                    }
+
+                    .name > i
+                    {
+                        font-size: 10px;
+                    }
+                }
+            }
+        }
+    }
+}

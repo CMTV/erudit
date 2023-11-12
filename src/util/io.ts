@@ -1,3 +1,5 @@
+import { globSync as _globSync, GlobOptionsWithFileTypesFalse } from "glob";
+
 import fs from "fs";
 import p from "path";
 
@@ -40,7 +42,7 @@ export function copyFile(from: string, to: string)
     fs.copyFileSync(from, to);
 }
 
-export function b2fSlash(path: string)
+export function toForwardSlash(path: string)
 {
-    return path.split('\\').join('/');
+    return path.split(p.sep).join(p.posix.sep);
 }

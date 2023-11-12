@@ -17,7 +17,7 @@ export default class PageIndex extends Page
 
     wipBooks: DbBook[];
 
-    getDest = () => 'index.html';
+    getDest = () => '/index.html';
 
     constructor()
     {

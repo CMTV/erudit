@@ -4,6 +4,7 @@ import ViewTopicTocItem from "src/entity/topicToc/view";
 import SEO from "src/page/component/SEO";
 import { ViewBaseContributor } from "src/entity/contributor/view";
 import { ViewTodoItem } from "src/entity/todo/view";
+import { link } from "src/router";
 
 export enum TopicType
 {
@@ -59,6 +60,6 @@ export default class PageTopic extends Page
 
     getDest()
     {
-        return this.topicId + '/@' + this.topicType + '/index.html';
+        return link(this.topicType, this.topicId, 'index.html');
     }
 }

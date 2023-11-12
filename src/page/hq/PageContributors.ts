@@ -2,6 +2,7 @@ import { ViewContributor } from "src/entity/contributor/view";
 import SEO from "../component/SEO";
 import AsideMajor, { AsideMajorPane } from "../component/asideMajor/AsideMajor";
 import PageHQ from "./PageHQ";
+import { link } from "src/router";
 
 export default class PageContributors extends PageHQ
 {
@@ -19,11 +20,11 @@ export default class PageContributors extends PageHQ
 
         this.seo = new SEO;
         this.seo.title = 'Участники | OMath';
-        this.seo.desc = 'Список всех людей, которые внесли свой вклад в проект.';
+        this.seo.desc = 'Люди, которые внесли свой вклад в проект.';
     }
 
     getDest(): string
     {
-        return `contributors/index.html`;
+        return link('contributors', 'index.html');
     }
 }

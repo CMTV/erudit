@@ -30,8 +30,6 @@ globalThis.OMathEvent = globalThis.OMathEvent || {};
 
 globalThis.OMathEvent.onLinkClick = (link, e) =>
 {
-    console.log('foo');
-
     let url = link.getAttribute('data-preview').replace(/[\|:]/gm, '/');
         url = '/site/uniques/' + url + '.html';
 

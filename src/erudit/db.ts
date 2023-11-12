@@ -13,6 +13,7 @@ import DbFile from "src/entity/file/db";
 import DbTopicContributor from "src/entity/topicContributor/db";
 import DbBookStats from "src/entity/bookStats/db";
 import DbTodo from "src/entity/todo/db";
+import DbSponsor from "src/entity/sponsor/db";
 
 export default function getDb(pathToDb: string)
 {
@@ -22,6 +23,7 @@ export default function getDb(pathToDb: string)
         synchronize: true,
         entities: [
             DbContributor,
+            DbSponsor,
 
             DbShelf,
             DbBook,

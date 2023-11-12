@@ -7,6 +7,8 @@
 @use 'partial/hover';
 @use 'partial/util';
 
+@use 'include/sponsor';
+
 //
 //
 //
@@ -30,6 +32,17 @@
     box-shadow: inset  3px 0 5px 2px rgba(0, 0, 0, .05);
 
     @include util.transition(opacity);
+}
+
+//
+// Sponsor Blocks
+//
+
+.sponsorBlock
+{
+    @include sponsor.topicBlock;
+
+    @include bp.max(mini) { margin-bottom: size.$gap; }
 }
 
 //

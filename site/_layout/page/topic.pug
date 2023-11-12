@@ -3,6 +3,9 @@ extends /template/default
 include /include/ads
 include /include/toc
 
+mixin topicSponsor(tier)
+    .sponsorBlock(id= `sponsorBlockTier${tier}`)
+
 block content
     header
         if (decoration)
@@ -23,8 +26,9 @@ block content
             if (desc)
                 .desc= desc
 
-        if (!config.dev)
-            +adBlock('R-A-2185026-2', 'beforeContent')
+        // +adBlock('R-A-2185026-2', 'beforeContent')
+
+        +topicSponsor(3)
 
     div(data-content)!= content
 
@@ -40,21 +44,23 @@ block content
                     .label= i18n(t)
                     .desc= i18n('topicTypeDesc.' + t)
 
-        .topicNavBlock
-            if (previous)
-                a.previous(href= `/${previous}`)
-                    i.i-arrow-left
-                    span.short Назад
-                    span.long= previousTitle
-            .sep
-            if (next)
-                a.next(href= `/${next}`)
-                    span.short Дальше
-                    span.long= nextTitle
-                    i.i-arrow-right
+        if (previous || next)
+            .topicNavBlock
+                if (previous)
+                    a.previous(href= previous)
+                        i.i-arrow-left
+                        span.short Назад
+                        span.long= previousTitle
+                .sep
+                if (next)
+                    a.next(href= next)
+                        span.short Дальше
+                        span.long= nextTitle
+                        i.i-arrow-right
 
-        if (!config.dev)
-            +adBlock('R-A-2185026-1', 'afterContent')
+        +topicSponsor(2)
+
+        +adBlock('R-A-2185026-1', 'afterContent')
 
 block minorFull
     mixin switchButton(href, icon, label, options = {})
@@ -63,17 +69,17 @@ block minorFull
                 i(class= `i-${icon}`)
 
     .typeSwitcher
-        +switchButton(previous ? '/' + previous : null, 'arrow-left', i18n('layout.topic.previous'), { disabled: !previous })
+        +switchButton(previous, 'arrow-left', i18n('layout.topic.previous'), { disabled: !previous })
 
         each t in ['article', 'summary', 'practicum']
             +switchButton(
-                topicTypes.includes(t) && t !== topicType ? `../@${t}` : null,
+                topicTypes.includes(t) && t !== topicType ? link(t, topicId) : null,
                 topicIcon(t),
                 i18n(t),
                 { current: t === topicType, disabled: !topicTypes.includes(t) }
             )
 
-        +switchButton(next ? '/' + next : null, 'arrow-right', i18n('layout.topic.next'), { disabled: !next })
+        +switchButton(next, 'arrow-right', i18n('layout.topic.next'), { disabled: !next })
     
     .topicToc
         .inner
@@ -104,7 +110,7 @@ block minorFull
             i.i-warning
             span Помогите улучшить!
     else
-        a.contribute(href= "/contribute-guide")
+        a.contribute(href= link('guide'))
             .figure
                 i.i-plus
             span= i18n('page.topic.contribute')
@@ -132,7 +138,7 @@ block minorFull
                         a.todo(href= `#${todo.id}`)
                             i.i-warning
                             span= todo.title
-                a.how(href="/contribute-guide")
+                a.how(href= link('guide'))
                     i.i-circle-question
                     span Как улучшить?
                 .info
@@ -147,7 +153,7 @@ block minorMini
 
     each t in ['article', 'summary', 'practicum']
         +miniSwitchButton(
-            topicTypes.includes(t) && t !== topicType ? `../@${t}` : null,
+            topicTypes.includes(t) && t !== topicType ? link(t, topicId) : null,
             topicIcon(t),
             i18n(t),
             { current: t === topicType, disabled: !topicTypes.includes(t) }

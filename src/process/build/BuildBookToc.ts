@@ -3,6 +3,7 @@ import DbBookToc from "src/entity/bookToc/db";
 import { BookTocItem, SectionBookTocItem, TopicBookTocItem } from "src/entity/bookToc/global";
 import Layout from "src/frontend/Layout";
 import EruditProcess from "src/process/EruditProcess";
+import { link } from "src/router";
 import { normalize, writeFile } from "src/util/io";
 import { indent } from "src/util/str";
 
@@ -56,7 +57,7 @@ export default class BuildBookToc extends EruditProcess
                     if (icon === 'topic-article')
                         icon = 'file-lines';
 
-                    let href = `${CONFIG.getUrl()}/${tocItem.id}/@${types[0]}`;
+                    let href = CONFIG.getUrl() + link(types[0] as any, tocItem.id);
 
                     result += `+tocItem(${level}, '${icon}', '${tocItem.title}', { dataId: '${tocItem.id}', href: '${href}' })\n`;
                 }

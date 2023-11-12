@@ -1,26 +1,121 @@
 @use 'def/size';
+@use 'def/bp';
 
 @use 'partial/util';
 
 .ads
 {
+    position: relative;
     overflow: hidden;
 
     &.beforeContent
     {
         max-height: 150px;
-        padding-top: size.$gapBig;
+        margin-top: size.$gapBig;
     }
 
     &.afterContent
     {
+        max-height: 300px;
         margin-top: size.$gapBig;
     }
 
-    // &.left
-    // {
-    //     @include util.size(calc(300px - (2 * size.$gap)));
-    //     margin: size.$gap;
-    //     background: red;
-    // }
+    &.left
+    {
+        max-height: 300px;
+        margin: size.$gap;
+        margin-top: size.$gapStruct;
+
+        .noAdsContainer
+        {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        @media (max-height: 800px)
+        {
+            max-height: 200px;
+        }
+
+        @media (max-height: 700px)
+        {
+            max-height: 100px;
+
+            .noAdsContainer
+            {
+                > i,
+                > .info > p:first-child
+                {
+                    display: none;
+                }
+            }
+        }
+
+        @media (max-height: 700px)
+        {
+            max-height: 100px;
+
+            .noAdsContainer
+            {
+                > i,
+                > .info > p:first-child
+                {
+                    display: none;
+                }
+            }
+        }
+
+        @media (max-height: 350px)
+        {
+            display: none;
+        }
+    }
+
+    //
+    //
+    //
+
+    > div
+    {
+        > .expandOverlay
+        {
+            width: 5000px;
+            height: 5000px;
+        }
+
+        > .noAdsContainer
+        {
+            position: absolute;
+            left: 0; top: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--c_bg-content-accent);
+
+            padding: size.$gap;
+
+            box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1) inset;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: size.$gap;
+
+            font-size: 90%;
+            color: var(--c_text-muted);
+
+            > i
+            {
+                font-size: 40px;
+            }
+
+            > .info
+            {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+
+                a { color: inherit; }
+            }
+        }
+    }
 }

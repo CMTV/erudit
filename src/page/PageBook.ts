@@ -4,6 +4,7 @@ import SEO from "src/page/component/SEO";
 import { ViewBaseContributor } from "src/entity/contributor/view";
 import { BookWipItem } from "src/entity/book/global";
 import { ViewBookRefItem } from "src/entity/book/ref/view";
+import { link } from "src/router";
 
 export default class PageBook extends Page
 {
@@ -48,6 +49,6 @@ export default class PageBook extends Page
 
     getDest(): string
     {
-        return this.bookId + '/@book/index.html';
+        return link('book', this.bookId, 'index.html');
     }
 }
