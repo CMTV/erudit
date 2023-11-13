@@ -21,6 +21,7 @@ mixin adBlock(id, name)
                 window.yaContextCb.push(()=>{
                     Ya.Context.AdvManager.render({
                         renderTo: 'yandex_rtb_#{id}',
-                        blockId: '#{id}'
+                        blockId: '#{id}',
+                        darkTheme:  document.documentElement.getAttribute('data-theme').endsWith('dark')
                     })
                 })

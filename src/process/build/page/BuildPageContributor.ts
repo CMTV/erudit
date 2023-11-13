@@ -5,6 +5,7 @@ import DbTopicContributor from "src/entity/topicContributor/db";
 import SEO from "src/page/component/SEO";
 import PageContributor from "src/page/PageContributor";
 import EruditProcess from "src/process/EruditProcess";
+import { link } from "src/router";
 import { T_HELPER } from "src/translator/helper";
 import { copyFile } from "src/util/io";
 import { Location, LocationType, Renderer } from "translator";
@@ -91,7 +92,7 @@ export default class BuildPageContributor extends EruditProcess
             {
                 let topicViewItem = new ViewContributionTopic;
                     topicViewItem.title = topicData.title;
-                    topicViewItem.link = `/${topicData.id}/@${topicData.part}/`;
+                    topicViewItem.link = link(topicData.part, topicData.id);
 
                 bookViewItem.topics.push(topicViewItem);
             });

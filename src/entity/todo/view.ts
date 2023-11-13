@@ -16,7 +16,7 @@ export class ViewTodoItem
         let view = new ViewTodoItem;
             view.id =       dbTodo.id;
             view.title =    dbTodo.title;
-            view.href =     '/' + dbTodo.topicId + '/@' + dbTodo.part + '#' + dbTodo.id;
+            view.href =     link(dbTodo.part as any, dbTodo.topicId + '#' + dbTodo.id);
 
         return view;
     }
