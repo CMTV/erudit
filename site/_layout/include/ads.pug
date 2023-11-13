@@ -6,10 +6,10 @@ mixin adInit
         script(src="https://yandex.ru/ads/system/context.js", async='')
 
 mixin adBlock(id, name)
-    .ads(class= name)
+    .darkMagic(class= name)
         div(id=`yandex_rtb_${id}`)
             .expandOverlay
-            .noAdsContainer
+            .noDarkMagicContainer
                 i.i-warning
                 .info
                     - let br = (name === 'left') ? '<br>' : ' ';

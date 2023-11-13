@@ -168,12 +168,20 @@ export async function loadTopicSponsorData()
     shuffleArray(data.tier2);
     shuffleArray(data.tier3);
 
-    data.tier3.push('fake');
-    data.tier2.push('fake');
+    addFakeSponsor(data.tier3);
+    addFakeSponsor(data.tier2);
 
     SPONSOR_DATA = data;
 
     return true;
+}
+
+function addFakeSponsor(arr: any[])
+{
+    if (Math.random() > .5)
+        arr.push('fake');
+    else
+        arr.unshift('fake');
 }
 
 //

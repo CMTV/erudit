@@ -3,7 +3,7 @@
 
 @use 'partial/util';
 
-.ads
+.darkMagic
 {
     position: relative;
     overflow: hidden;
@@ -26,7 +26,7 @@
         margin: size.$gap;
         margin-top: size.$gapStruct;
 
-        .noAdsContainer
+        .noDarkMagicContainer
         {
             flex-direction: column;
             text-align: center;
@@ -41,7 +41,7 @@
         {
             max-height: 100px;
 
-            .noAdsContainer
+            .noDarkMagicContainer
             {
                 > i,
                 > .info > p:first-child
@@ -55,7 +55,7 @@
         {
             max-height: 100px;
 
-            .noAdsContainer
+            .noDarkMagicContainer
             {
                 > i,
                 > .info > p:first-child
@@ -83,7 +83,7 @@
             height: 5000px;
         }
 
-        > .noAdsContainer
+        > .noDarkMagicContainer
         {
             position: absolute;
             left: 0; top: 0;

@@ -5,6 +5,7 @@ import MajorToc from "./toc/MajorToc";
 import Preview from "./preview/Preview";
 import OMath from "./OMath";
 import { getContentOptions } from "./content";
+import { initDarkMagicCheck } from "./darkMagic";
 
 window['OMath'] = new OMath;
 
@@ -24,6 +25,11 @@ window.addEventListener('DOMContentLoaded', () =>
         document.querySelector('body > main > article > [data-content]'),
         globalThis.OMathContentOptions
     );
+});
+
+window.addEventListener('load', () =>
+{
+    initDarkMagicCheck();
 });
 
 globalThis.OMathEvent = globalThis.OMathEvent || {};

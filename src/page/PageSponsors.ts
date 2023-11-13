@@ -1,3 +1,4 @@
+import { link } from "src/router";
 import Page from "./Page";
 import SEO from "./component/SEO";
 import AsideMajor, { AsideMajorPane } from "./component/asideMajor/AsideMajor";
@@ -34,6 +35,6 @@ export default class PageSponsors extends Page
 
     getDest(): string
     {
-        return `sponsors/index.html`;
+        return link('sponsors', 'index.html');
     }
 }
