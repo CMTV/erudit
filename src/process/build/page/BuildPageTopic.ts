@@ -16,7 +16,7 @@ import SEO from "src/page/component/SEO";
 import PageTopic, { TopicType } from "src/page/PageTopic";
 import EruditProcess from "src/process/EruditProcess";
 import { link } from "src/router";
-import { T_HELPER } from "src/translator/helper";
+import { BookTranslatorHelper } from "src/translator/helper";
 import { copyFile, exists, readFile } from "src/util/io";
 import { Location, Renderer } from "translator";
 
@@ -35,6 +35,8 @@ export default class BuildPageTopic extends EruditProcess
             let dbTopic = await this.db.manager.findOne(DbTopic, { where: { id: topicId }});
             let dbBook = await this.db.manager.findOne(DbBook, { where: { id: dbTopic.bookId }});
 
+            let helper = new BookTranslatorHelper(dbBook.id);
+
             let nextData = await topicRepo.getNextPrevious(dbTopic.nextId);
             let previousData = await topicRepo.getNextPrevious(dbTopic.previousId);
 
@@ -50,7 +52,7 @@ export default class BuildPageTopic extends EruditProcess
                     location.type = type as any;
                     location.path = topicId;
 
-                let renderer = new Renderer(location, T_HELPER);
+                let renderer = new Renderer(location, helper);
 
                 let page = new PageTopic;
                     page.topicType = type;

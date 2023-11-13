@@ -25,10 +25,7 @@ window.addEventListener('DOMContentLoaded', () =>
         document.querySelector('body > main > article > [data-content]'),
         globalThis.OMathContentOptions
     );
-});
 
-window.addEventListener('load', () =>
-{
     initDarkMagicCheck();
 });
 

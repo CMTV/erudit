@@ -1,28 +1,12 @@
 export function initDarkMagicCheck()
 {
-    let checkDelay = 10000;
-    let darkMagicElements = document.querySelectorAll('.darkMagic');
-
-    darkMagicElements.forEach(element =>
+    function activateReplacers()
     {
-        function check()
-        {
-            observer.disconnect();
+        document.querySelectorAll('.noDarkMagicContainer').forEach(element => element.parentElement.removeAttribute('id'));
+    }
 
-            let replacer = element.querySelector('.noDarkMagicContainer');
-            if (replacer)
-                replacer.parentElement.removeAttribute('id');
-        }
-
-        let checkTimeout;
-
-        let observer = new MutationObserver(() => {
-            clearTimeout(checkTimeout);
-            checkTimeout = setTimeout(() => check(), checkDelay);
-        });
-
-        observer.observe(element, { childList: true, subtree: true });
-
-        checkTimeout = setTimeout(() => check(), checkDelay);
-    });
+    fetch('https://yandex.ru/ads/system/context.js').then(response => {
+        if (!response.ok)
+            activateReplacers();
+    }).catch(() => activateReplacers());
 }

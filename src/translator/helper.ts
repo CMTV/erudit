@@ -32,10 +32,40 @@ export class TranslatorHelper extends Helper
         return dbUnique.content;
     }
 
+    getMathMacros(): object
+    {
+        return {};
+    }
+
     i18n(phrase: string): string
     {
         return erudit.lang.phrase('content.' + phrase);
     }
 }
+
+export class BookTranslatorHelper extends TranslatorHelper
+{
+    bookId: string;
+
+    constructor(bookId: string)
+    {
+        super();
+        this.bookId = bookId;
+    }
+
+    getMathMacros(): object
+    {
+        let macrosPath = erudit.path.project('books', this.bookId, '@book', 'macros.js');
+
+        if (!exists(macrosPath))
+            return {};
+
+        return require(macrosPath);
+    }
+}
+
+//
+//
+//
 
 export let T_HELPER = new TranslatorHelper;

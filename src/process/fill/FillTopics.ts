@@ -12,7 +12,7 @@ import { parseYamlFile } from "src/util";
 import DbTopicContributor from "src/entity/topicContributor/db";
 import { Location, LocationType, ParseResult, Parser } from "translator";
 import { exists, readFile } from "src/util/io";
-import { T_HELPER } from "src/translator/helper";
+import { BookTranslatorHelper } from "src/translator/helper";
 import { insertParseResult } from "src/translator/db";
 import BookStatsPW from "src/translator/parseWorker/BookStatsPW";
 import DbTodo from "src/entity/todo/db";
@@ -21,6 +21,8 @@ export default class FillTopics extends EruditProcess
 {
     name = 'Fill topics';
 
+    helper: BookTranslatorHelper;
+
     async do()
     {
         let bookIds = await (new RepoBook(this.db)).getBookIds();
@@ -28,6 +30,8 @@ export default class FillTopics extends EruditProcess
         for (let i = 0; i < bookIds.length; i++)
         {
             let bookId = bookIds[i];
+            this.helper = new BookTranslatorHelper(bookId);
+
             let toc =   (await this.db
                                     .createQueryBuilder(DbBookToc, 'table')
                                     .select('table.toc')
@@ -105,7 +109,7 @@ export default class FillTopics extends EruditProcess
                     location.type = topicPart as LocationType;
                     location.path = tocTopic.id;
 
-                let parser = new Parser(location, T_HELPER);
+                let parser = new Parser(location, this.helper);
                     parser.filterParseWorkers = (pwArr) => pwArr.concat([new BookStatsPW(bookId)]);
 
                 let parseResult = await parser.parse(readFile(topicPartPath));
