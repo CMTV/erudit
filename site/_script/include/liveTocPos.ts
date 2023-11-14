@@ -187,6 +187,6 @@ export class LiveTocPos
 
     hasVScrollbar()
     {
-        return document.body.getBoundingClientRect().height > window.innerHeight;
+        return document.body.scrollHeight > window.innerHeight;
     }
 }

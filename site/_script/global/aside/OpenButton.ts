@@ -17,20 +17,24 @@ export default class OpenButton
         if (scrollY === 0)
             this.toggleShowing(true);
 
-        let scrollShowLocked = false;
-        let scrollShowLockTimeout;
-            
         window.addEventListener('scroll', () =>
         {
-            if (scrollY < this.lastY)
+            if (scrollY === 0)
             {
-                scrollShowLocked = true;
-                clearTimeout(scrollShowLockTimeout);
-                scrollShowLockTimeout = setTimeout(() => scrollShowLocked = false, 150);
+                this.toggleShowing(true);
+                return;
             }
 
-            this.toggleShowing(scrollY === 0 || scrollShowLocked);
+            let delta = scrollY - this.lastY;
             this.lastY = scrollY;
+
+            if (delta === 0)
+                return;
+
+            if (delta > 0 && delta < 5)
+                return;
+
+            this.toggleShowing(delta < 0);
         });
 
         window.addEventListener('resize', () => this.toggleShowing(scrollY === 0));
