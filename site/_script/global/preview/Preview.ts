@@ -83,7 +83,7 @@ export default class Preview
             this.viewStack.push(view);
 
         this.ui.setViewScreen(view);
-        this.ui.setButtons(this.canBack(), sameSource(view.source) ? null : view.source);
+        this.ui.setButtons(this.canBack(), getSource(view.source));
     }
 
     showLoading()
@@ -110,10 +110,10 @@ export default class Preview
     }
 }
 
-function sameSource(source: string)
+function getSource(source: string)
 {
-    let current = location.host + location.pathname;
-    let target = location.host + source.split('/').slice(0, -1).join('/') + '/';
+    let sourceLocation = new URL(source, location.origin);
 
-    return current === target;
+    if (location.pathname === sourceLocation.pathname) return sourceLocation.hash;
+    else return source;
 }

@@ -17,9 +17,19 @@ export default class OpenButton
         if (scrollY === 0)
             this.toggleShowing(true);
 
+        let scrollShowLocked = false;
+        let scrollShowLockTimeout;
+            
         window.addEventListener('scroll', () =>
         {
-            this.toggleShowing(scrollY === 0 || scrollY < this.lastY);
+            if (scrollY < this.lastY)
+            {
+                scrollShowLocked = true;
+                clearTimeout(scrollShowLockTimeout);
+                scrollShowLockTimeout = setTimeout(() => scrollShowLocked = false, 150);
+            }
+
+            this.toggleShowing(scrollY === 0 || scrollShowLocked);
             this.lastY = scrollY;
         });
 

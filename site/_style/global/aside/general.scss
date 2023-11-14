@@ -35,7 +35,7 @@ body > main > .bottomSticky > .asideControls
         font-size: 25px;
         color: var(--c_bg-content);
         background: var(--c_text-dimmed);
-        opacity: .95;
+        opacity: 0;
 
         box-shadow: 0 0 7px 15px var(--c_bg-content);
 
@@ -45,8 +45,14 @@ body > main > .bottomSticky > .asideControls
         {
             cursor: pointer;
             background: var(--c_text-muted);
-            opacity: 1;
+            opacity: 1 !important;
         }
+    }
+
+    .majorOpen,
+    .minorOpen
+    {
+        &[data-showing] { opacity: .95; }
     }
 
     .majorOpen

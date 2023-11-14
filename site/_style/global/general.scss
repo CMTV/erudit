@@ -34,9 +34,7 @@ body
 
 body > main
 {
-    position: absolute;
-    top: 0;
-    left: calc(50% - (size.$content + 2 * size.$gapBig) / 2);
+    margin-left: calc(50% - (size.$content + 2 * size.$gapBig) / 2);
 
     z-index: 5;
     width: min(size.$content + 2 * size.$gapBig, 100%);
@@ -48,7 +46,7 @@ body > main
     background: var(--c_bg-content);
     box-shadow: 0px 0px 5px 3px rgba(0, 0, 0, .05);
 
-    @include util.transition(left);
+    @include util.transition(margin);
 
     &::after
     {
@@ -69,18 +67,18 @@ body > main
 
     @include bp.max(miniMajor)
     {
-        left: calc(50% - ((size.$aside - size.$asideMini) + (size.$content + 2 * size.$gapBig)) / 2);
+        margin-left: calc(50% - ((size.$aside - size.$asideMini) + (size.$content + 2 * size.$gapBig)) / 2);
     }
 
     @include bp.max(miniMinor)
     {
-        left: calc(50% - (size.$content + 2 * size.$gapBig) / 2);
+        margin-left: calc(50% - (size.$content + 2 * size.$gapBig) / 2);
     }
 
     @include bp.max(stretch)
     {
         position: relative;
-        left: 0;
+        margin-left: 0;
     }
 
     > .expand { flex: 1; }

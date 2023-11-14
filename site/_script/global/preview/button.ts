@@ -53,6 +53,12 @@ export class GotoButton extends DisablableButton
     {
         this.setDisabled(!source);
         this.element.setAttribute('href', source ? source : '');
+
+        if (source)
+            if (source.startsWith('#'))
+                this.element.removeAttribute('target');
+            else
+                this.element.setAttribute('target', '_blank');
     }
 }
 

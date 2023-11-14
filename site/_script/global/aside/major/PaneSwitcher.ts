@@ -13,6 +13,14 @@ export default class PaneSwitcher
             let name = button.getAttribute('data-target');
             button.addEventListener('click', () =>
             {
+                this.asideMajor.dispatchEvent(new CustomEvent("pane-switch", {
+                    detail: {
+                        targetPane:     name,
+                        previousPane:   this.asideMajor.getAttribute('data-pane'),
+                        openAside:      openAside,
+                    }
+                }));
+
                 this.switchTo(name);
                 if (openAside)
                     toggler.toggleAside(this.asideMajor, true);

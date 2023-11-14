@@ -37,6 +37,11 @@ export default class MajorToc
 
         // Back to the global view
         this.views.book.querySelector(':scope .controls > .navButtons > .back').addEventListener('click', () => this.setView(this.views.global));
+        asideToggler.asides.major.addEventListener('pane-switch', (e: CustomEvent) =>
+        {
+            if (e.detail.targetPane === e.detail.previousPane && e.detail.targetPane === 'toc' && !e.detail.openAside)
+                this.setView(this.views.global);
+        });
 
         // Initial book (if present)
         let initialBookToc = this.views.book.querySelector('.bookToc') as HTMLElement;
