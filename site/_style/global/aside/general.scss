@@ -45,20 +45,12 @@ body > main > .bottomSticky > .asideControls
         {
             cursor: pointer;
             background: var(--c_text-muted);
-            opacity: 1 !important;
         }
-    }
-
-    .majorOpen,
-    .minorOpen
-    {
-        &[data-showing] { opacity: .95; }
     }
 
     .majorOpen
     {
         left: -1 * $buttonSize;
-        @include bp.max(noAside) { &[data-showing] { left: size.$gapStruct; } }
 
         > i
         {
@@ -70,7 +62,25 @@ body > main > .bottomSticky > .asideControls
     .minorOpen
     {
         right: -1 * $buttonSize;
-        @include bp.max(noAside) { &[data-showing] { right: size.$gapStruct; } }
+    }
+
+    @include bp.max(noAside)
+    {
+        .majorOpen,
+        .minorOpen
+        {
+            &[data-showing]
+            {
+                opacity: .95;
+                &:hover { opacity: 1; }
+            }
+        }
+
+        [data-showing]
+        {
+            &.majorOpen { left: size.$gapStruct; }
+            &.minorOpen { right: size.$gapStruct; }
+        }
     }
 }
 

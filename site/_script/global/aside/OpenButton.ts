@@ -31,7 +31,7 @@ export default class OpenButton
             if (delta === 0)
                 return;
 
-            if (delta > 0 && delta < 5)
+            if (delta > 0 && delta < 10)
                 return;
 
             this.toggleShowing(delta < 0);
