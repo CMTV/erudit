@@ -1,64 +1,39 @@
 //
-// Regular
+// Sans-serif
 //
 
-@font-face
-{
-    font-family: "Open Sans";
-    src: url("/site/fonts/OpenSans-Regular.ttf");
+@font-face {
+    font-family: 'Open Sans';
+    src: url('/site/fonts/sans-serif/OpenSans.ttf') format('truetype-variations');
     font-style: normal;
-    font-weight: normal;
+    font-weight: 1 999;
     font-display: swap;
 }
 
-//
-// Italic
-//
-
-@font-face
-{
-    font-family: "Open Sans";
-    src: url("/site/fonts/OpenSans-Italic.ttf");
+@font-face {
+    font-family: 'Open Sans';
+    src: url('/site/fonts/sans-serif/OpenSans-Italic.ttf') format('truetype-variations');
     font-style: italic;
-    font-weight: normal;
+    font-weight: 1 999;
     font-display: swap;
 }
 
 //
-// SemiBold
+// Serif
 //
 
-@font-face
-{
-    font-family: "Open Sans";
-    src: url("/site/fonts/OpenSans-SemiBold.ttf");
+@font-face {
+    font-family: 'Noto Serif';
+    src: url('/site/fonts/serif/NotoSerif.ttf') format('truetype-variations');
     font-style: normal;
-    font-weight: 600;
+    font-weight: 1 999;
     font-display: swap;
 }
 
-//
-// Bold
-//
-
-@font-face
-{
-    font-family: "Open Sans";
-    src: url("/site/fonts/OpenSans-Bold.ttf");
-    font-style: normal;
-    font-weight: 800;
-    font-display: swap;
-}
-
-//
-// SERIF
-//
-
-@font-face
-{
-    font-family: "Noto Serif";
-    src: url("/site/fonts/NotoSerif-Regular.ttf");
-    font-style: normal;
-    font-weight: normal;
+@font-face {
+    font-family: 'Noto Serif';
+    src: url('/site/fonts/serif/NotoSerif-Italic.ttf') format('truetype-variations');
+    font-style: italic;
+    font-weight: 1 999;
     font-display: swap;
 }

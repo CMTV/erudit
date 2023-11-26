@@ -89,6 +89,10 @@ html(lang= lang, data-layout= layout, data-topic= topicId ? topicId : false)
         if (!config.dev)
             +adInit
 
+        //- Preload fonts
+        link(rel="preload", href="/site/fonts/sans-serif/OpenSans.ttf", as="font", type="font/ttf", crossorigin="")
+        link(rel="preload", href="/site/fonts/sans-serif/OpenSans-Italic.ttf", as="font", type="font/ttf", crossorigin="")
+
     body
         script
             include /include/theme.js

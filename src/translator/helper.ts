@@ -11,12 +11,12 @@ export class TranslatorHelper extends Helper
 {
     isEditor() { return false; }
 
-    async hasImage(location: Location): Promise<boolean>
+    async hasAsset(location: Location): Promise<boolean>
     {
         return exists(erudit.path.project(locationToSrcPath(location)));
     }
 
-    async getImageSrc(location: Location): Promise<string>
+    async getAssetSrc(location: Location): Promise<string>
     {
         return '/site/files/' + locationToDistPath(location);
     }
