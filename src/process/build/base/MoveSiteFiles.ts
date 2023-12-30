@@ -2,7 +2,7 @@ import { globSync } from "glob";
 import { copyAssetsTo } from "translator/node";
 
 import EruditProcess from "src/process/EruditProcess";
-import { copyFile, normalize, toForwardSlash } from "src/util/io";
+import { copyFile, toForwardSlash } from "src/util/io";
 
 export default class MoveSiteFiles extends EruditProcess
 {

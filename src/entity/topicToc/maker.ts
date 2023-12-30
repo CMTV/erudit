@@ -4,10 +4,10 @@ import { Block } from "bitran";
 import { TocItem } from "src/entity/toc/global";
 
 // Blocks
-import { Heading } from "translator/content";
-import { AccentBlock } from "translator/content";
-import { Include } from "translator/content";
-import { Task } from "translator/content";
+import { Heading } from "translator/products";
+import { AccentBlock } from "translator/products";
+import { Include } from "translator/products";
+import { Task } from "translator/products";
 
 export default class TopicTocMaker extends TreeMaker<Block, TocItem>
 {

@@ -48,7 +48,7 @@ export default class BuildPageBook extends EruditProcess
 
                 page.decoration = dbBook.hasDecoration ? getBookDecorationLink(bookId) : null;
 
-                page.firstTopicId = await repoBook.getFirstTopicId(bookId);
+                page.firstTopicLink = await repoBook.getFirstTopicLink(bookId);
                 page.contributors = await getContributorList(await repoBook.getBookContributors(bookId));
 
                 page.seo = new SEO;

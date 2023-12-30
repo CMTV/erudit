@@ -50,7 +50,7 @@
         "pug": "^3.0.2",
         "rimraf": "^3.0.2",
         "sass": "^1.54.3",
-        "translator": "file:../translator",
+        "translator": "file:../open-math/translator",
         "typeorm": "^0.3.17",
         "ws": "^8.8.1",
         "yaml": "^2.0.0-11"

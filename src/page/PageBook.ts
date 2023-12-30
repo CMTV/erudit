@@ -26,7 +26,7 @@ export default class PageBook extends Page
 
     decoration: string;
 
-    firstTopicId: string;
+    firstTopicLink: string;
     contributors: ViewBaseContributor[];
 
     desc: string;
