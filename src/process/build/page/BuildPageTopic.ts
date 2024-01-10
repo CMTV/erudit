@@ -9,6 +9,7 @@ import { ViewTodoItem } from "src/entity/todo/view";
 import DbTopic from "src/entity/topic/db";
 import RepoTopic from "src/entity/topic/repository";
 import DbTopicContributor from "src/entity/topicContributor/db";
+import { getSourcesForTopic } from "src/entity/topicSourceRef/view";
 import DbTopicToc from "src/entity/topicToc/db";
 import ViewTopicTocItem from "src/entity/topicToc/view";
 import OgImg from "src/page/component/OgImg";
@@ -43,6 +44,8 @@ export default class BuildPageTopic extends EruditProcess
             let topicTypes = Object.values(TopicType).filter(type => dbTopic[type]);
 
             let ogImg = await this.getOgImg(topicId);
+
+            const sources = await getSourcesForTopic(topicId);
 
             for (let j = 0; j < topicTypes.length; j++)
             {
@@ -88,6 +91,9 @@ export default class BuildPageTopic extends EruditProcess
                     page.todos = await this.getViewTodos(dbTopic.id, type);
 
                     page.contributors = await this.getViewContributors(dbTopic.id);
+
+                    if (sources.length > 0)
+                        page.sources = sources;
 
                 page.compile();
             }

@@ -5,6 +5,7 @@ import SEO from "src/page/component/SEO";
 import { ViewBaseContributor } from "src/entity/contributor/view";
 import { ViewTodoItem } from "src/entity/todo/view";
 import { link } from "src/router";
+import { ViewTopicSource } from "src/entity/topicSourceRef/view";
 
 export enum TopicType
 {
@@ -47,6 +48,8 @@ export default class PageTopic extends Page
     todos: ViewTodoItem[];
 
     contributors: ViewBaseContributor[];
+
+    sources: ViewTopicSource[];
 
     constructor()
     {

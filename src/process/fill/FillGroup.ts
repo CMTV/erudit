@@ -8,6 +8,8 @@ import FillTopics from "./FillTopics";
 import FillTopicTocs from "./FillTopicTocs";
 import UniqueRefCheckout from "./UniqueRefCheckout";
 import FillSponsors from "./FillSponsors";
+import FillBookSources from "./FillBookSources";
+import FillTopicSourceRefs from "./FillTopicSourceRefs";
 
 export default class FillGroup extends EruditGroup
 {
@@ -19,9 +21,11 @@ export default class FillGroup extends EruditGroup
             FillContributors,
             FillSponsors,
             FillShelvesBooks,
+            FillBookSources,
             FillBookTocs,
             FillTopics,
             FillTopicTocs,
+            FillTopicSourceRefs,
             UniqueRefCheckout
         ];
     }

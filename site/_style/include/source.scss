@@ -1,0 +1,137 @@
+@use 'def/size';
+
+@use 'partial/util';
+
+@mixin sources
+{
+    font-size: 93%;
+
+    .source
+    {
+        @include source;
+    }
+}
+
+@mixin source
+{
+    display: flex;
+    gap: size.$gap;
+
+    padding-bottom: size.$gap;
+    border-bottom: 1px solid var(--c_border);
+    margin-bottom: size.$gap;
+
+    > .typeFigure i
+    {
+        position: relative;
+        top: 1px;
+        color: var(--c_text-muted);
+    }
+
+    > .info
+    {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+
+        > .title
+        {
+            display: flex;
+            align-items: center;
+
+            > a
+            {
+                font-weight: 600;
+                @extend %underline;
+            }
+
+            > .linkIcon,
+            > .total,
+            > .featured
+            {
+                @include smallLabel;
+                margin-left: 10px;
+            }
+
+            > .featured { cursor: help; }
+
+            > .total
+            {
+                cursor: pointer;
+                color: var(--c_text-muted);
+                @include util.transition(color);
+
+                &:hover
+                {
+                    color: var(--c_text);
+                }
+
+                > span
+                {
+                    position: relative;
+                    top: -1px;
+                    font-weight: 600;
+                    margin-left: 5px;
+                }
+            }
+        }
+
+        > .desc,
+        > .resume
+        {
+            color: var(--c_text-muted);
+        }
+
+        > .resume
+        {
+            font-style: italic;
+        }
+    }
+
+    &:not(.usageShowing)
+    {
+        .topics { display: none; }
+    }
+}
+
+@mixin smallLabel
+{
+    position: relative;
+    top: 1.5px;
+    font-size: 13px;
+    opacity: .7;
+    color: var(--c_text-dimmed);
+}
+
+//
+
+@mixin subList
+{
+    display: flex;
+    flex-direction: column;
+    gap: size.$gap;
+    margin-top: 3px;
+
+    > *
+    {
+        display: flex;
+        gap: size.$gapSmall;
+        color: var(--c_text-muted);
+
+        .info
+        {
+            display: flex;
+            align-items: center;
+            gap: size.$gapSmall;
+            row-gap: 0;
+            flex-wrap: wrap;
+
+            > a
+            {
+                font-weight: 600;
+                @extend %underline;
+            }
+        }
+    }
+}

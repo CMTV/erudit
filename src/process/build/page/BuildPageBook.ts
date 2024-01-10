@@ -1,13 +1,12 @@
 import DbBook from "src/entity/book/db";
 import { getBookDecorationLink } from "src/entity/book/global";
-import { ViewBookRefItem } from "src/entity/book/ref/view";
 import RepoBook from "src/entity/book/repository";
 import { getContributorList } from "src/entity/book/view";
+import { getSourcesForBook, getViewBookSources } from "src/entity/bookSource/view";
 import RepoBookStats from "src/entity/bookStats/repository";
 import PageBook from "src/page/PageBook";
 import SEO from "src/page/component/SEO";
 import EruditProcess from "src/process/EruditProcess";
-import { link } from "src/router";
 import { copyFile, readFile } from "src/util/io";
 
 export default class BuildPageBook extends EruditProcess
@@ -44,8 +43,6 @@ export default class BuildPageBook extends EruditProcess
 
                 page.wipItems = dbBook.wipItems;
 
-                page.refs = dbBook.refs ? dbBook.refs.map(ref => ViewBookRefItem.fromRef(ref)) : null;
-
                 page.decoration = dbBook.hasDecoration ? getBookDecorationLink(bookId) : null;
 
                 page.firstTopicLink = await repoBook.getFirstTopicLink(bookId);
@@ -55,6 +52,10 @@ export default class BuildPageBook extends EruditProcess
                 page.seo.title = `${dbBook.title} ${this.erudit.lang.phrase('on')} OMath`;
                 page.seo.desc = dbBook.desc;
                 page.seo.keywords = dbBook.topics ? dbBook.topics.join(', ') : null;
+
+                page.sources = await getSourcesForBook(bookId);
+                if (page.sources.length === 0)
+                    delete page.sources;
 
             page.compile();
 

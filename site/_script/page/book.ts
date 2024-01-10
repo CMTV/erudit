@@ -16,4 +16,19 @@ window.addEventListener('load', () =>
             progressElem.toggleAttribute('data-goals-open');
         });
     });
+
+    //
+    
+    for (const bookSourceElem of document.querySelectorAll('.bookSources > .source'))
+    {
+        bookSourceElem.querySelector(':scope > .info > .title > .total')?.addEventListener('click', () =>
+        {
+            bookSourceElem.classList.toggle('usageShowing');
+        });
+    }
+
+    document.querySelector('.bookSources .hideOverlay > button')?.addEventListener('click', () =>
+    {
+        document.querySelector('.bookSources')?.classList.remove('hidden');
+    });
 });

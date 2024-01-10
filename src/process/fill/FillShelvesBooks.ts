@@ -5,7 +5,6 @@ import { parseYamlFile } from "src/util";
 import { exists, normalize } from "src/util/io";
 import DataBookInfo, { DataBookWip } from "src/entity/book/data";
 import DbBookStats from "src/entity/bookStats/db";
-import { BookRefItem } from "src/entity/book/ref/global";
 
 export default class FillShelvesBooks extends EruditProcess
 {
@@ -100,7 +99,6 @@ export default class FillShelvesBooks extends EruditProcess
 
         dbBook.hasDecoration = exists(normalize(this.getBookDir(id), 'decoration.svg'));
 
-        dbBook.refs = this.getBookRefs(id);
         dbBook.wipItems = this.getBookWip(id);
 
         return dbBook;
@@ -118,16 +116,6 @@ export default class FillShelvesBooks extends EruditProcess
         dbBook.desc ??= bookInfo.desc;
         dbBook.results ??= bookInfo.results;
         dbBook.topics ??= bookInfo.topics;
-    }
-
-    getBookRefs(bookId: string)
-    {
-        let bookRefsPath = normalize(this.getBookDir(bookId), 'refs.yml');
-
-        if (!exists(bookRefsPath))
-            return null;
-
-        return parseYamlFile(bookRefsPath) as BookRefItem[];
     }
 
     getBookWip(bookId: string)

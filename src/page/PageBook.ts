@@ -3,8 +3,8 @@ import AsideMajor, { AsideMajorPane } from "src/page/component/asideMajor/AsideM
 import SEO from "src/page/component/SEO";
 import { ViewBaseContributor } from "src/entity/contributor/view";
 import { BookWipItem } from "src/entity/book/global";
-import { ViewBookRefItem } from "src/entity/book/ref/view";
 import { link } from "src/router";
+import { ViewBookSource } from "src/entity/bookSource/view";
 
 export default class PageBook extends Page
 {
@@ -35,7 +35,7 @@ export default class PageBook extends Page
 
     wipItems: BookWipItem[];
 
-    refs: ViewBookRefItem[];
+    sources: ViewBookSource[];
 
     constructor()
     {

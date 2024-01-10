@@ -2,6 +2,7 @@ extends /template/default
 
 include /include/ads
 include /include/toc
+include /include/source
 
 mixin topicSponsor(tier)
     .cameoBlock(id= `sponsorBlockTier${tier}`)
@@ -33,6 +34,8 @@ block content
     div(data-content)!= content
 
     footer
+        +topicSponsor(2)
+
         .typeNavBlock
             each t in ['article', 'summary', 'practicum']
                 a.button(
@@ -58,7 +61,15 @@ block content
                         span.long= nextTitle
                         i.i-arrow-right
 
-        +topicSponsor(2)
+        if (sources)
+            .topicSourcesWrapper#sources(data-content)
+                h2= i18n('page.book.refs.heading')
+                p= i18n('page.topic.sourcesExplain')
+
+                .topicSources
+                    each source in sources
+                        .topicSource
+                            +topicSource(source)
 
         +adBlock('R-A-2185026-1', 'afterContent')
 

@@ -14,7 +14,6 @@
     position: relative;
 
     overflow: hidden;
-    margin-top: size.$gapStruct;
     @include util.transition(height);
 
     @include bp.max(mini) { margin-bottom: size.$gap; }

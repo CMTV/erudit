@@ -1,0 +1,56 @@
+mixin bookSource(source)
+    +source(source)
+        if (source.topics)
+            .topics
+                each topic in source.topics
+                    .topic
+                        i.i-file-lines
+                        .info
+                            a(href= topic.link)= topic.title
+                            span.usage= `(${topic.total})`
+
+mixin topicSource(source)
+    +source(source)
+        if (source.refs)
+            .refs
+                each ref in source.refs
+                    .ref
+                        .icon
+                            i.i-turn-up
+                        .info
+                            a(href= ref.link, target="_blank")= ref.title
+
+                            if (ref.link)
+                                span.linkIcon
+                                    i.i-up-right-from-square
+                            
+                            if (ref.desc)
+                                span.desc= ref.desc
+
+mixin source(source)
+    .source
+        .typeFigure
+            i(class= source.icon)
+        .info
+            .title
+                a(href= source.link ? source.link : null, target="_blank")= source.title
+
+                if (source.total)
+                    span.total(title= i18n('bookPage.sources.usage'))
+                        i.i-topic-many
+                        span= source.total
+
+                if (source.link)
+                    span.linkIcon
+                        i.i-up-right-from-square
+
+                if (source.featured)
+                    i.i-star.featured(title= i18n('featuredSource'))
+
+            if (source.desc)
+                .desc= source.desc
+
+            if (source.resume)
+                .resume= source.resume
+
+            block

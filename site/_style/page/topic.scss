@@ -8,6 +8,7 @@
 @use 'partial/util';
 
 @use 'include/sponsor';
+@use 'include/source';
 
 //
 //
@@ -40,9 +41,22 @@
 
 .cameoBlock
 {
+    margin: 0;
     @include sponsor.topicBlock;
+}
 
-    @include bp.max(mini) { margin-bottom: size.$gap; }
+body > main > article
+{
+    > header .cameoBlock
+    {
+        margin-top: size.$gapStruct;
+        @include bp.max(mini) { margin-bottom: size.$gap; }
+    }
+
+    > footer .cameoBlock
+    {
+        margin-bottom: size.$gapStruct;
+    }
 }
 
 //
@@ -263,6 +277,51 @@ body > main > article
         {
             padding: size.$gap;
             padding-top: 0;
+        }
+
+        > .topicSourcesWrapper
+        {
+            padding-left: 0;
+            padding-right: 0;
+            padding-bottom: 0;
+
+            > .topicSources
+            {
+                @include source.sources;
+
+                .refs
+                {
+                    @include source.subList;
+
+                    .ref
+                    {
+                        .icon
+                        {
+                            > i
+                            {
+                                display: block;
+                                position: relative;
+                                top: 3px;
+                                transform: rotate(90deg);
+                                writing-mode: vertical-lr;
+                            }
+                        }
+
+                        .desc
+                        {
+                            position: relative;
+                            top: 1px;
+                            font-size: 90%;
+                            //color: var(--c_text-dimmed);
+                        }
+                    }
+
+                    .linkIcon
+                    {
+                        @include source.smallLabel;
+                    }
+                }
+            }
         }
     }  
 }
