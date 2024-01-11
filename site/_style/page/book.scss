@@ -246,6 +246,8 @@ body > main > article > [data-content]
             .topic .usage
             {
                 @include source.smallLabel;
+                top: 0;
+                margin-left: 10px;
                 opacity: 1;
                 font-weight: 600;
                 font-size: 14px;

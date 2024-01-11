@@ -6,8 +6,9 @@ mixin bookSource(source)
                     .topic
                         i.i-file-lines
                         .info
-                            a(href= topic.link)= topic.title
-                            span.usage= `(${topic.total})`
+                            .title
+                                a(href= topic.link)= topic.title
+                                span.usage= `(${topic.total})`
 
 mixin topicSource(source)
     +source(source)
@@ -18,11 +19,12 @@ mixin topicSource(source)
                         .icon
                             i.i-turn-up
                         .info
-                            a(href= ref.link, target="_blank")= ref.title
+                            .title
+                                a(href= ref.link, target="_blank")= ref.title
 
-                            if (ref.link)
-                                span.linkIcon
-                                    i.i-up-right-from-square
+                                if (ref.link)
+                                    span.linkIcon
+                                        i.i-up-right-from-square
                             
                             if (ref.desc)
                                 span.desc= ref.desc
@@ -33,6 +35,9 @@ mixin source(source)
             i(class= source.icon)
         .info
             .title
+                span.typeFigureMini
+                    i(class= source.icon)
+
                 a(href= source.link ? source.link : null, target="_blank")= source.title
 
                 if (source.total)
@@ -45,7 +50,8 @@ mixin source(source)
                         i.i-up-right-from-square
 
                 if (source.featured)
-                    i.i-star.featured(title= i18n('featuredSource'))
+                    span.featured
+                        i.i-star.featured(title= i18n('featuredSource'))
 
             if (source.desc)
                 .desc= source.desc

@@ -1,4 +1,5 @@
 @use 'def/size';
+@use 'def/bp';
 
 @use 'partial/util';
 
@@ -21,12 +22,33 @@
     border-bottom: 1px solid var(--c_border);
     margin-bottom: size.$gap;
 
-    > .typeFigure i
+    //
+
+    .typeFigure,
+    .typeFigureMini
     {
-        position: relative;
-        top: 1px;
-        color: var(--c_text-muted);
+        > i
+        {
+            position: relative;
+            top: 1px;
+            color: var(--c_text-muted);
+        }
     }
+
+    .typeFigure
+    {
+        @include bp.max(mini) { display: none; }
+    }
+
+    .typeFigureMini
+    {
+        display: none;
+        margin-right: 10px;
+
+        @include bp.max(mini) { display: inherit; }
+    }
+
+    //
 
     > .info
     {
@@ -34,12 +56,10 @@
         display: flex;
         flex-direction: column;
         gap: 6px;
+        text-align: left;
 
         > .title
         {
-            display: flex;
-            align-items: center;
-
             > a
             {
                 font-weight: 600;
@@ -75,6 +95,16 @@
                     margin-left: 5px;
                 }
             }
+
+            @include bp.max(mini)
+            {
+                display: flex;
+                align-items: start;
+
+                > a {
+                    position: relative; top: -2px;
+                }
+            }
         }
 
         > .desc,
@@ -98,7 +128,7 @@
 @mixin smallLabel
 {
     position: relative;
-    top: 1.5px;
+    top: 1px;
     font-size: 13px;
     opacity: .7;
     color: var(--c_text-dimmed);
@@ -121,13 +151,7 @@
 
         .info
         {
-            display: flex;
-            align-items: center;
-            gap: size.$gapSmall;
-            row-gap: 0;
-            flex-wrap: wrap;
-
-            > a
+            .title > a
             {
                 font-weight: 600;
                 @extend %underline;

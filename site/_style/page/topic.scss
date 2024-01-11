@@ -307,13 +307,27 @@ body > main > article
                             }
                         }
 
-                        .desc
+                        .info
                         {
-                            position: relative;
-                            top: 1px;
-                            font-size: 90%;
-                            //color: var(--c_text-dimmed);
+                            > .title
+                            {
+                                .linkIcon
+                                {
+                                    margin-left: 10px;
+                                    top: 0;
+                                }
+                            }
+
+                            > .desc
+                            {
+                                position: relative;
+                                top: 1px;
+                                font-size: 90%;
+                                //color: var(--c_text-dimmed);
+                            }
                         }
+
+                        
                     }
 
                     .linkIcon
