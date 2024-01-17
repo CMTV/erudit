@@ -77,7 +77,7 @@ export async function getSourcesForBook(bookId: string): Promise<ViewBookSource[
             _bookSource.total =  _bookSource.topics.reduce((accumulator, current) => accumulator + current.total, 0);
     }
 
-    return orderBy(bookSources as ViewBookSource[], bookSource => [bookSource.featured, bookSource.total], 'desc');
+    return orderBy(bookSources as ViewBookSource[], [bookSource => bookSource.featured, bookSource => bookSource.total || 0], ['desc', 'desc']);
 }
 
 async function getViewSourceTopics(sourceId: number): Promise<ViewBookSourceTopic[]>

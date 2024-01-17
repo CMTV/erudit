@@ -47,5 +47,5 @@ export async function getSourcesForTopic(topicId: string): Promise<ViewTopicSour
         resultArr.push(viewBookSource);
     }
 
-    return orderBy(resultArr,  bookSource => [bookSource.featured, bookSource.refs.length], 'desc');
+    return orderBy(resultArr,  [bookSource => bookSource.featured, bookSource => bookSource.refs.length || 0], ['desc', 'desc']);
 }
