@@ -86,6 +86,10 @@ vendor:
         arrowNext: Дальше
         errorMsg: Не получилось загрузить изображение!
 
+topicTypeTitle:
+    summary: Конспект
+    practicum: Задачи
+
 on: на
 
 bookPage:

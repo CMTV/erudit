@@ -13,8 +13,8 @@ export default class DbTopic
     @Column({ nullable: true })
     desc: string;
 
-    @Column({ nullable: true })
-    keywords: string;
+    @Column('simple-array', { nullable: true })
+    keywords: string[];
 
     @Column({ nullable: true })
     previousId: string;

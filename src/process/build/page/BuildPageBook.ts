@@ -49,9 +49,9 @@ export default class BuildPageBook extends EruditProcess
                 page.contributors = await getContributorList(await repoBook.getBookContributors(bookId));
 
                 page.seo = new SEO;
-                page.seo.title = `${dbBook.title} ${this.erudit.lang.phrase('on')} OMath`;
-                page.seo.desc = dbBook.desc;
-                page.seo.keywords = dbBook.topics ? dbBook.topics.join(', ') : null;
+                page.seo.title = `${dbBook.title} - Открытая Математика`;
+                page.seo.desc = dbBook.desc ?? `Подробный, понятный и интересный учебник по теме "${dbBook.title}"`;
+                page.seo.keywords = dbBook.topics ?? [];
 
                 page.sources = await getSourcesForBook(bookId);
                 if (page.sources.length === 0)

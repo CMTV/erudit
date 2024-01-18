@@ -15,7 +15,7 @@ html(lang= lang, data-layout= layout, data-topic= topicId ? topicId : false)
             meta(name="description", content= seo.desc)
 
         if (seo.keywords)
-            meta(name="keywords", content= seo.keywords)
+            meta(name="keywords", content= seo.keywords.map(keyword => keyword.toLowerCase()).join(', '))
 
         //- OG Protocol
         meta(property="og:site_name", content= i18n('global.siteName'))

@@ -82,10 +82,8 @@ export default class BuildPageTopic extends EruditProcess
                     let dbTopicToc = (await this.db.manager.findOne(DbTopicToc, { where: { topicId: topicId, topicPart: type } })).toc;
                     page.toc = ViewTopicTocItem.makeListFrom(dbTopicToc);
 
-                    page.seo = new SEO;
-                    page.seo.title = `${dbTopic.title} | ${this.erudit.lang.phrase(type)} | ${page.bookTitle} ${this.erudit.lang.phrase('on')} OMath`;
-                    page.seo.desc = dbTopic.desc;
-                    page.seo.keywords = dbTopic.keywords;
+                    page.seo = this.getBaseSEO(dbTopic.title, type, page.bookTitle);
+                    page.seo.keywords = [...page.seo.keywords, ...dbTopic.keywords];
                     page.seo.ogImg = ogImg;
 
                     page.todos = await this.getViewTodos(dbTopic.id, type);
@@ -121,6 +119,31 @@ export default class BuildPageTopic extends EruditProcess
         return viewTodos.length === 0 ? null : viewTodos;
     }
     
+    getBaseSEO(topicTitle: string, type: TopicType, bookTitle: string)
+    {
+        const seo = new SEO;
+        seo.title = `${topicTitle} - ${bookTitle}` + (type !== TopicType.Article ? ' - ' + this.erudit.lang.phrase('topicTypeTitle.' + type) : '');
+        seo.keywords = ['omath', 'математика', 'открытая математика', bookTitle]
+
+        let desc = '';
+        switch (type)
+        {
+            case TopicType.Article:
+                desc = `Понятное и интересное объяснение темы "${topicTitle}". Показательные примеры, важные свойства, интересные факты, применение в жизни, понятные доказательства. Здесь вы точно разберетесь!`;
+                break;
+            case TopicType.Summary:
+                desc = `Конспект темы "${topicTitle}": ключевые определения, теоремы, свойства и примеры их использвания. Все самое важное и в кратком виде!`;
+                break;
+            case TopicType.Practicum:
+                desc = `Разнообразные задачи с подсказками и ответами по теме "${topicTitle}". Интересные условия, подсказки и подробные решения. Превратите знания в навык!`;
+                break;
+        }
+
+        seo.desc = desc;
+
+        return seo;
+    }
+
     async getOgImg(topicId: string)
     {
         let imgSrcPath = this.erudit.path.project('books', topicId, 'ogImage.png');

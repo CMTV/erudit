@@ -43,7 +43,8 @@ export default class BuildPageContributor extends EruditProcess
                 page.content = await renderer.renderBlocks(dbContributor.about);
 
             page.seo = new SEO;
-            page.seo.title = `${page.name} ${this.erudit.lang.phrase('on')} OMath`;
+            page.seo.title = `${page.name} - Открытая Математика`;
+            page.seo.desc = `${page.name} — участник проекта, который внес вклад в Открытую Математику.`;
 
             page.contribution = await this.getContribution(contributorId);
 

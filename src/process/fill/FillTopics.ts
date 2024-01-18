@@ -93,7 +93,7 @@ export default class FillTopics extends EruditProcess
 
         dbTopic.title = config.title;
         dbTopic.desc = config.desc;
-        dbTopic.keywords = config.keywords ? config.keywords.join(', ') : null;
+        dbTopic.keywords = config.keywords ?? [];
 
         let parseResults:   ParseResult[] = [];
         let dbTodos:        DbTodo[] = [];
