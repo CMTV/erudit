@@ -17,6 +17,7 @@ export default abstract class Page
     hasStyle: boolean;
     hasScript: boolean;
 
+    url: string;
     dest: string;
     singlePage: string;
 
@@ -25,8 +26,12 @@ export default abstract class Page
 
     compile()
     {
-        let dest = this.getDest();
-        SITEMAP.urls.push(CONFIG.getUrl() + dest.replace('/index.html', ''));
+        const dest = this.getDest();
+        const url = CONFIG.getUrl() + dest.replace('/index.html', '');
+
+        this.url = url;
+
+        SITEMAP.urls.push(url);
         Layout.compileFile(`page/${this.layout}.pug`, dest, this);
     }
 }
