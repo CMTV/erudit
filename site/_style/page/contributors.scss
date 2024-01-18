@@ -6,7 +6,7 @@
 
 @use 'template/hq';
 
-body > main > article
+#__erudit > main > article
 {
     padding: size.$gapStruct;
     @include bp.max(mini) { padding: size.$gap; font-size: 92%; }

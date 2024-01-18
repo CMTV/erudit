@@ -9,7 +9,7 @@
 @use 'partial/util';
 @use 'partial/progress';
 
-body > main > article > [data-content]
+#__erudit > main > article > [data-content]
 {
     > img.decoration
     {
@@ -256,7 +256,7 @@ body > main > article > [data-content]
     }
 }
 
-body > aside.minor
+#__erudit > aside.minor
 {
     > .full
     {

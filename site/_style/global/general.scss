@@ -32,7 +32,7 @@ body
     background: var(--c_bg);
 }
 
-body > main
+#__erudit > main
 {
     margin-left: calc(50% - (size.$content + 2 * size.$gapBig) / 2);
 

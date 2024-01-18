@@ -1,6 +1,6 @@
 window.addEventListener('load', () =>
 {
-    document.querySelectorAll('body > main > article .wipBook .progress').forEach(progressElem =>
+    document.querySelectorAll('#__erudit > main > article .wipBook .progress').forEach(progressElem =>
     {
         progressElem.querySelector(':scope .explain > .done').addEventListener('click', () =>
         {

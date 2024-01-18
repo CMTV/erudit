@@ -2,7 +2,7 @@ import DbBook from "src/entity/book/db";
 import { getBookDecorationLink } from "src/entity/book/global";
 import RepoBook from "src/entity/book/repository";
 import { getContributorList } from "src/entity/book/view";
-import { getSourcesForBook, getViewBookSources } from "src/entity/bookSource/view";
+import { getSourcesForBook } from "src/entity/bookSource/view";
 import RepoBookStats from "src/entity/bookStats/repository";
 import PageBook from "src/page/PageBook";
 import SEO from "src/page/component/SEO";
@@ -49,7 +49,7 @@ export default class BuildPageBook extends EruditProcess
                 page.contributors = await getContributorList(await repoBook.getBookContributors(bookId));
 
                 page.seo = new SEO;
-                page.seo.title = `${dbBook.title} - Открытая Математика`;
+                page.seo.title = `${dbBook.title} - Открытая математика`;
                 page.seo.desc = dbBook.desc ?? `Подробный, понятный и интересный учебник по теме "${dbBook.title}"`;
                 page.seo.keywords = dbBook.topics ?? [];
 

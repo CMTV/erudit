@@ -4,7 +4,7 @@
 @use 'partial/hover';
 @use 'partial/util';
 
-body > aside.major .panes .pane[data-pane=toc]
+#__erudit > aside.major .panes .pane[data-pane=toc]
 {
     .inner,
     .viewContainer

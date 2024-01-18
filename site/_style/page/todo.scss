@@ -6,7 +6,7 @@
 
 @use 'template/hq';
 
-body > main > article
+#__erudit > main > article
 {
     display: flex;
     flex-direction: column;

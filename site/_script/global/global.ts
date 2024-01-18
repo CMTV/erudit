@@ -22,7 +22,7 @@ window.addEventListener('DOMContentLoaded', () =>
     globalThis.OMathContentOptions = getContentOptions();
 
     OMathContent.initProducts(
-        document.querySelector('body > main > article > [data-content]'),
+        document.querySelector('#__erudit > main > article > [data-content]'),
         globalThis.OMathContentOptions
     );
 

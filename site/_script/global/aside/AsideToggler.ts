@@ -21,15 +21,15 @@ export default class AsideToggler
         // Asides
         {
             this.asides = <any>{};
-            this.asides.major = document.querySelector('body > aside.major');
-            this.asides.minor = document.querySelector('body > aside.minor');
+            this.asides.major = document.querySelector('#__erudit > aside.major');
+            this.asides.minor = document.querySelector('#__erudit > aside.minor');
         }
   
         // Open Buttons
         {
             this.openButtons = <any>{};
-            this.openButtons.major = new OpenButton(document.querySelector('body > main > .bottomSticky > .asideControls > .majorOpen'));
-            this.openButtons.minor = new OpenButton(document.querySelector('body > main > .bottomSticky > .asideControls > .minorOpen'));
+            this.openButtons.major = new OpenButton(document.querySelector('#__erudit > main > .bottomSticky > .asideControls > .majorOpen'));
+            this.openButtons.minor = new OpenButton(document.querySelector('#__erudit > main > .bottomSticky > .asideControls > .minorOpen'));
         }
         
         // Open Button Click Logic
@@ -39,7 +39,7 @@ export default class AsideToggler
         }
 
         // Main Click
-        document.querySelector('body > main').addEventListener('click', e =>
+        document.querySelector('#__erudit > main').addEventListener('click', e =>
         {
             let path = e.composedPath();
 

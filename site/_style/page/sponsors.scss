@@ -8,7 +8,7 @@
 
 @use 'include/sponsor';
 
-body > main > article
+#__erudit > main > article
 {
     padding: size.$gapStruct;
 
@@ -313,7 +313,7 @@ body > main > article
     }
 }
 
-body > aside.minor > .full
+#__erudit > aside.minor > .full
 {
     display: flex;
     flex-direction: column;
@@ -393,7 +393,7 @@ body > aside.minor > .full
     }
 }
 
-body > aside.minor > .mini
+#__erudit > aside.minor > .mini
 {
     > button.tierInfo
     {

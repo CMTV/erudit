@@ -8,7 +8,7 @@
 // Open Buttons
 //
 
-body > main > .bottomSticky > .asideControls
+#__erudit > main > .bottomSticky > .asideControls
 {
     $buttonSize: 60px;
     $height: $buttonSize + 2 * size.$gapStruct;
@@ -88,7 +88,7 @@ body > main > .bottomSticky > .asideControls
 // Base Aside Layout
 //
 
-body
+#__erudit
 {
     > aside
     {
@@ -211,7 +211,7 @@ body
     touch-action: none;
 }
 
-body
+#__erudit
 {
     > aside
     {

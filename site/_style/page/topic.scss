@@ -45,7 +45,7 @@
     @include sponsor.topicBlock;
 }
 
-body > main > article
+#__erudit > main > article
 {
     > header .cameoBlock
     {
@@ -63,7 +63,7 @@ body > main > article
 //
 //
 
-body > main > article
+#__erudit > main > article
 {
     > header
     {
@@ -344,7 +344,7 @@ body > main > article
 // Minor Aside
 //
 
-body > aside.minor
+#__erudit > aside.minor
 {
     > .full
     {

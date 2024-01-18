@@ -6,7 +6,7 @@ export default class PaneSwitcher
 
     constructor(toggler: AsideToggler)
     {
-        this.asideMajor = document.querySelector('body > aside.major');
+        this.asideMajor = document.querySelector('#__erudit > aside.major');
 
         let registerButton = (button: Element, openAside: boolean) =>
         {

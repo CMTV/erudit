@@ -6,7 +6,7 @@
 @use 'partial/hover';
 @use 'partial/util';
 
-body > main > article
+#__erudit > main > article
 {
     > header
     {
@@ -73,7 +73,7 @@ body > main > article
     }
 }
 
-body > aside.minor
+#__erudit > aside.minor
 {
     > .full
     {

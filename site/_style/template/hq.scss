@@ -1,7 +1,7 @@
 @use 'def/size';
 @use 'partial/util';
 
-body > aside.minor > .full
+#__erudit > aside.minor > .full
 {
     > header
     {
@@ -18,7 +18,7 @@ body > aside.minor > .full
     }
 }
 
-body > aside.minor > .mini
+#__erudit > aside.minor > .mini
 {
     display: flex;
     flex-direction: column;

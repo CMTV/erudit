@@ -97,55 +97,57 @@ html(lang= lang, data-layout= layout, data-topic= topicId ? topicId : false)
         script
             include /include/theme.js
 
-        include /include/aside/major/main
+        #__erudit
 
-        aside.minor
-            .full
-                block minorFull
-            .mini
-                block minorMini
+            include /include/aside/major/main
 
-        main
-            article
-                block content
+            aside.minor
+                .full
+                    block minorFull
+                .mini
+                    block minorMini
 
-            .expand
-                //- Making sure sticky bottom is always actually to bottom
+            main
+                article
+                    block content
 
-            .bottomSticky
-                .asideControls
-                    button.majorOpen
-                        i.i-aside-open(style="transform: scale(-1, 1)")
+                .expand
+                    //- Making sure sticky bottom is always actually to bottom
 
-                    button.minorOpen
-                        i.i-aside-open
+                .bottomSticky
+                    .asideControls
+                        button.majorOpen
+                            i.i-aside-open(style="transform: scale(-1, 1)")
 
-                section#preview
-                    .display
-                        .border
-                        .screen.loading(data-state)
-                            .inner
-                                i.i-omath
-                        .screen.error(data-state)
-                            .inner
-                                i.i-warning
+                        button.minorOpen
+                            i.i-aside-open
 
-                    footer
-                        .title= i18n('preview.title')
-                        .controls
-                            a.button.goto(title= i18n('preview.controls.goto'), target="_blank", href="")
-                                i.i-up-right-from-square
-                            .button.back(title= i18n('preview.controls.back'))
-                                i.i-arrow-left
-                            .button.mini(
-                                data-label-collapse= i18n('preview.controls.mini.collapse'),
-                                data-label-expand= i18n('preview.controls.mini.expand')
-                            )
-                                i.i-compress
-                                i.i-expand
-                            .button.exit(title= i18n('preview.controls.exit'))
-                                i.i-xmark
-    
-        if (!config.dev)
-            include /vendor/yandex.html
-            include /vendor/google.html
+                    section#preview
+                        .display
+                            .border
+                            .screen.loading(data-state)
+                                .inner
+                                    i.i-omath
+                            .screen.error(data-state)
+                                .inner
+                                    i.i-warning
+
+                        footer
+                            .title= i18n('preview.title')
+                            .controls
+                                a.button.goto(title= i18n('preview.controls.goto'), target="_blank", href="")
+                                    i.i-up-right-from-square
+                                .button.back(title= i18n('preview.controls.back'))
+                                    i.i-arrow-left
+                                .button.mini(
+                                    data-label-collapse= i18n('preview.controls.mini.collapse'),
+                                    data-label-expand= i18n('preview.controls.mini.expand')
+                                )
+                                    i.i-compress
+                                    i.i-expand
+                                .button.exit(title= i18n('preview.controls.exit'))
+                                    i.i-xmark
+        
+            if (!config.dev)
+                include /vendor/yandex.html
+                include /vendor/google.html
