@@ -91,9 +91,15 @@ export default class FillTopics extends EruditProcess
         let config: DataTopicConfig = parseYamlFile(configPath);
         withErrorMeta(() => ensureConfigValid(config), { Config: configPath });
 
-        dbTopic.title = config.title;
-        dbTopic.desc = config.desc;
-        dbTopic.keywords = config.keywords ?? [];
+        dbTopic.title =     config.title;
+        dbTopic.desc =      config.desc;
+        dbTopic.keywords =  config.keywords ?? [];
+
+        dbTopic.seo =       config.seo;
+        if (dbTopic?.seo?.title === null)
+            dbTopic.seo.title = config.title;
+        if (dbTopic?.seo?.desc === null)
+            dbTopic.seo.desc = config.desc;
 
         let parseResults:   ParseResult[] = [];
         let dbTodos:        DbTodo[] = [];

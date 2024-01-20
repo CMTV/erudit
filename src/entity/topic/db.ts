@@ -1,5 +1,6 @@
 import { Block } from "bitran";
 import { Column, Entity, PrimaryColumn } from "typeorm";
+import { TopicCustomSEO } from "./global";
 
 @Entity()
 export default class DbTopic
@@ -36,4 +37,7 @@ export default class DbTopic
 
     @Column('simple-json', { nullable: true })
     practicum: Block[];
+
+    @Column('simple-json', { nullable: true })
+    seo: TopicCustomSEO;
 }

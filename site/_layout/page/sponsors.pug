@@ -31,14 +31,14 @@ mixin highTierSponsor(sponsor)
 
         if (sponsor.tier === 3)
             style.
-                html[data-theme$='light'] #sponsor-#{sponsor.id}
+                html[data-theme$='light'] #__erudit #sponsor-#{sponsor.id}
                 {
                     --text: #{sponsor.theme.text[0]};
                     --avatarBorder: #{sponsor.theme.border[0]};
                     --bg: #{sponsor.theme.bg[0]};
                 }
 
-                html[data-theme$='dark'] #sponsor-#{sponsor.id}
+                html[data-theme$='dark'] #__erudit #sponsor-#{sponsor.id}
                 {
                     --text: #{sponsor.theme.text[1]};
                     --avatarBorder: #{sponsor.theme.border[1]};

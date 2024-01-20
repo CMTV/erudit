@@ -86,6 +86,12 @@ export default class BuildPageTopic extends EruditProcess
                     page.seo.keywords = [...page.seo.keywords, ...dbTopic.keywords];
                     page.seo.ogImg = ogImg;
 
+                    if (type === TopicType.Article)
+                    {
+                        page.seo.title =    dbTopic?.seo?.title || page.seo.title;
+                        page.seo.desc =     dbTopic?.seo?.desc || page.seo.desc;
+                    }
+
                     page.todos = await this.getViewTodos(dbTopic.id, type);
 
                     page.contributors = await this.getViewContributors(dbTopic.id);
