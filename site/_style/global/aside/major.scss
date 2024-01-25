@@ -14,7 +14,7 @@
 
     //
 
-    > .full
+    .full
     {
         display: flex;
         flex-direction: column;
@@ -148,7 +148,7 @@
         }
     }
 
-    > .mini
+    .mini
     {
         display: flex;
         flex-direction: column;
@@ -213,7 +213,7 @@
 
         &[data-pane=#{$pane}]
         {
-            > .full > .paneSwitcher > .inner
+            .full > .paneSwitcher > .inner
             {
                 > button[data-target=#{$pane}]
                 {
@@ -226,7 +226,7 @@
                 }
             }
 
-            > .full > .panes
+            .full > .panes
             {
                 > .pane:not([data-pane=#{$pane}]) { opacity: 0; left: -1 * size.$aside; }
                 > .pane[data-pane=#{$pane}] ~ .pane { left: size.$aside; }

@@ -346,7 +346,7 @@
 
 #__erudit > aside.minor
 {
-    > .full
+    .full
     {
         display: flex;
         flex-direction: column;
@@ -653,7 +653,7 @@
         }
     }
 
-    > .mini
+    .mini
     {
         display: flex;
         flex-direction: column;

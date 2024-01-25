@@ -32,12 +32,54 @@ body
     background: var(--c_bg);
 }
 
+#__erudit
+{
+    --w_asideMajor: #{size.$aside};
+    --w_asideMinor: #{size.$aside};
+    --w_content:    min(#{size.$content} + 2 * #{size.$gapBig}, 100%);
+
+    position: relative;
+    display: grid;
+
+    grid-template-columns: var(--w_asideMajor) var(--w_content) var(--w_asideMinor);
+    grid-template-areas: "aMajor main aMinor";
+    justify-content: center;
+
+    @include util.transition(grid-template-columns);
+
+    > main
+    {
+        grid-area: main;
+    }
+
+    > aside
+    {
+        &.major { grid-area: aMajor; }
+        &.minor { grid-area: aMinor; }
+
+        > .asideContent
+        {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden;
+        }
+    }
+
+    @include bp.max(miniMajor) { --w_asideMajor: #{size.$asideMini}; }
+    @include bp.max(miniMinor) { --w_asideMinor: #{size.$asideMini}; }
+
+    @include bp.max(noAside)
+    {
+        --w_asideMajor: 0;
+        --w_asideMinor: 0;
+    }
+}
+
 #__erudit > main
 {
-    margin-left: calc(50% - (size.$content + 2 * size.$gapBig) / 2);
-
     z-index: 5;
-    width: min(size.$content + 2 * size.$gapBig, 100%);
     min-height: 100vh;
 
     display: flex;
@@ -63,22 +105,6 @@ body
 
         pointer-events: none;
         touch-action: none;
-    }
-
-    @include bp.max(miniMajor)
-    {
-        margin-left: calc(50% - ((size.$aside - size.$asideMini) + (size.$content + 2 * size.$gapBig)) / 2);
-    }
-
-    @include bp.max(miniMinor)
-    {
-        margin-left: calc(50% - (size.$content + 2 * size.$gapBig) / 2);
-    }
-
-    @include bp.max(stretch)
-    {
-        position: relative;
-        margin-left: 0;
     }
 
     > .expand { flex: 1; }

@@ -27,12 +27,12 @@ export default class PaneSwitcher
             });
         }
 
-        this.asideMajor.querySelectorAll(':scope > .full > .paneSwitcher > .inner > button').forEach(button =>
+        this.asideMajor.querySelectorAll(':scope .full > .paneSwitcher > .inner > button').forEach(button =>
         {
             registerButton(button, false);
         });
 
-        this.asideMajor.querySelectorAll(':scope > .mini > button').forEach(button =>
+        this.asideMajor.querySelectorAll(':scope .mini > button').forEach(button =>
         {
             registerButton(button, true);
         });

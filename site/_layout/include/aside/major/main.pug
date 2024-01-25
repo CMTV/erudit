@@ -1,67 +1,66 @@
 include /include/ads
 
-aside.major(data-pane= asideMajor.pane)
-    .full
-        .siteInfo
-            a.logo(href="/")
-                include /include/logo.svg
-            .title
-                a(href="/")= i18n('siteInfo.title')
-            .slogan= i18n('siteInfo.slogan')
-        
-        mixin paneSwitcherButton(name, icon)
-            button(title= i18n(`aside.major.panes.${name}`), data-target= name)
-                .inner
-                    i(class= `i-${icon}`)
+mixin miniSwitchButton(name, icon)
+    button(title= i18n(`aside.major.panes.${name}`), data-target= name)
+        i(class= `i-${icon}`)
 
-        .paneSwitcher
-            .inner
-                +paneSwitcherButton('toc', 'sitemap')
-                +paneSwitcherButton('pages', 'file-lines')
-                +paneSwitcherButton('search', 'magnifying-glass')
-                +paneSwitcherButton('language', 'globe')
-                +paneSwitcherButton('other', 'menu-ellipsis-ver')
-                .slider
-        
-        mixin pane(name)
-            .pane(data-pane= name)
+aside.major(data-pane= asideMajor.pane)
+    .asideContent
+        .full
+            .siteInfo
+                a.logo(href="/")
+                    include /include/logo.svg
+                .title
+                    a(href="/")= i18n('siteInfo.title')
+                .slogan= i18n('siteInfo.slogan')
+            
+            mixin paneSwitcherButton(name, icon)
+                button(title= i18n(`aside.major.panes.${name}`), data-target= name)
+                    .inner
+                        i(class= `i-${icon}`)
+
+            .paneSwitcher
                 .inner
+                    +paneSwitcherButton('toc', 'sitemap')
+                    +paneSwitcherButton('pages', 'file-lines')
+                    +paneSwitcherButton('search', 'magnifying-glass')
+                    +paneSwitcherButton('language', 'globe')
+                    +paneSwitcherButton('other', 'menu-ellipsis-ver')
+                    .slider
+            
+            mixin pane(name)
+                .pane(data-pane= name)
+                    .inner
+                        block
+
+            mixin listItem(name, link = false)
+                a.listItem(class= name, href= link)
                     block
 
-        mixin listItem(name, link = false)
-            a.listItem(class= name, href= link)
-                block
+            .panes
+                +pane('toc')
+                    include /include/aside/major/paneToc
 
-        .panes
-            +pane('toc')
-                include /include/aside/major/paneToc
+                +pane('pages')
+                    include /include/aside/major/panePages
 
-            +pane('pages')
-                include /include/aside/major/panePages
+                +pane('search')
+                +pane('language')
 
-            +pane('search')
-            +pane('language')
+                +pane('other')
+                    include /include/aside/major/paneOther
 
-            +pane('other')
-                include /include/aside/major/paneOther
+            +adBlock('R-A-2185026-3', 'left')
 
-        +adBlock('R-A-2185026-3', 'left')
+        .mini
+            a(href="/", title= i18n('aside.major.miniButtons.toHome'))
+                include /include/logo.svg
+            
+            button.menu(title= i18n('aside.major.miniButtons.menu'), data-target='toc')
+                i.i-menu
 
-    //-
-
-    mixin miniSwitchButton(name, icon)
-        button(title= i18n(`aside.major.panes.${name}`), data-target= name)
-            i(class= `i-${icon}`)
-
-    .mini
-        a(href="/", title= i18n('aside.major.miniButtons.toHome'))
-            include /include/logo.svg
-        
-        button.menu(title= i18n('aside.major.miniButtons.menu'), data-target='toc')
-            i.i-menu
-
-        +miniSwitchButton('toc', 'sitemap')
-        +miniSwitchButton('pages', 'file-lines')
-        +miniSwitchButton('search', 'magnifying-glass')
-        +miniSwitchButton('language', 'globe')
-        +miniSwitchButton('other', 'menu-ellipsis-ver')
+            +miniSwitchButton('toc', 'sitemap')
+            +miniSwitchButton('pages', 'file-lines')
+            +miniSwitchButton('search', 'magnifying-glass')
+            +miniSwitchButton('language', 'globe')
+            +miniSwitchButton('other', 'menu-ellipsis-ver')

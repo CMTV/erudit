@@ -94,13 +94,11 @@
     {
         $shadow: 5px 2px rgba(0, 0, 0, .05);
 
-        @include util.size(size.$aside, 100vh);
-        height: 100dvh;
+        @include util.size(size.$aside, 100%);
 
-        position: fixed;
+        //position: absolute;
         top: 0;
         z-index: 10;
-        overflow: hidden;
 
         background: var(--c_bg-content-shade);
 
@@ -108,6 +106,12 @@
         
         &.major { box-shadow: -3px 0 #{$shadow}, inset -3px 0 #{$shadow}; }
         &.minor { box-shadow:  3px 0 #{$shadow}, inset  3px 0 #{$shadow}; }
+
+        &.minor
+        {
+            position: relative;
+            right: 0;
+        }
 
         &[data-showing]
         {
@@ -138,6 +142,7 @@
             {
                 &.minor
                 {
+                    right: calc(size.$aside - size.$asideMini);
                     box-shadow: -2.5px 0 #{$shadow};
                     @include mainOverlay;
                 }
@@ -146,43 +151,25 @@
             @include bp.max(noAside)
             {
                 &.major { left: 0; }
-                &.minor { right: 0; }
+                &.minor { right: size.$aside; }
             }
         }
 
         //
 
-        @include bp.min(miniMajor, 1px)
-        {
-            $pos: calc(50% - size.$aside - (size.$content + 2 * size.$gapBig) / 2);
-
-            &.major { left: $pos; }
-            &.minor { right: $pos; }
-        }
-
         @include bp.max(miniMajor)
         {
-            $pos: calc((50% + (size.$aside - size.$asideMini) / 2) - size.$aside - (size.$content + 2 * size.$gapBig) / 2);
-
             &.major
             {
                 width: size.$asideMini;
-                left: $pos;
             }
-
-            &.minor { right: $pos; }
         }
 
         @include bp.max(miniMinor)
         {
-            $pos: calc(50% - size.$asideMini - (size.$content + 2 * size.$gapBig)/ 2);
-
-            &.major { left: $pos; }
-
             &.minor
             {
                 width: size.$asideMini;
-                right: $pos;
             }
         }
 
@@ -191,11 +178,11 @@
             &.major,
             &.minor
             {
-                width: size.$aside;
+                width: 0;
             }
             
-            &.major { left: -1 * size.$aside; }
-            &.minor { right: -1 * size.$aside; }
+            &.major { left: 0; }
+            &.minor { right: 0; }
         }
     }
 }
@@ -215,10 +202,10 @@
 {
     > aside
     {
-        &[data-showing] { > .mini { @include asideHidden; } }
+        &[data-showing] { .mini { @include asideHidden; } }
 
-        > .full,
-        > .mini
+        .full,
+        .mini
         {
             position: absolute;
             top: 0;
@@ -229,46 +216,46 @@
             @include util.transition(opacity);
         }
 
-        > .full { width: size.$aside; }
-        > .mini { width: size.$asideMini; }
+        .full { width: size.$aside; }
+        .mini { width: size.$asideMini; }
 
         &.major
         {
-            > .full { left: 0; }
-            > .mini { right: 0; }
+            .full { left: 0; }
+            .mini { right: 0; }
         }
 
         &.minor
         {
-            > .full { right: 0; }
-            > .mini { left: 0; }
+            .full { right: 0; }
+            .mini { left: 0; }
         }
 
         //
 
         @include bp.min(miniMajor, 1px)
         {
-            &.major > .mini { @include asideHidden; }
+            &.major .mini { @include asideHidden; }
         }
 
         @include bp.min(miniMinor, 1px)
         {
-            &.minor > .mini { @include asideHidden; }
+            &.minor .mini { @include asideHidden; }
         }
 
         @include bp.between(noAside, miniMajor, 1px)
         {
-            &.major:not([data-showing]) > .full { @include asideHidden; }
+            &.major:not([data-showing]) .full { @include asideHidden; }
         }
 
         @include bp.between(noAside, miniMinor, 1px)
         {
-            &.minor:not([data-showing]) > .full { @include asideHidden; }
+            &.minor:not([data-showing]) .full { @include asideHidden; }
         }
 
         @include bp.max(noAside)
         {
-            > .mini { @include asideHidden; }
+            .mini { @include asideHidden; }
         }
     }
 }

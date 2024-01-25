@@ -1,7 +1,7 @@
 @use 'def/size';
 @use 'partial/util';
 
-#__erudit > aside.minor > .full
+#__erudit > aside.minor .full
 {
     > header
     {
@@ -18,7 +18,7 @@
     }
 }
 
-#__erudit > aside.minor > .mini
+#__erudit > aside.minor .mini
 {
     display: flex;
     flex-direction: column;

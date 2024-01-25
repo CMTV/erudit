@@ -313,7 +313,7 @@
     }
 }
 
-#__erudit > aside.minor > .full
+#__erudit > aside.minor .full
 {
     display: flex;
     flex-direction: column;
@@ -393,7 +393,7 @@
     }
 }
 
-#__erudit > aside.minor > .mini
+#__erudit > aside.minor .mini
 {
     > button.tierInfo
     {

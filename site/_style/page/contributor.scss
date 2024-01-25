@@ -75,7 +75,7 @@
 
 #__erudit > aside.minor
 {
-    > .full
+    .full
     {
         display: flex;
         flex-direction: column;
@@ -215,7 +215,7 @@
         }
     }
 
-    > .mini
+    .mini
     {
         > button.contribution
         {

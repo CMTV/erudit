@@ -12,7 +12,7 @@ window.addEventListener('load', () =>
 {
     let asideToggler = OMath.get().asideToggler;
 
-    asideToggler.asides.minor.querySelector(':scope > .mini > a[data-current]').addEventListener('click', () =>
+    asideToggler.asides.minor.querySelector(':scope .mini > a[data-current]').addEventListener('click', () =>
     {
         asideToggler.toggleAside(asideToggler.asides.minor, true);
     });
@@ -25,15 +25,15 @@ window.addEventListener('load', () =>
 
     initAnchorDetector();
 
-    new LiveTocPos(asideToggler.asides.minor.querySelector(':scope > .full .topicToc .tocTree'));
+    new LiveTocPos(asideToggler.asides.minor.querySelector(':scope .full .topicToc .tocTree'));
 });
 
 function setupContributorsView()
 {
     let minorElem = OMath.get().asideToggler.asides.minor;
 
-    let contributorsOpenElem = minorElem.querySelector(':scope > .full > .contributors');
-    let view = minorElem.querySelector(':scope > .full > .minorView.contribution');
+    let contributorsOpenElem = minorElem.querySelector(':scope .full > .contributors');
+    let view = minorElem.querySelector(':scope .full > .minorView.contribution');
     let closeElem = view.querySelector(':scope .close');
 
     [contributorsOpenElem, closeElem].forEach(element =>
@@ -46,8 +46,8 @@ function setupTodoView()
 {
     let minorElem = OMath.get().asideToggler.asides.minor;
 
-    let todoSwitch = minorElem.querySelector(':scope > .full > .editorSwitch');
-    let minorView = minorElem.querySelector(':scope > .full > .minorView.todo');
+    let todoSwitch = minorElem.querySelector(':scope .full > .editorSwitch');
+    let minorView = minorElem.querySelector(':scope .full > .minorView.todo');
 
     if (!minorView)
         return;
@@ -81,6 +81,6 @@ function setupTopicSponsors()
 export function toggleTodoView()
 {
     document.documentElement.classList.toggle('displayTodo');
-    let minorView = OMath.get().asideToggler.asides.minor.querySelector(':scope > .full > .minorView.todo');
+    let minorView = OMath.get().asideToggler.asides.minor.querySelector(':scope .full > .minorView.todo');
     minorView.toggleAttribute('data-visible');
 }
