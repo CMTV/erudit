@@ -120,6 +120,149 @@
             }
         }
 
+        > .flags
+        {
+            margin-top: 20px;
+
+            display: flex;
+            flex-wrap: wrap;
+            gap: size.$gap;
+
+            .flag
+            {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                padding: 5px 10px;
+
+                cursor: help;
+
+                font-size: 87%;
+                color: var(--c_text-muted);
+
+                border: 1px solid var(--c_border);
+                border-radius: size.$borderRadius;
+
+                background: var(--c_bg-content-shade);
+
+                @include bp.max(mini)
+                {
+                    font-size: 80%;
+                }
+
+                .tooltip
+                {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    z-index: 10;
+                    padding-top: size.$gap;
+                    max-width: 320px;
+
+                    cursor: default;
+
+                    @include util.transition(opacity);
+
+                    &:not(.showing)
+                    {
+                        opacity: 0;
+                        pointer-events: none;
+                        touch-action: none;
+                    }
+
+                    .arrow
+                    {
+                        position: absolute;
+                        top: 12px;
+                        background: var(--c_border);
+                        width: 32px;
+                        height: 32px;
+                        transform: rotate(45deg);
+                    }
+
+                    .inner
+                    {
+                        position: relative;
+                        z-index: 1;
+                        box-shadow: 4px 4px 12px 5px rgba(0, 0, 0, 0.15);
+
+                        border: 2px solid var(--c_border);
+                        border-radius: size.$borderRadius;
+                        background: linear-gradient(45deg, var(--c_bg-content), var(--c_bg-content-shade));
+
+                        padding: size.$gapSmall;
+
+                        .bgIcon
+                        {
+                            float: right;
+                            margin: 0 0 size.$gapSmall size.$gapSmall;
+                            opacity: .35;
+                            font-size: 30px;
+                        }
+
+                        .title
+                        {
+                            font-weight: 600;
+                            margin-bottom: calc(size.$gapSmall - 3px);
+                        }
+                    }
+                }
+            }
+
+            .flag.dependencies
+            {
+                .tooltip .inner
+                {
+                    ul
+                    {
+                        margin-top: calc(size.$gapSmall - 3px);
+
+                        li:not(:last-of-type)
+                        {
+                            margin-bottom: 3px;
+                        }
+
+                        a
+                        {
+                            color: inherit;
+                        }
+                    }
+                }
+            }
+
+            @mixin flagTheme($name, $cBg, $cBorder, $cText)
+            {
+                .flag.#{$name}
+                {
+                    background: $cBg;
+                    border-color: $cBorder;
+                    color: $cText;
+
+                    .tooltip
+                    {
+                        .arrow { background-color: $cBorder; }
+                        .inner
+                        {
+                            border-color: $cBorder;
+                            background: linear-gradient(45deg, var(--c_bg-content), $cBg);
+                        }
+                    }
+                }
+            }
+
+            @include flagTheme(advanced, #e5dcfc, #846eb8, #634f92);
+            @include flagTheme(wip, #fbfcdc, #b8a86e, #92814e);
+            @include flagTheme(dependencies, #dcfcf7, #6eb8a9, #4e9288);
+
+
+            @include color.themeDark
+            {
+                @include flagTheme(advanced, #3a3051, #9c8fc2, #9c8fc2);
+                @include flagTheme(wip, #514b30, #c2be8f, #c2be8f);
+                @include flagTheme(dependencies, #304f51, #6eb8ac, #6eb8ac);
+            }
+        }
+
         @include bp.max(mini)
         {
             padding: size.$gap;

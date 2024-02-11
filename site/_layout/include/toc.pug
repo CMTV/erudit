@@ -18,3 +18,7 @@ mixin tocItem(level, icon, label, options = {})
             span.figure
                 i(class= `i-${icon}`)
             span.label= label
+
+        if (options.advanced)
+            .advanced
+                i.i-star-of-life(title="Продвинутый уровень")

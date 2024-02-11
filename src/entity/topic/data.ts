@@ -7,4 +7,7 @@ export default class DataTopicConfig
     keywords: string[];
     contributors: string[];
     seo?: TopicCustomSEO;
+    advanced?: boolean;
+    wip?: boolean;
+    dependencies?: string[];
 }

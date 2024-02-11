@@ -3,6 +3,7 @@ extends /template/default
 include /include/ads
 include /include/toc
 include /include/source
+include /include/topicFlags
 
 mixin topicSponsor(tier)
     .cameoBlock(id= `sponsorBlockTier${tier}`)
@@ -26,6 +27,17 @@ block content
 
             if (desc)
                 .desc= desc
+
+        if (advanced || wip || dependencies)
+        .flags
+            if (wip)
+                +flagWip
+
+            if (advanced)
+                +flagAdvanced
+
+            if (dependencies)
+                +flagDependencies(dependencies)
 
         // +adBlock('R-A-2185026-2', 'beforeContent')
 

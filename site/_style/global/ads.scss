@@ -31,7 +31,7 @@
             text-align: center;
         }
 
-        @media (max-height: 800px)
+        @media (max-height: 1079px)
         {
             max-height: 200px;
         }
@@ -117,4 +117,13 @@
             }
         }
     }
+}
+
+//
+// Major Aside Ads Wrapper
+//
+
+.darkMagicWrapper
+{
+    border-top: 1px solid var(--c_border);
 }

@@ -40,4 +40,13 @@ export default class DbTopic
 
     @Column('simple-json', { nullable: true })
     seo: TopicCustomSEO;
+
+    @Column('boolean', { default: false })
+    advanced: boolean;
+
+    @Column('boolean', { default: false })
+    wip: boolean;
+
+    @Column('simple-array', { nullable: true })
+    dependencies: string[];
 }

@@ -95,6 +95,10 @@ export default class FillTopics extends EruditProcess
         dbTopic.desc =      config.desc;
         dbTopic.keywords =  config.keywords ?? [];
 
+        dbTopic.wip = !!config.wip;
+        dbTopic.advanced = !!config.advanced;
+        dbTopic.dependencies = config.dependencies;
+
         dbTopic.seo =       config.seo;
         if (dbTopic?.seo?.title === null)
             dbTopic.seo.title = config.title;

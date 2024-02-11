@@ -1,6 +1,8 @@
 import { CONFIG } from "src/config";
 import DbBookToc from "src/entity/bookToc/db";
 import { BookTocItem, SectionBookTocItem, TopicBookTocItem } from "src/entity/bookToc/global";
+import DbTopic from "src/entity/topic/db";
+import { erudit } from "src/erudit";
 import Layout from "src/frontend/Layout";
 import EruditProcess from "src/process/EruditProcess";
 import { link } from "src/router";
@@ -29,7 +31,7 @@ export default class BuildBookToc extends EruditProcess
                                 .where('bookToc.bookId = :bookId', { bookId: bookId })
                                 .getOne()).toc;
 
-            let tocStr = this.getHTMLToc(bookId, dbToc);
+            let tocStr = await this.getHTMLToc(bookId, dbToc);
                 tocStr = 'include /include/toc\n' + tocStr;
                 tocStr = Layout.render(tocStr);
 
@@ -39,16 +41,18 @@ export default class BuildBookToc extends EruditProcess
         }
     }
 
-    getHTMLToc(bookId: string, bookToc: BookTocItem[])
+    async getHTMLToc(bookId: string, bookToc: BookTocItem[])
     {
         let pug = '';
 
-        function fillLevel(level: number, toc: BookTocItem[]): string
+        async function fillLevel(level: number, toc: BookTocItem[]): Promise<string>
         {
             let result = '';
 
-            toc.forEach(tocItem =>
+            for (let tocItem of toc)
             {
+                const advanced = !!(await erudit.db.manager.findOne(DbTopic, { select: ['advanced'], where: { id: tocItem.id } })).advanced;
+
                 if (tocItem.type === 'topic')
                 {
                     let types = (tocItem as TopicBookTocItem).parts;
@@ -59,7 +63,7 @@ export default class BuildBookToc extends EruditProcess
 
                     let href = CONFIG.getUrl() + link(types[0] as any, tocItem.id);
 
-                    result += `+tocItem(${level}, '${icon}', '${tocItem.title}', { dataId: '${tocItem.id}', href: '${href}' })\n`;
+                    result += `+tocItem(${level}, '${icon}', '${tocItem.title}', { dataId: '${tocItem.id}', href: '${href}', advanced: ${advanced} })\n`;
                 }
                 else
                 {
@@ -67,21 +71,21 @@ export default class BuildBookToc extends EruditProcess
                     if (sectionTocItem.isChapter)
                     {
                         result += `+tocGroup('${sectionTocItem.title}')\n`;
-                        result += indent(fillLevel(level, sectionTocItem.children));
+                        result += indent(await fillLevel(level, sectionTocItem.children));
                     }
                     else
                     {
                         result += `+tocBookSection(${level}, '${sectionTocItem.title}')\n`;
-                        result += indent(fillLevel(level + 1, sectionTocItem.children));
+                        result += indent(await fillLevel(level + 1, sectionTocItem.children));
                     }
                 }
-            });
+            }
 
             return result;
         }
 
         pug = `.bookToc(data-book-id="${bookId}", data-current='')\n` + indent('.tocTree\n');
-        pug += indent(fillLevel(0, bookToc), 2);
+        pug += indent(await fillLevel(0, bookToc), 2);
 
         return pug;
     }

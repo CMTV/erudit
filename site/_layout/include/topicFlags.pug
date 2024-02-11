@@ -1,0 +1,27 @@
+mixin flag(name, icon, label)
+    .flag(class= name)
+        i(class= icon)
+        span.label= label
+
+        .tooltip
+            .arrow
+            .inner
+                i.bgIcon(class= icon)
+                .title= label
+                .content
+                    block
+
+mixin flagAdvanced
+    +flag("advanced", "i-star-of-life", "Продвинутый уровень")
+        | Материал в этой теме предназначен для тех, кто полностью разобрался с базой и хочет «копнуть глубже».
+
+mixin flagWip
+    +flag("wip", "i-warning", "В разработке!")
+        | Эта тема находится в разработке! В любой момент может добавлен новый материал или изменен уже имеющийся!
+
+mixin flagDependencies(topics)
+    +flag("dependencies", "i-shuffle", "Зависимости")
+        .explain Царского пути в эту тему нет! Вы сможете разобраться только если знаете следующие темы:
+        ul
+            each topic in topics
+                li: a(href= topic.link)= topic.title

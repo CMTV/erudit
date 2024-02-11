@@ -62,6 +62,12 @@ export default class BuildPageTopic extends EruditProcess
                     page.topicId = topicId;
                     page.bookId = dbTopic.bookId;
 
+                    page.advanced = dbTopic.advanced;
+                    page.wip = dbTopic.wip;
+
+                    if (dbTopic.dependencies)
+                        page['dependencies'] = await this.getDependencies(dbTopic.dependencies);
+
                     page.bookTitle = dbBook.title;
                     page.bookToc = readFile(this.erudit.path.site('site', 'book-tocs', dbTopic.bookId + '.html'));
 
@@ -148,6 +154,26 @@ export default class BuildPageTopic extends EruditProcess
         seo.desc = desc;
 
         return seo;
+    }
+
+    async getDependencies(dependencies: string[]): Promise<{ title: string, link: string }[]>
+    {
+        let results = [];
+
+        for (const topicId of dependencies)
+        {
+            const dbTopic = await this.db.manager.findOne(DbTopic, { select: ['title', 'parts'], where: { id: topicId } });
+
+            if (!dbTopic)
+                continue;
+
+            results.push({
+                title:  dbTopic.title,
+                link:   link(dbTopic.parts.shift() as any, topicId),
+            });
+        }
+
+        return results.length > 0 ? results : null;
     }
 
     async getOgImg(topicId: string)

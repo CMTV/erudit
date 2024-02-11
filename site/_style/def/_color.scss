@@ -60,14 +60,16 @@ $palette: (
 
     border:             themeColor(#D7D7D7, #404040),
 
+    scrollbar:          themeColor(#bfbfbf, #494949),
+
     //
     // Accent Block Palette
     //
 
     ab-important:       themeColor(#B04A4A, #c95353),
-    ab-example:         #828282,
-    ab-definition:      #609955,
-    ab-theorem:         #4f81bc,
+    ab-example:         themeColor(#828282, #909090),
+    ab-definition:      themeColor(#609955, #5fad50),
+    ab-theorem:         themeColor(#4f81bc, #6498d7),
 
     //
     // Other

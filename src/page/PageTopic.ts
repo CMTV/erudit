@@ -37,6 +37,9 @@ export default class PageTopic extends Page
     desc: string;
     content: string;
 
+    advanced: boolean;
+    wip: boolean;
+
     toc: ViewTopicTocItem[];
 
     next: string;

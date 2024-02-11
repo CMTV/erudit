@@ -31,7 +31,19 @@ $gap: calc($gapBig / 2);
 
     &[data-accent] { a { color: var(--c_text) !important; } }
     &[data-current] { background: var(--c_bg-content-accent); }
-    
+
+    > .advanced
+    {
+        flex: 1;
+
+        i
+        {
+            float:  right;
+            cursor: help;
+            color: var(--c_text-dimmed);
+        }
+    }
+
     > a
     {
         display: inline-flex;
