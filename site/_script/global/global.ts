@@ -20,6 +20,7 @@ window.addEventListener('DOMContentLoaded', () =>
     new MajorToc(OMath.get().asideToggler);
 
     globalThis.OMathContentOptions = getContentOptions();
+    globalThis.MermaidPromise = import('mermaid');
 
     OMathContent.initProducts(
         document.querySelector('#__erudit > main > article > [data-content]'),

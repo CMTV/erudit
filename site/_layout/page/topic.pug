@@ -29,15 +29,15 @@ block content
                 .desc= desc
 
         if (advanced || wip || dependencies)
-        .flags
-            if (wip)
-                +flagWip
+            .flags
+                if (wip)
+                    +flagWip
 
-            if (advanced)
-                +flagAdvanced
+                if (advanced)
+                    +flagAdvanced
 
-            if (dependencies)
-                +flagDependencies(dependencies)
+                if (dependencies)
+                    +flagDependencies(dependencies)
 
         // +adBlock('R-A-2185026-2', 'beforeContent')
 
