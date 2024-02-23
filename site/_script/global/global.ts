@@ -11,7 +11,7 @@ window['OMath'] = new OMath;
 
 declare let OMathContent;
 
-window.addEventListener('load', () =>
+window.addEventListener('DOMContentLoaded', () =>
 {
     OMath.get().preview = new Preview;
     OMath.get().asideToggler = new AsideToggler;
