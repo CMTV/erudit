@@ -11,7 +11,7 @@ window['OMath'] = new OMath;
 
 declare let OMathContent;
 
-window.addEventListener('DOMContentLoaded', () =>
+window.addEventListener('load', () =>
 {
     OMath.get().preview = new Preview;
     OMath.get().asideToggler = new AsideToggler;
@@ -20,6 +20,8 @@ window.addEventListener('DOMContentLoaded', () =>
     new MajorToc(OMath.get().asideToggler);
 
     globalThis.OMathContentOptions = getContentOptions();
+
+
     globalThis.MermaidPromise = import('mermaid');
 
     OMathContent.initProducts(

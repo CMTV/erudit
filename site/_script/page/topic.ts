@@ -4,7 +4,7 @@ import OMath from "global/OMath";
 import { initAnchorDetector } from "global/anchor";
 import { getAnimSpeed } from "global/computed";
 import { LiveTocPos } from "include/liveTocPos";
-import { SPONSOR_DATA, SponsorBlockController, loadTopicSponsorData } from "include/sponsorBlock";
+import { SponsorBlockController, loadTopicSponsorData } from "include/sponsorBlock";
 
 window.addEventListener('DOMContentLoaded', () =>
 {
