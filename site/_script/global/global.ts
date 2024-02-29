@@ -21,7 +21,6 @@ window.addEventListener('DOMContentLoaded', () =>
 
     globalThis.OMathContentOptions = getContentOptions();
 
-
     globalThis.MermaidPromise = import('mermaid');
 
     OMathContent.initProducts(

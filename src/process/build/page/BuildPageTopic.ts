@@ -88,13 +88,12 @@ export default class BuildPageTopic extends EruditProcess
                     let dbTopicToc = (await this.db.manager.findOne(DbTopicToc, { where: { topicId: topicId, topicPart: type } })).toc;
                     page.toc = ViewTopicTocItem.makeListFrom(dbTopicToc);
 
-                    page.seo = this.getBaseSEO(dbTopic.title, type, page.bookTitle);
+                    page.seo = this.getBaseSEO(dbTopic?.seo?.title || dbTopic.title, type, page.bookTitle);
                     page.seo.keywords = [...page.seo.keywords, ...dbTopic.keywords];
                     page.seo.ogImg = ogImg;
 
                     if (type === TopicType.Article)
                     {
-                        page.seo.title =    dbTopic?.seo?.title || page.seo.title;
                         page.seo.desc =     dbTopic?.seo?.desc || page.seo.desc;
                     }
 
