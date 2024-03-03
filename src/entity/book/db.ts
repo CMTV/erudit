@@ -13,7 +13,7 @@ export default class DbBook
     @Column({ nullable: true })
     desc: string;
 
-    @Column('simple-array', { nullable: true })
+    @Column('simple-json', { nullable: true })
     results: string[];
 
     @Column('simple-array', { nullable: true })
